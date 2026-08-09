@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>18.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{37494689-8ac2-4a94-9e33-548cb3af9c3b}</ProjectGuid>
+    <RootNamespace>EscapeTheBackroomsInternal</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)..\x64\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)..\x64\obj\$(Configuration)\</IntDir>
+    <TargetName>EscapeTheBackrooms_Internal</TargetName>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)lib;$(ProjectDir)lib\imgui;$(ProjectDir)lib\minhook\include;$(ProjectDir)lib\minhook\src;$(ProjectDir)lib\minhook\src\hde;$(ProjectDir)4.27.2-0+++UE4+Release-4.27-EscapeTheBackrooms\CppSDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3d12.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;WIN32_LEAN_AND_MEAN;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)lib;$(ProjectDir)lib\imgui;$(ProjectDir)lib\minhook\include;$(ProjectDir)lib\minhook\src;$(ProjectDir)lib\minhook\src\hde;$(ProjectDir)4.27.2-0+++UE4+Release-4.27-EscapeTheBackrooms\CppSDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;d3d12.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClInclude Include="include\core\config.hpp" />
+    <ClInclude Include="include\core\logger.hpp" />
+    <ClInclude Include="include\core\runtime.hpp" />
+    <ClInclude Include="include\features\array_list.hpp" />
+    <ClInclude Include="include\features\esp.hpp" />
+    <ClInclude Include="include\features\exit_activator.hpp" />
+    <ClInclude Include="include\features\movement.hpp" />
+    <ClInclude Include="include\features\notifications.hpp" />
+    <ClInclude Include="include\features\pickup.hpp" />
+    <ClInclude Include="include\features\session_limit.hpp" />
+    <ClInclude Include="include\features\visuals.hpp" />
+    <ClInclude Include="include\features\vehicle_flight.hpp" />
+    <ClInclude Include="include\fonts\MiSans_Heavy.h" />
+    <ClInclude Include="include\game\unreal_safety.hpp" />
+    <ClInclude Include="include\hooks\dxgi_hooks.hpp" />
+    <ClInclude Include="include\render\backend.hpp" />
+    <ClInclude Include="include\render\d3d11_backend.hpp" />
+    <ClInclude Include="include\render\d3d12_backend.hpp" />
+    <ClInclude Include="include\render\renderer.hpp" />
+    <ClInclude Include="include\render\esp_draw.hpp" />
+    <ClInclude Include="include\ui\menu.hpp" />
+    <ClInclude Include="lib\nlohmann\json.hpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="src\core\config.cpp" />
+    <ClCompile Include="src\core\logger.cpp" />
+    <ClCompile Include="src\core\runtime.cpp" />
+    <ClCompile Include="src\features\array_list.cpp" />
+    <ClCompile Include="src\features\esp.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\exit_activator.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\movement.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\notifications.cpp" />
+    <ClCompile Include="src\features\pickup.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\session_limit.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\visuals.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\vehicle_flight.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\game\sdk_bridge.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\hooks\dxgi_hooks.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\render\d3d11_backend.cpp" />
+    <ClCompile Include="src\render\d3d12_backend.cpp" />
+    <ClCompile Include="src\render\renderer.cpp" />
+    <ClCompile Include="src\render\esp_draw.cpp" />
+    <ClCompile Include="src\ui\menu.cpp" />
+
+    <ClCompile Include="lib\imgui\imgui.cpp" />
+    <ClCompile Include="lib\imgui\imgui_draw.cpp" />
+    <ClCompile Include="lib\imgui\imgui_tables.cpp" />
+    <ClCompile Include="lib\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx11.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx12.cpp" />
+
+    <ClCompile Include="lib\minhook\src\buffer.c" />
+    <ClCompile Include="lib\minhook\src\hook.c" />
+    <ClCompile Include="lib\minhook\src\trampoline.c" />
+    <ClCompile Include="lib\minhook\src\hde\hde64.c" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
+

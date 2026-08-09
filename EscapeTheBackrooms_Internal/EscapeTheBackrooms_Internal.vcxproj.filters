@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files"><UniqueIdentifier>{4124808f-d66e-4aab-9e52-354b6d3be792}</UniqueIdentifier></Filter>
+    <Filter Include="Header Files"><UniqueIdentifier>{781af2da-6349-4f52-a12b-3ce60e11949d}</UniqueIdentifier></Filter>
+    <Filter Include="Libraries\ImGui"><UniqueIdentifier>{f430a15d-cdc7-4447-b6e5-15ff73b0767d}</UniqueIdentifier></Filter>
+    <Filter Include="Libraries\MinHook"><UniqueIdentifier>{0a9c0b0c-a6a8-46e4-9913-8cf3dcfd4650}</UniqueIdentifier></Filter>
+    <Filter Include="Header Files\Features"><UniqueIdentifier>{bb0bb634-ea23-42e9-97eb-414624652b08}</UniqueIdentifier></Filter>
+    <Filter Include="Header Files\Fonts"><UniqueIdentifier>{70a6de32-0ebd-431c-9145-f301e60e04a2}</UniqueIdentifier></Filter>
+    <Filter Include="Header Files\Render"><UniqueIdentifier>{61e7f552-d343-49ad-b975-ed3ceabf60fe}</UniqueIdentifier></Filter>
+    <Filter Include="Source Files\Features"><UniqueIdentifier>{ce86d55a-7033-49d2-8e24-9df37ea8bcdc}</UniqueIdentifier></Filter>
+    <Filter Include="Source Files\Game"><UniqueIdentifier>{95fac1b5-68a3-4f20-9aa2-9f87319570cc}</UniqueIdentifier></Filter>
+    <Filter Include="Header Files\Game"><UniqueIdentifier>{e3f9d167-e257-41da-9582-f0d03adfd9d5}</UniqueIdentifier></Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core\config.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\core\logger.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\core\runtime.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\features\array_list.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\esp.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\exit_activator.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\movement.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\notifications.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\pickup.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\session_limit.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\features\visuals.hpp"><Filter>Header Files\Features</Filter></ClInclude>
+    <ClInclude Include="include\fonts\MiSans_Heavy.h"><Filter>Header Files\Fonts</Filter></ClInclude>
+    <ClInclude Include="include\game\unreal_safety.hpp"><Filter>Header Files\Game</Filter></ClInclude>
+    <ClInclude Include="include\hooks\dxgi_hooks.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\render\backend.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\render\d3d11_backend.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\render\d3d12_backend.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\render\renderer.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="include\render\esp_draw.hpp"><Filter>Header Files\Render</Filter></ClInclude>
+    <ClInclude Include="include\ui\menu.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="lib\nlohmann\json.hpp"><Filter>Libraries</Filter></ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\core\config.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\core\logger.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\core\runtime.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\features\array_list.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\esp.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\exit_activator.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\movement.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\notifications.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\pickup.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\session_limit.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\features\visuals.cpp"><Filter>Source Files\Features</Filter></ClCompile>
+    <ClCompile Include="src\game\sdk_bridge.cpp"><Filter>Source Files\Game</Filter></ClCompile>
+    <ClCompile Include="src\hooks\dxgi_hooks.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\render\d3d11_backend.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\render\d3d12_backend.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\render\renderer.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\render\esp_draw.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="src\ui\menu.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\imgui.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\imgui_draw.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\imgui_tables.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\imgui_widgets.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\backends\imgui_impl_win32.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx11.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx12.cpp"><Filter>Libraries\ImGui</Filter></ClCompile>
+    <ClCompile Include="lib\minhook\src\buffer.c"><Filter>Libraries\MinHook</Filter></ClCompile>
+    <ClCompile Include="lib\minhook\src\hook.c"><Filter>Libraries\MinHook</Filter></ClCompile>
+    <ClCompile Include="lib\minhook\src\trampoline.c"><Filter>Libraries\MinHook</Filter></ClCompile>
+    <ClCompile Include="lib\minhook\src\hde\hde64.c"><Filter>Libraries\MinHook</Filter></ClCompile>
+  </ItemGroup>
+</Project>
+
