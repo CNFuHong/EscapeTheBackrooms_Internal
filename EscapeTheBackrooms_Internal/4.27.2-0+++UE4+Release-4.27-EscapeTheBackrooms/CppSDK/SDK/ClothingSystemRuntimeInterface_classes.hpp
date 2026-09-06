@@ -18,37 +18,6 @@
 namespace SDK
 {
 
-// Class ClothingSystemRuntimeInterface.ClothPhysicalMeshDataBase_Legacy
-// 0x00B8 (0x00E0 - 0x0028)
-class UClothPhysicalMeshDataBase_Legacy : public UObject
-{
-public:
-	TArray<struct FVector>                        Vertices;                                          // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FVector>                        Normals;                                           // 0x0038(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<uint32>                                Indices;                                           // 0x0048(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<float>                                 InverseMasses;                                     // 0x0058(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	TArray<struct FClothVertBoneData>             BoneData;                                          // 0x0068(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	int32                                         NumFixedVerts;                                     // 0x0078(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	int32                                         MaxBoneWeights;                                    // 0x007C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	TArray<uint32>                                SelfCollisionIndices;                              // 0x0080(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
-	uint8                                         Pad_90[0x50];                                      // 0x0090(0x0050)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("ClothPhysicalMeshDataBase_Legacy")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"ClothPhysicalMeshDataBase_Legacy")
-	}
-	static class UClothPhysicalMeshDataBase_Legacy* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UClothPhysicalMeshDataBase_Legacy>();
-	}
-};
-DUMPER7_ASSERTS_UClothPhysicalMeshDataBase_Legacy;
-
 // Class ClothingSystemRuntimeInterface.ClothConfigBase
 // 0x0000 (0x0028 - 0x0028)
 class UClothConfigBase : public UObject
@@ -89,29 +58,36 @@ public:
 };
 DUMPER7_ASSERTS_UClothingSimulationFactory;
 
-// Class ClothingSystemRuntimeInterface.ClothingAssetBase
-// 0x0020 (0x0048 - 0x0028)
-class UClothingAssetBase : public UObject
+// Class ClothingSystemRuntimeInterface.ClothPhysicalMeshDataBase_Legacy
+// 0x00B8 (0x00E0 - 0x0028)
+class UClothPhysicalMeshDataBase_Legacy : public UObject
 {
 public:
-	class FString                                 ImportedFilePath;                                  // 0x0028(0x0010)(Edit, ZeroConstructor, EditConst, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FGuid                                  AssetGuid;                                         // 0x0038(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
+	TArray<struct FVector>                        Vertices;                                          // 0x0028(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FVector>                        Normals;                                           // 0x0038(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<uint32>                                Indices;                                           // 0x0048(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<float>                                 InverseMasses;                                     // 0x0058(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	TArray<struct FClothVertBoneData>             BoneData;                                          // 0x0068(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	int32                                         NumFixedVerts;                                     // 0x0078(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	int32                                         MaxBoneWeights;                                    // 0x007C(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TArray<uint32>                                SelfCollisionIndices;                              // 0x0080(0x0010)(ZeroConstructor, NativeAccessSpecifierPublic)
+	uint8                                         Pad_90[0x50];                                      // 0x0090(0x0050)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("ClothingAssetBase")
+		STATIC_CLASS_IMPL("ClothPhysicalMeshDataBase_Legacy")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"ClothingAssetBase")
+		STATIC_NAME_IMPL(L"ClothPhysicalMeshDataBase_Legacy")
 	}
-	static class UClothingAssetBase* GetDefaultObj()
+	static class UClothPhysicalMeshDataBase_Legacy* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UClothingAssetBase>();
+		return GetDefaultObjImpl<UClothPhysicalMeshDataBase_Legacy>();
 	}
 };
-DUMPER7_ASSERTS_UClothingAssetBase;
+DUMPER7_ASSERTS_UClothPhysicalMeshDataBase_Legacy;
 
 // Class ClothingSystemRuntimeInterface.ClothingInteractor
 // 0x0008 (0x0030 - 0x0028)
@@ -135,6 +111,26 @@ public:
 	}
 };
 DUMPER7_ASSERTS_UClothingInteractor;
+
+// Class ClothingSystemRuntimeInterface.ClothSharedSimConfigBase
+// 0x0000 (0x0028 - 0x0028)
+class UClothSharedSimConfigBase final : public UObject
+{
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("ClothSharedSimConfigBase")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"ClothSharedSimConfigBase")
+	}
+	static class UClothSharedSimConfigBase* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UClothSharedSimConfigBase>();
+	}
+};
+DUMPER7_ASSERTS_UClothSharedSimConfigBase;
 
 // Class ClothingSystemRuntimeInterface.ClothingSimulationInteractor
 // 0x0068 (0x0090 - 0x0028)
@@ -177,25 +173,29 @@ public:
 };
 DUMPER7_ASSERTS_UClothingSimulationInteractor;
 
-// Class ClothingSystemRuntimeInterface.ClothSharedSimConfigBase
-// 0x0000 (0x0028 - 0x0028)
-class UClothSharedSimConfigBase final : public UObject
+// Class ClothingSystemRuntimeInterface.ClothingAssetBase
+// 0x0020 (0x0048 - 0x0028)
+class UClothingAssetBase : public UObject
 {
+public:
+	class FString                                 ImportedFilePath;                                  // 0x0028(0x0010)(Edit, ZeroConstructor, EditConst, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FGuid                                  AssetGuid;                                         // 0x0038(0x0010)(ZeroConstructor, IsPlainOldData, NoDestructor, Protected, HasGetValueTypeHash, NativeAccessSpecifierProtected)
+
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("ClothSharedSimConfigBase")
+		STATIC_CLASS_IMPL("ClothingAssetBase")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"ClothSharedSimConfigBase")
+		STATIC_NAME_IMPL(L"ClothingAssetBase")
 	}
-	static class UClothSharedSimConfigBase* GetDefaultObj()
+	static class UClothingAssetBase* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UClothSharedSimConfigBase>();
+		return GetDefaultObjImpl<UClothingAssetBase>();
 	}
 };
-DUMPER7_ASSERTS_UClothSharedSimConfigBase;
+DUMPER7_ASSERTS_UClothingAssetBase;
 
 }
 

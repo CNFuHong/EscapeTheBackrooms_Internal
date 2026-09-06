@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "S_ConnectedPlayer_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "UMG_structs.hpp"
 #include "S_Gamemode_structs.hpp"
 #include "AdvancedSessions_structs.hpp"
+#include "S_ConnectedPlayer_structs.hpp"
+#include "UMG_structs.hpp"
 #include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
 
@@ -198,15 +198,6 @@ public:
 	class FName                                   Map;                                               // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_Lobby_PlayerController_Nebula_C_OC_Create_MapTravel_Loadingscreen;
-
-// Function Lobby_PlayerController_Nebula.Lobby_PlayerController_Nebula_C.ReceiveEndPlay
-// 0x0001 (0x0001 - 0x0000)
-struct Lobby_PlayerController_Nebula_C_ReceiveEndPlay final
-{
-public:
-	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-DUMPER7_ASSERTS_Lobby_PlayerController_Nebula_C_ReceiveEndPlay;
 
 // Function Lobby_PlayerController_Nebula.Lobby_PlayerController_Nebula_C.OC_Update_ConnectedPlayersList
 // 0x0010 (0x0010 - 0x0000)
@@ -457,6 +448,15 @@ public:
 	bool                                          CallFunc_Map_Find_ReturnValue;                     // 0x0068(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 };
 DUMPER7_ASSERTS_Lobby_PlayerController_Nebula_C_GetAudioComponentForRemoteSpeaker;
+
+// Function Lobby_PlayerController_Nebula.Lobby_PlayerController_Nebula_C.ReceiveEndPlay
+// 0x0001 (0x0001 - 0x0000)
+struct Lobby_PlayerController_Nebula_C_ReceiveEndPlay final
+{
+public:
+	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+DUMPER7_ASSERTS_Lobby_PlayerController_Nebula_C_ReceiveEndPlay;
 
 }
 

@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "E_HeadsetType_structs.hpp"
 #include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
-#include "AdvancedSessions_structs.hpp"
+#include "E_HeadsetType_structs.hpp"
 #include "Backrooms_structs.hpp"
 #include "Backrooms_classes.hpp"
+#include "AdvancedSessions_structs.hpp"
 
 
 namespace SDK
@@ -52,7 +52,7 @@ public:
 	void UnlockHUBForAllPlayers();
 	void CheckNetworkDisconnect();
 	void ReceiveTick(float DeltaSeconds);
-	void LoadBackIntoLobby();
+	void LoadBackIntoLobby(bool HasFailedMission);
 	void BndEvt__MP_GameMode_FancyEntitySightingManager_K2Node_ComponentBoundEvent_0_OnEntitySightedEvent__DelegateSignature();
 	void UpdateCanJoin();
 	void OnDecreaseSanity();
@@ -62,7 +62,7 @@ public:
 	void HandleStartingNewPlayer(class APlayerController* NewPlayer);
 	void K2_OnRestartPlayer(class AController* NewPlayer);
 	void OnPlayerSpawn(class ABPCharacter_Demo_C* Player);
-	void OnPlayerKilled(class ABPCharacter_Demo_C* Killed);
+	void OnPlayerDestroyed(bool HasBeenKilled);
 	void LoadLevel(class FName Map, bool IsFromHub, const bool IsExit_0);
 	void UpdateAllScoreboards();
 	void ReceiveBeginPlay();

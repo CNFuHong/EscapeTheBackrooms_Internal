@@ -37,6 +37,40 @@ void UBP_JoinWithLobbyCodeFlow_C::ExecuteUbergraph_BP_JoinWithLobbyCodeFlow(int3
 }
 
 
+// Function BP_JoinWithLobbyCodeFlow.BP_JoinWithLobbyCodeFlow_C.Run
+// (Event, Public, BlueprintEvent)
+
+void UBP_JoinWithLobbyCodeFlow_C::Run()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_JoinWithLobbyCodeFlow_C", "Run");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BP_JoinWithLobbyCodeFlow.BP_JoinWithLobbyCodeFlow_C.OnComplete
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UUserWidget*                      Modal                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UBP_JoinWithLobbyCodeFlow_C::OnComplete(class UUserWidget* Modal)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BP_JoinWithLobbyCodeFlow_C", "OnComplete");
+
+	Params::BP_JoinWithLobbyCodeFlow_C_OnComplete Parms{};
+
+	Parms.Modal = Modal;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BP_JoinWithLobbyCodeFlow.BP_JoinWithLobbyCodeFlow_C.ExitFlow
 // (BlueprintCallable, BlueprintEvent)
 
@@ -68,40 +102,6 @@ void UBP_JoinWithLobbyCodeFlow_C::PrepareModal(class UUserWidget* Modal)
 	Parms.Modal = Modal;
 
 	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_JoinWithLobbyCodeFlow.BP_JoinWithLobbyCodeFlow_C.OnComplete
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class UUserWidget*                      Modal                                                  (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void UBP_JoinWithLobbyCodeFlow_C::OnComplete(class UUserWidget* Modal)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_JoinWithLobbyCodeFlow_C", "OnComplete");
-
-	Params::BP_JoinWithLobbyCodeFlow_C_OnComplete Parms{};
-
-	Parms.Modal = Modal;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BP_JoinWithLobbyCodeFlow.BP_JoinWithLobbyCodeFlow_C.Run
-// (Event, Public, BlueprintEvent)
-
-void UBP_JoinWithLobbyCodeFlow_C::Run()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BP_JoinWithLobbyCodeFlow_C", "Run");
-
-	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

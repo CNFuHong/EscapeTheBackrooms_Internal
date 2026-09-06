@@ -60,9 +60,9 @@ void ABP_DroppedItem_AlmondWater_C::ToggleEvent(bool Enable)
 // Function BP_DroppedItem_AlmondWater.BP_DroppedItem_AlmondWater_C.OnEventLoaded
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EEventType                              EventType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// uint8                                   EventType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_DroppedItem_AlmondWater_C::OnEventLoaded(EEventType EventType)
+void ABP_DroppedItem_AlmondWater_C::OnEventLoaded(uint8 EventType)
 {
 	static class UFunction* Func = nullptr;
 

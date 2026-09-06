@@ -10,13 +10,13 @@
 
 #include "Basic.hpp"
 
-#include "AdvancedSessions_structs.hpp"
-#include "ST_UI_Mission_structs.hpp"
-#include "Backrooms_structs.hpp"
-#include "InputCore_structs.hpp"
 #include "HE_SubtitleSeq_structs.hpp"
-#include "CoreUObject_structs.hpp"
+#include "Backrooms_structs.hpp"
 #include "Engine_structs.hpp"
+#include "ST_UI_Mission_structs.hpp"
+#include "InputCore_structs.hpp"
+#include "AdvancedSessions_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "HE_Subtitle_structs.hpp"
 
 
@@ -360,15 +360,6 @@ public:
 };
 DUMPER7_ASSERTS_MP_PlayerController_C_VR_Subtitle;
 
-// Function MP_PlayerController.MP_PlayerController_C.ReceiveEndPlay
-// 0x0001 (0x0001 - 0x0000)
-struct MP_PlayerController_C_ReceiveEndPlay final
-{
-public:
-	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-DUMPER7_ASSERTS_MP_PlayerController_C_ReceiveEndPlay;
-
 // Function MP_PlayerController.MP_PlayerController_C.SetSpawnRotation
 // 0x000C (0x000C - 0x0000)
 struct MP_PlayerController_C_SetSpawnRotation final
@@ -597,6 +588,15 @@ public:
 	class UW_VOIP_PlayerList_C*                   CallFunc_Create_ReturnValue;                       // 0x0008(0x0008)(ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_MP_PlayerController_C_CreateVoipPlayerList;
+
+// Function MP_PlayerController.MP_PlayerController_C.ReceiveEndPlay
+// 0x0001 (0x0001 - 0x0000)
+struct MP_PlayerController_C_ReceiveEndPlay final
+{
+public:
+	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+DUMPER7_ASSERTS_MP_PlayerController_C_ReceiveEndPlay;
 
 }
 

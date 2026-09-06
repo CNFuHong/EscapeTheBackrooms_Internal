@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
 #include "S_Gamemode_structs.hpp"
 #include "AdvancedSessions_structs.hpp"
-#include "InputCore_structs.hpp"
 #include "S_ConnectedPlayer_structs.hpp"
+#include "UMG_structs.hpp"
+#include "InputCore_structs.hpp"
 #include "Engine_structs.hpp"
 
 
@@ -94,15 +94,6 @@ public:
 	class FName                                   Map;                                               // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_Lobby_PlayerController_C_OC_Create_MapTravel_Loadingscreen;
-
-// Function Lobby_PlayerController.Lobby_PlayerController_C.ReceiveEndPlay
-// 0x0001 (0x0001 - 0x0000)
-struct Lobby_PlayerController_C_ReceiveEndPlay final
-{
-public:
-	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-DUMPER7_ASSERTS_Lobby_PlayerController_C_ReceiveEndPlay;
 
 // Function Lobby_PlayerController.Lobby_PlayerController_C.OC_Update_ConnectedPlayersList
 // 0x0010 (0x0010 - 0x0000)
@@ -362,6 +353,15 @@ public:
 	bool                                          CallFunc_Not_PreBool_ReturnValue;                  // 0x0000(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 };
 DUMPER7_ASSERTS_Lobby_PlayerController_C_OnRep_CanTalk;
+
+// Function Lobby_PlayerController.Lobby_PlayerController_C.ReceiveEndPlay
+// 0x0001 (0x0001 - 0x0000)
+struct Lobby_PlayerController_C_ReceiveEndPlay final
+{
+public:
+	EEndPlayReason                                EndPlayReason;                                     // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+DUMPER7_ASSERTS_Lobby_PlayerController_C_ReceiveEndPlay;
 
 }
 

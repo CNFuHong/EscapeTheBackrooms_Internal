@@ -10,8 +10,6 @@
 
 #include "Basic.hpp"
 
-#include "Backrooms_structs.hpp"
-
 
 namespace SDK::Params
 {
@@ -23,7 +21,7 @@ struct BP_DroppedItem_AlmondWater_C_ExecuteUbergraph_BP_DroppedItem_AlmondWater 
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_Event_Enable;                               // 0x0004(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
-	EEventType                                    K2Node_Event_EventType;                            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         K2Node_Event_EventType;                            // 0x0005(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BP_DroppedItem_AlmondWater_C_ExecuteUbergraph_BP_DroppedItem_AlmondWater;
 
@@ -41,7 +39,7 @@ DUMPER7_ASSERTS_BP_DroppedItem_AlmondWater_C_ToggleEvent;
 struct BP_DroppedItem_AlmondWater_C_OnEventLoaded final
 {
 public:
-	EEventType                                    EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BP_DroppedItem_AlmondWater_C_OnEventLoaded;
 

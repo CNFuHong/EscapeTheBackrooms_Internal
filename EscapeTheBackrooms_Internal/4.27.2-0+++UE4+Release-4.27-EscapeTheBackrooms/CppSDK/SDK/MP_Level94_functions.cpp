@@ -87,26 +87,6 @@ void AMP_Level94_C::SpawnAnimations()
 }
 
 
-// Function MP_Level94.MP_Level94_C.OnPlayerSpawn
-// (BlueprintCallable, BlueprintEvent)
-// Parameters:
-// class ABPCharacter_Demo_C*              Player                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AMP_Level94_C::OnPlayerSpawn(class ABPCharacter_Demo_C* Player)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("MP_Level94_C", "OnPlayerSpawn");
-
-	Params::MP_Level94_C_OnPlayerSpawn Parms{};
-
-	Parms.Player = Player;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function MP_Level94.MP_Level94_C.UserConstructionScript
 // (Event, Public, BlueprintCallable, BlueprintEvent)
 
@@ -146,6 +126,26 @@ void AMP_Level94_C::ReceiveBeginPlay()
 		Func = Class->GetFunction("MP_Level94_C", "ReceiveBeginPlay");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function MP_Level94.MP_Level94_C.OnPlayerSpawn
+// (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class ABPCharacter_Demo_C*              Player                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMP_Level94_C::OnPlayerSpawn(class ABPCharacter_Demo_C* Player)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_Level94_C", "OnPlayerSpawn");
+
+	Params::MP_Level94_C_OnPlayerSpawn Parms{};
+
+	Parms.Player = Player;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 

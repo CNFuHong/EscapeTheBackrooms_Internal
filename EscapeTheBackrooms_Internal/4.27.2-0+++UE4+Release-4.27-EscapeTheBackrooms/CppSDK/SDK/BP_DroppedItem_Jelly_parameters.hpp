@@ -10,7 +10,6 @@
 
 #include "Basic.hpp"
 
-#include "Backrooms_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
 
@@ -30,7 +29,7 @@ public:
 	class UStaticMesh*                            Temp_object_Variable_1;                            // 0x0010(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	TArray<class AActor*>                         Temp_object_Variable_2;                            // 0x0018(0x0010)(ConstParm, ReferenceParm)
 	bool                                          K2Node_Event_Enable;                               // 0x0028(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
-	EEventType                                    K2Node_Event_EventType;                            // 0x0029(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         K2Node_Event_EventType;                            // 0x0029(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2A[0x6];                                       // 0x002A(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	class UStaticMesh*                            K2Node_Select_Default;                             // 0x0030(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          CallFunc_SetStaticMesh_ReturnValue;                // 0x0038(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
@@ -71,7 +70,7 @@ DUMPER7_ASSERTS_BP_DroppedItem_Jelly_C_ExecuteUbergraph_BP_DroppedItem_Jelly;
 struct BP_DroppedItem_Jelly_C_OnEventLoaded final
 {
 public:
-	EEventType                                    EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BP_DroppedItem_Jelly_C_OnEventLoaded;
 

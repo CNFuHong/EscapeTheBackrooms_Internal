@@ -137,16 +137,6 @@ enum class ECostumeSelectorFeedbackState : uint32
 	ECostumeSelectorFeedbackState_MAX        = 4,
 };
 
-// Enum Backrooms.EEventType
-// NumValues: 0x0004
-enum class EEventType : uint8
-{
-	None                                     = 0,
-	Halloween                                = 1,
-	Christmas                                = 2,
-	EEventType_MAX                           = 3,
-};
-
 // Enum Backrooms.EFancyUserPrivileges
 // NumValues: 0x0006
 enum class EFancyUserPrivileges : uint8
@@ -157,6 +147,16 @@ enum class EFancyUserPrivileges : uint8
 	CanUseUserGeneratedContent               = 3,
 	CanUserCrossPlay                         = 4,
 	EFancyUserPrivileges_MAX                 = 5,
+};
+
+// Enum Backrooms.EFancyEventType
+// NumValues: 0x0004
+enum class EFancyEventType : uint8
+{
+	None                                     = 0,
+	Halloween                                = 1,
+	Christmas                                = 2,
+	EFancyEventType_MAX                      = 3,
 };
 
 // Enum Backrooms.EFancyPlatform
@@ -201,6 +201,59 @@ enum class EFancySaveSubsystemFlushingState : uint8
 	WarmingUpForQueuedSaves                  = 1,
 	WritingQueuedSaves                       = 2,
 	EFancySaveSubsystemFlushingState_MAX     = 3,
+};
+
+// Enum Backrooms.EFancyPlayerDisconnectReason
+// NumValues: 0x0007
+enum class EFancyPlayerDisconnectReason : uint8
+{
+	None                                     = 0,
+	Quit                                     = 1,
+	HostLeftSession                          = 2,
+	NetworkFailure                           = 3,
+	Kick                                     = 4,
+	Unknown                                  = 5,
+	EFancyPlayerDisconnectReason_MAX         = 6,
+};
+
+// Enum Backrooms.EFancyGameplayActivityEndStatus
+// NumValues: 0x0008
+enum class EFancyGameplayActivityEndStatus : uint8
+{
+	None                                     = 0,
+	Success                                  = 1,
+	Failure                                  = 2,
+	ManualRestart                            = 3,
+	Quit                                     = 4,
+	Disconnect                               = 5,
+	Unknown                                  = 6,
+	EFancyGameplayActivityEndStatus_MAX      = 7,
+};
+
+// Enum Backrooms.EFancyActivitySessionType
+// NumValues: 0x0005
+enum class EFancyActivitySessionType : uint8
+{
+	None                                     = 0,
+	Gameplay                                 = 1,
+	SettingsMenu                             = 2,
+	CosmeticSelection                        = 3,
+	EFancyActivitySessionType_MAX            = 4,
+};
+
+// Enum Backrooms.EFancyTelemetryEventType
+// NumValues: 0x0009
+enum class EFancyTelemetryEventType : uint8
+{
+	None                                     = 0,
+	AppStart                                 = 1,
+	AppEnd                                   = 2,
+	ActivitySessionStart                     = 3,
+	ActivitySessionEnd                       = 4,
+	CosmeticSelection                        = 5,
+	PlayerDeath                              = 6,
+	PlayerDisconnect                         = 7,
+	EFancyTelemetryEventType_MAX             = 8,
 };
 
 // Enum Backrooms.EVRVelocityType
@@ -309,26 +362,25 @@ enum class EMoveAxis : uint8
 	EMoveAxis_MAX                            = 4,
 };
 
-// ScriptStruct Backrooms.VoteParameters
-// 0x000C (0x000C - 0x0000)
-struct FVoteParameters final
+// ScriptStruct Backrooms.FancyReportingPlayerRecord
+// 0x0018 (0x0018 - 0x0000)
+struct FFancyReportingPlayerRecord final
 {
 public:
-	int32                                         VotingPlayers;                                     // 0x0000(0x0004)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Duration;                                          // 0x0004(0x0004)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          bIsUnanimousVote;                                  // 0x0008(0x0001)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	class FString                                 Name;                                              // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	EFancyPlatform                                Platform;                                          // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
-DUMPER7_ASSERTS_FVoteParameters;
+DUMPER7_ASSERTS_FFancyReportingPlayerRecord;
 
-// ScriptStruct Backrooms.FancyGDKCalcCannotCommunicateResult
-// 0x0010 (0x0010 - 0x0000)
-struct FFancyGDKCalcCannotCommunicateResult final
+// ScriptStruct Backrooms.FancyBlockedPlayerMap
+// 0x0050 (0x0050 - 0x0000)
+struct FFancyBlockedPlayerMap final
 {
 public:
-	TArray<class APlayerState*>                   Result;                                            // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
+	TMap<struct FUniqueNetIdRepl, struct FFancyReportingPlayerRecord> MapInternal;                   // 0x0000(0x0050)(NativeAccessSpecifierPublic)
 };
-DUMPER7_ASSERTS_FFancyGDKCalcCannotCommunicateResult;
+DUMPER7_ASSERTS_FFancyBlockedPlayerMap;
 
 // ScriptStruct Backrooms.AimAssistTarget
 // 0x0038 (0x0038 - 0x0000)
@@ -343,6 +395,15 @@ public:
 	class FName                                   Tag;                                               // 0x0030(0x0008)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_FAimAssistTarget;
+
+// ScriptStruct Backrooms.MapEditorSteps
+// 0x0018 (0x0018 - 0x0000)
+struct alignas(0x08) FMapEditorSteps final
+{
+public:
+	uint8                                         Pad_0[0x18];                                       // 0x0000(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+DUMPER7_ASSERTS_FMapEditorSteps;
 
 // ScriptStruct Backrooms.RadarTargetStruct
 // 0x0018 (0x0018 - 0x0000)
@@ -370,14 +431,14 @@ public:
 };
 DUMPER7_ASSERTS_FTargetsStruct;
 
-// ScriptStruct Backrooms.FancyReportedPlayers
-// 0x0050 (0x0050 - 0x0000)
-struct FFancyReportedPlayers final
+// ScriptStruct Backrooms.FancyAudioInputBuffer
+// 0x0010 (0x0010 - 0x0000)
+struct alignas(0x08) FFancyAudioInputBuffer final
 {
 public:
-	TMap<struct FUniqueNetIdRepl, double>         ReportedPlayersAndTime;                            // 0x0000(0x0050)(NativeAccessSpecifierPublic)
+	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
-DUMPER7_ASSERTS_FFancyReportedPlayers;
+DUMPER7_ASSERTS_FFancyAudioInputBuffer;
 
 // ScriptStruct Backrooms.VoteData
 // 0x0068 (0x0068 - 0x0000)
@@ -395,6 +456,15 @@ public:
 };
 DUMPER7_ASSERTS_FVoteData;
 
+// ScriptStruct Backrooms.FancyGDKCalcCannotCommunicateResult
+// 0x0010 (0x0010 - 0x0000)
+struct FFancyGDKCalcCannotCommunicateResult final
+{
+public:
+	TArray<class APlayerState*>                   Result;                                            // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FFancyGDKCalcCannotCommunicateResult;
+
 // ScriptStruct Backrooms.TelemetryStruct
 // 0x0008 (0x0008 - 0x0000)
 struct FTelemetryStruct final
@@ -405,19 +475,14 @@ public:
 };
 DUMPER7_ASSERTS_FTelemetryStruct;
 
-// ScriptStruct Backrooms.Collectible
-// 0x0038 (0x0040 - 0x0008)
-struct FCollectible final : public FTableRowBase
+// ScriptStruct Backrooms.FancyReportedPlayers
+// 0x0050 (0x0050 - 0x0000)
+struct FFancyReportedPlayers final
 {
 public:
-	class FName                                   ID;                                                // 0x0008(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FText                                   Name;                                              // 0x0010(0x0018)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	class FName                                   Description;                                       // 0x0028(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	int32                                         Quantity;                                          // 0x0030(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	class UTexture2D*                             Icon;                                              // 0x0038(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	TMap<struct FUniqueNetIdRepl, double>         ReportedPlayersAndTime;                            // 0x0000(0x0050)(NativeAccessSpecifierPublic)
 };
-DUMPER7_ASSERTS_FCollectible;
+DUMPER7_ASSERTS_FFancyReportedPlayers;
 
 // ScriptStruct Backrooms.ScannerStruct
 // 0x0020 (0x0020 - 0x0000)
@@ -447,35 +512,6 @@ public:
 };
 DUMPER7_ASSERTS_FTargetStruct;
 
-// ScriptStruct Backrooms.FancyAudioInputBuffer
-// 0x0010 (0x0010 - 0x0000)
-struct alignas(0x08) FFancyAudioInputBuffer final
-{
-public:
-	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FFancyAudioInputBuffer;
-
-// ScriptStruct Backrooms.FancyReportingPlayerRecord
-// 0x0018 (0x0018 - 0x0000)
-struct FFancyReportingPlayerRecord final
-{
-public:
-	class FString                                 Name;                                              // 0x0000(0x0010)(ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	EFancyPlatform                                Platform;                                          // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_11[0x7];                                       // 0x0011(0x0007)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FFancyReportingPlayerRecord;
-
-// ScriptStruct Backrooms.FancyBlockedPlayerMap
-// 0x0050 (0x0050 - 0x0000)
-struct FFancyBlockedPlayerMap final
-{
-public:
-	TMap<struct FUniqueNetIdRepl, struct FFancyReportingPlayerRecord> MapInternal;                   // 0x0000(0x0050)(NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FFancyBlockedPlayerMap;
-
 // ScriptStruct Backrooms.BPFancyReportingPlayerRecord
 // 0x0040 (0x0040 - 0x0000)
 struct FBPFancyReportingPlayerRecord final
@@ -501,6 +537,20 @@ public:
 	float                                         VerticalSmoothness;                                // 0x0010(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_FAimAssistSettings;
+
+// ScriptStruct Backrooms.Collectible
+// 0x0038 (0x0040 - 0x0008)
+struct FCollectible final : public FTableRowBase
+{
+public:
+	class FName                                   ID;                                                // 0x0008(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FText                                   Name;                                              // 0x0010(0x0018)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	class FName                                   Description;                                       // 0x0028(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	int32                                         Quantity;                                          // 0x0030(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_34[0x4];                                       // 0x0034(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UTexture2D*                             Icon;                                              // 0x0038(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FCollectible;
 
 // ScriptStruct Backrooms.CostumeDismembermentSet
 // 0x01E0 (0x01E0 - 0x0000)
@@ -547,6 +597,15 @@ public:
 };
 DUMPER7_ASSERTS_FCostumeWidgetData;
 
+// ScriptStruct Backrooms.FancyDLCConfigRow
+// 0x0010 (0x0010 - 0x0000)
+struct FFancyDLCConfigRow final
+{
+public:
+	class FString                                 SteamEntitlementId;                                // 0x0000(0x0010)(Edit, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPrivate)
+};
+DUMPER7_ASSERTS_FFancyDLCConfigRow;
+
 // ScriptStruct Backrooms.FancyPlayerNamePlatformDecoratorStyle
 // 0x0038 (0x0038 - 0x0000)
 struct FFancyPlayerNamePlatformDecoratorStyle final
@@ -578,6 +637,18 @@ public:
 	uint8                                         Pad_0[0x60];                                       // 0x0000(0x0060)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 DUMPER7_ASSERTS_FFancyUserFlowLatentFlowResumeData;
+
+// ScriptStruct Backrooms.VoteParameters
+// 0x000C (0x000C - 0x0000)
+struct FVoteParameters final
+{
+public:
+	int32                                         VotingPlayers;                                     // 0x0000(0x0004)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Duration;                                          // 0x0004(0x0004)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          bIsUnanimousVote;                                  // 0x0008(0x0001)(BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_9[0x3];                                        // 0x0009(0x0003)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+DUMPER7_ASSERTS_FVoteParameters;
 
 // ScriptStruct Backrooms.BPVRComponentPosRep
 // 0x001C (0x001C - 0x0000)
@@ -690,15 +761,6 @@ public:
 	TArray<class UMaterialInterface*>             Materials;                                         // 0x0010(0x0010)(BlueprintVisible, BlueprintReadOnly, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_FMapEditorItemMaterial;
-
-// ScriptStruct Backrooms.MapEditorSteps
-// 0x0018 (0x0018 - 0x0000)
-struct alignas(0x08) FMapEditorSteps final
-{
-public:
-	uint8                                         Pad_0[0x18];                                       // 0x0000(0x0018)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FMapEditorSteps;
 
 // ScriptStruct Backrooms.MapEditorSnapping
 // 0x000C (0x000C - 0x0000)

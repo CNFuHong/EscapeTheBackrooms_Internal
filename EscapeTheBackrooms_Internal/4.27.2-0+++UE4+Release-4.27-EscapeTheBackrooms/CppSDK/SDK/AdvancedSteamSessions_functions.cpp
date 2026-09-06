@@ -173,9 +173,9 @@ class UTexture2D* UAdvancedSteamFriendsLibrary::GetSteamFriendAvatar(const struc
 // Parameters:
 // const struct FBPUniqueNetId&            UniqueNetId                                            (ConstParm, Parm, NativeAccessSpecifierPublic)
 // EBlueprintResultSwitch*                 Result                                                 (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32*                                  AppID                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32*                                  AppId                                                  (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UAdvancedSteamFriendsLibrary::GetSteamFriendGamePlayed(const struct FBPUniqueNetId& UniqueNetId, EBlueprintResultSwitch* Result, int32* AppID)
+void UAdvancedSteamFriendsLibrary::GetSteamFriendGamePlayed(const struct FBPUniqueNetId& UniqueNetId, EBlueprintResultSwitch* Result, int32* AppId)
 {
 	static class UFunction* Func = nullptr;
 
@@ -196,8 +196,8 @@ void UAdvancedSteamFriendsLibrary::GetSteamFriendGamePlayed(const struct FBPUniq
 	if (Result != nullptr)
 		*Result = Parms.Result;
 
-	if (AppID != nullptr)
-		*AppID = Parms.AppID;
+	if (AppId != nullptr)
+		*AppId = Parms.AppId;
 }
 
 

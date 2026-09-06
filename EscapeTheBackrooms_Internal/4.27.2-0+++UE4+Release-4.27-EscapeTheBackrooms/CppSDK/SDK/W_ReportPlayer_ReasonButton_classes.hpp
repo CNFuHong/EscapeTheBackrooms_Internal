@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "W_CheckableWideButton_ProperFocus_classes.hpp"
 #include "Backrooms_structs.hpp"
+#include "W_CheckableWideButton_ProperFocus_classes.hpp"
 
 
 namespace SDK
@@ -22,7 +22,7 @@ namespace SDK
 class UW_ReportPlayer_ReasonButton_C final : public UW_CheckableWideButton_ProperFocus_C
 {
 public:
-	EFancyUserReportCategory                      reason;                                            // 0x02B9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EFancyUserReportCategory                      Reason;                                            // 0x02B9(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_2BA[0x6];                                      // 0x02BA(0x0006)(Fixing Size After Last Property [ Dumper-7 ])
 	class FString                                 Explanation;                                       // 0x02C0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash)
 

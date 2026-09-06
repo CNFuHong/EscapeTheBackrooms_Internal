@@ -203,19 +203,19 @@ void UAC_VineGrowth_C::ReceiveBeginPlay()
 }
 
 
-// Function AC_VineGrowth.AC_VineGrowth_C.IsPlayerInGrass
+// Function AC_VineGrowth.AC_VineGrowth_C.Is Player Compromised
 // (Public, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent, BlueprintPure)
 // Parameters:
 // bool*                                   IsInGrass                                              (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
-void UAC_VineGrowth_C::IsPlayerInGrass(bool* IsInGrass)
+void UAC_VineGrowth_C::Is_Player_Compromised(bool* IsInGrass)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("AC_VineGrowth_C", "IsPlayerInGrass");
+		Func = Class->GetFunction("AC_VineGrowth_C", "Is Player Compromised");
 
-	Params::AC_VineGrowth_C_IsPlayerInGrass Parms{};
+	Params::AC_VineGrowth_C_Is_Player_Compromised Parms{};
 
 	UObject::ProcessEvent(Func, &Parms);
 
@@ -260,6 +260,20 @@ void UAC_VineGrowth_C::CheckAllPlayersTangled(bool* AllTangled, TArray<class ABP
 
 	if (Characters != nullptr)
 		*Characters = std::move(Parms.Characters);
+}
+
+
+// Function AC_VineGrowth.AC_VineGrowth_C.SpawnClientVisuals
+// (Public, HasDefaults, BlueprintCallable, BlueprintEvent)
+
+void UAC_VineGrowth_C::SpawnClientVisuals()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("AC_VineGrowth_C", "SpawnClientVisuals");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

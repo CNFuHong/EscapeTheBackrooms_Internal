@@ -19,6 +19,36 @@
 namespace SDK
 {
 
+// Class AudioMixer.SubmixEffectDynamicsProcessorPreset
+// 0x00E8 (0x0150 - 0x0068)
+class USubmixEffectDynamicsProcessorPreset final : public USoundEffectSubmixPreset
+{
+public:
+	uint8                                         Pad_68[0x88];                                      // 0x0068(0x0088)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSubmixEffectDynamicsProcessorSettings Settings;                                          // 0x00F0(0x0060)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+
+public:
+	void ResetKey();
+	void SetAudioBus(class UAudioBus* AudioBus);
+	void SetExternalSubmix(class USoundSubmix* Submix);
+	void SetSettings(const struct FSubmixEffectDynamicsProcessorSettings& Settings_0);
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("SubmixEffectDynamicsProcessorPreset")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"SubmixEffectDynamicsProcessorPreset")
+	}
+	static class USubmixEffectDynamicsProcessorPreset* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<USubmixEffectDynamicsProcessorPreset>();
+	}
+};
+DUMPER7_ASSERTS_USubmixEffectDynamicsProcessorPreset;
+
 // Class AudioMixer.SynthComponent
 // 0x04C0 (0x06C0 - 0x0200)
 class USynthComponent : public USceneComponent
@@ -83,29 +113,6 @@ public:
 };
 DUMPER7_ASSERTS_USynthComponent;
 
-// Class AudioMixer.AudioGenerator
-// 0x0080 (0x00A8 - 0x0028)
-class UAudioGenerator : public UObject
-{
-public:
-	uint8                                         Pad_28[0x80];                                      // 0x0028(0x0080)(Fixing Struct Size After Last Property [ Dumper-7 ])
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("AudioGenerator")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"AudioGenerator")
-	}
-	static class UAudioGenerator* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UAudioGenerator>();
-	}
-};
-DUMPER7_ASSERTS_UAudioGenerator;
-
 // Class AudioMixer.AudioMixerBlueprintLibrary
 // 0x0000 (0x0028 - 0x0028)
 class UAudioMixerBlueprintLibrary final : public UBlueprintFunctionLibrary
@@ -162,6 +169,29 @@ public:
 };
 DUMPER7_ASSERTS_UAudioMixerBlueprintLibrary;
 
+// Class AudioMixer.AudioGenerator
+// 0x0080 (0x00A8 - 0x0028)
+class UAudioGenerator : public UObject
+{
+public:
+	uint8                                         Pad_28[0x80];                                      // 0x0028(0x0080)(Fixing Struct Size After Last Property [ Dumper-7 ])
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("AudioGenerator")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"AudioGenerator")
+	}
+	static class UAudioGenerator* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UAudioGenerator>();
+	}
+};
+DUMPER7_ASSERTS_UAudioGenerator;
+
 // Class AudioMixer.QuartzClockHandle
 // 0x0168 (0x0190 - 0x0028)
 class UQuartzClockHandle final : public UObject
@@ -215,36 +245,6 @@ public:
 	}
 };
 DUMPER7_ASSERTS_UQuartzClockHandle;
-
-// Class AudioMixer.SubmixEffectDynamicsProcessorPreset
-// 0x00E8 (0x0150 - 0x0068)
-class USubmixEffectDynamicsProcessorPreset final : public USoundEffectSubmixPreset
-{
-public:
-	uint8                                         Pad_68[0x88];                                      // 0x0068(0x0088)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSubmixEffectDynamicsProcessorSettings Settings;                                          // 0x00F0(0x0060)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-
-public:
-	void ResetKey();
-	void SetAudioBus(class UAudioBus* AudioBus);
-	void SetExternalSubmix(class USoundSubmix* Submix);
-	void SetSettings(const struct FSubmixEffectDynamicsProcessorSettings& Settings_0);
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("SubmixEffectDynamicsProcessorPreset")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"SubmixEffectDynamicsProcessorPreset")
-	}
-	static class USubmixEffectDynamicsProcessorPreset* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<USubmixEffectDynamicsProcessorPreset>();
-	}
-};
-DUMPER7_ASSERTS_USubmixEffectDynamicsProcessorPreset;
 
 // Class AudioMixer.SubmixEffectSubmixEQPreset
 // 0x0048 (0x00B0 - 0x0068)

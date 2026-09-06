@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
 #include "InputCore_structs.hpp"
-#include "Slate_structs.hpp"
+#include "Engine_structs.hpp"
 #include "Backrooms_structs.hpp"
+#include "Slate_structs.hpp"
 
 
 namespace SDK::Params

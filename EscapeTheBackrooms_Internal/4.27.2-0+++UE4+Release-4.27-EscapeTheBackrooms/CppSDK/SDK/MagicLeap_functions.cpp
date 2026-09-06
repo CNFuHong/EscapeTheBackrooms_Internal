@@ -20,10 +20,10 @@ namespace SDK
 // Function MagicLeap.InAppPurchaseComponent.TryGetItemsDetailsAsync
 // (Final, Native, Public, HasOutParams, BlueprintCallable)
 // Parameters:
-// const TArray<class FString>&            ItemIDs                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
+// const TArray<class FString>&            ItemIds                                                (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-bool UInAppPurchaseComponent::TryGetItemsDetailsAsync(const TArray<class FString>& ItemIDs)
+bool UInAppPurchaseComponent::TryGetItemsDetailsAsync(const TArray<class FString>& ItemIds)
 {
 	static class UFunction* Func = nullptr;
 
@@ -32,7 +32,7 @@ bool UInAppPurchaseComponent::TryGetItemsDetailsAsync(const TArray<class FString
 
 	Params::InAppPurchaseComponent_TryGetItemsDetailsAsync Parms{};
 
-	Parms.ItemIDs = std::move(ItemIDs);
+	Parms.ItemIds = std::move(ItemIds);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

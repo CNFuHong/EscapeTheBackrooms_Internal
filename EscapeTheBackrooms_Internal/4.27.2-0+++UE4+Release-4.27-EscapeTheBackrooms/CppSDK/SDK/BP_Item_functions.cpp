@@ -60,9 +60,9 @@ void ABP_Item_C::ToggleEvent(bool Enable)
 // Function BP_Item.BP_Item_C.OnEventLoaded
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EEventType                              EventType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// uint8                                   EventType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_Item_C::OnEventLoaded(EEventType EventType)
+void ABP_Item_C::OnEventLoaded(uint8 EventType)
 {
 	static class UFunction* Func = nullptr;
 

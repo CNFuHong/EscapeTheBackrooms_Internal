@@ -37,6 +37,86 @@ void ABPCharacter_Demo_C::ExecuteUbergraph_BPCharacter_Demo(int32 EntryPoint)
 }
 
 
+// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1
+// (BlueprintEvent)
+// Parameters:
+// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1(float AxisValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1");
+
+	Params::BPCharacter_Demo_C_InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1 Parms{};
+
+	Parms.AxisValue = AxisValue;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0
+// (BlueprintEvent)
+// Parameters:
+// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0(float AxisValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0");
+
+	Params::BPCharacter_Demo_C_InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0 Parms{};
+
+	Parms.AxisValue = AxisValue;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_LookUp_K2Node_InputAxisEvent_172
+// (BlueprintEvent)
+// Parameters:
+// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::InpAxisEvt_LookUp_K2Node_InputAxisEvent_172(float AxisValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_LookUp_K2Node_InputAxisEvent_172");
+
+	Params::BPCharacter_Demo_C_InpAxisEvt_LookUp_K2Node_InputAxisEvent_172 Parms{};
+
+	Parms.AxisValue = AxisValue;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_Turn_K2Node_InputAxisEvent_157
+// (BlueprintEvent)
+// Parameters:
+// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::InpAxisEvt_Turn_K2Node_InputAxisEvent_157(float AxisValue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_Turn_K2Node_InputAxisEvent_157");
+
+	Params::BPCharacter_Demo_C_InpAxisEvt_Turn_K2Node_InputAxisEvent_157 Parms{};
+
+	Parms.AxisValue = AxisValue;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function BPCharacter_Demo.BPCharacter_Demo_C.ReceiveEndPlay
 // (Event, Protected, BlueprintEvent)
 // Parameters:
@@ -158,46 +238,6 @@ void ABPCharacter_Demo_C::OffsetJump()
 		Func = Class->GetFunction("BPCharacter_Demo_C", "OffsetJump");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1
-// (BlueprintEvent)
-// Parameters:
-// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABPCharacter_Demo_C::InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1(float AxisValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1");
-
-	Params::BPCharacter_Demo_C_InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1 Parms{};
-
-	Parms.AxisValue = AxisValue;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0
-// (BlueprintEvent)
-// Parameters:
-// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABPCharacter_Demo_C::InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0(float AxisValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0");
-
-	Params::BPCharacter_Demo_C_InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0 Parms{};
-
-	Parms.AxisValue = AxisValue;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -775,46 +815,6 @@ void ABPCharacter_Demo_C::InpAxisEvt_MoveForward_K2Node_InputAxisEvent_181(float
 }
 
 
-// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_LookUp_K2Node_InputAxisEvent_172
-// (BlueprintEvent)
-// Parameters:
-// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABPCharacter_Demo_C::InpAxisEvt_LookUp_K2Node_InputAxisEvent_172(float AxisValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_LookUp_K2Node_InputAxisEvent_172");
-
-	Params::BPCharacter_Demo_C_InpAxisEvt_LookUp_K2Node_InputAxisEvent_172 Parms{};
-
-	Parms.AxisValue = AxisValue;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
-// Function BPCharacter_Demo.BPCharacter_Demo_C.InpAxisEvt_Turn_K2Node_InputAxisEvent_157
-// (BlueprintEvent)
-// Parameters:
-// float                                   AxisValue                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ABPCharacter_Demo_C::InpAxisEvt_Turn_K2Node_InputAxisEvent_157(float AxisValue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("BPCharacter_Demo_C", "InpAxisEvt_Turn_K2Node_InputAxisEvent_157");
-
-	Params::BPCharacter_Demo_C_InpAxisEvt_Turn_K2Node_InputAxisEvent_157 Parms{};
-
-	Parms.AxisValue = AxisValue;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function BPCharacter_Demo.BPCharacter_Demo_C.FinishKeySequence
 // (BlueprintCallable, BlueprintEvent)
 
@@ -1215,15 +1215,21 @@ void ABPCharacter_Demo_C::KillServer(bool bResetInteractable)
 
 // Function BPCharacter_Demo.BPCharacter_Demo_C.KillClient
 // (Net, NetReliable, NetClient, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class FName                             DeathCause                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABPCharacter_Demo_C::KillClient()
+void ABPCharacter_Demo_C::KillClient(class FName DeathCause)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("BPCharacter_Demo_C", "KillClient");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::BPCharacter_Demo_C_KillClient Parms{};
+
+	Parms.DeathCause = DeathCause;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -2720,6 +2726,46 @@ void ABPCharacter_Demo_C::StartClimbing()
 		Func = Class->GetFunction("BPCharacter_Demo_C", "StartClimbing");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.RemoveTag_MC
+// (Net, NetReliable, NetMulticast, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class FString&                    Tag                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::RemoveTag_MC(const class FString& Tag)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "RemoveTag_MC");
+
+	Params::BPCharacter_Demo_C_RemoveTag_MC Parms{};
+
+	Parms.Tag = std::move(Tag);
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.AddTag_MC
+// (Net, NetReliable, NetMulticast, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class FString&                    Tag                                                    (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::AddTag_MC(const class FString& Tag)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "AddTag_MC");
+
+	Params::BPCharacter_Demo_C_AddTag_MC Parms{};
+
+	Parms.Tag = std::move(Tag);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -6415,6 +6461,79 @@ void ABPCharacter_Demo_C::Toggle_Render_Clarity_Boost(bool bEnable)
 	Params::BPCharacter_Demo_C_Toggle_Render_Clarity_Boost Parms{};
 
 	Parms.bEnable = bEnable;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.GetPawnsAtLocation
+// (Protected, HasOutParams, HasDefaults, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool*                                   FoundActors                                            (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// TArray<class AActor*>*                  OverlappedActors                                       (Parm, OutParm)
+
+void ABPCharacter_Demo_C::GetPawnsAtLocation(bool* FoundActors, TArray<class AActor*>* OverlappedActors)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "GetPawnsAtLocation");
+
+	Params::BPCharacter_Demo_C_GetPawnsAtLocation Parms{};
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	if (FoundActors != nullptr)
+		*FoundActors = Parms.FoundActors;
+
+	if (OverlappedActors != nullptr)
+		*OverlappedActors = std::move(Parms.OverlappedActors);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.GetOppositeOffset
+// (Protected, HasOutParams, BlueprintCallable, BlueprintEvent, BlueprintPure)
+// Parameters:
+// TArray<class AActor*>&                  Actors                                                 (BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm)
+// float                                   OffsetLength                                           (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// struct FVector*                         OffsetDirection                                        (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::GetOppositeOffset(TArray<class AActor*>& Actors, float OffsetLength, struct FVector* OffsetDirection)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "GetOppositeOffset");
+
+	Params::BPCharacter_Demo_C_GetOppositeOffset Parms{};
+
+	Parms.Actors = std::move(Actors);
+	Parms.OffsetLength = OffsetLength;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Actors = std::move(Parms.Actors);
+
+	if (OffsetDirection != nullptr)
+		*OffsetDirection = std::move(Parms.OffsetDirection);
+}
+
+
+// Function BPCharacter_Demo.BPCharacter_Demo_C.SendPlayerDeathTelemetryEvent
+// (Protected, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const class FString&                    DeathCause                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, HasGetValueTypeHash)
+
+void ABPCharacter_Demo_C::SendPlayerDeathTelemetryEvent(const class FString& DeathCause)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("BPCharacter_Demo_C", "SendPlayerDeathTelemetryEvent");
+
+	Params::BPCharacter_Demo_C_SendPlayerDeathTelemetryEvent Parms{};
+
+	Parms.DeathCause = std::move(DeathCause);
 
 	UObject::ProcessEvent(Func, &Parms);
 }

@@ -17,6 +17,31 @@
 namespace SDK
 {
 
+// Function DatasmithContent.DatasmithImportedSequencesActor.PlayLevelSequence
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// class ULevelSequence*                   SequenceToPlay                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void ADatasmithImportedSequencesActor::PlayLevelSequence(class ULevelSequence* SequenceToPlay)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("DatasmithImportedSequencesActor", "PlayLevelSequence");
+
+	Params::DatasmithImportedSequencesActor_PlayLevelSequence Parms{};
+
+	Parms.SequenceToPlay = SequenceToPlay;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
 // Function DatasmithContent.DatasmithContentBlueprintLibrary.GetDatasmithUserData
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
@@ -107,31 +132,6 @@ class FString UDatasmithContentBlueprintLibrary::GetDatasmithUserDataValueForKey
 	Func->FunctionFlags = Flgs;
 
 	return Parms.ReturnValue;
-}
-
-
-// Function DatasmithContent.DatasmithImportedSequencesActor.PlayLevelSequence
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// class ULevelSequence*                   SequenceToPlay                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void ADatasmithImportedSequencesActor::PlayLevelSequence(class ULevelSequence* SequenceToPlay)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("DatasmithImportedSequencesActor", "PlayLevelSequence");
-
-	Params::DatasmithImportedSequencesActor_PlayLevelSequence Parms{};
-
-	Parms.SequenceToPlay = SequenceToPlay;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
 }
 
 }

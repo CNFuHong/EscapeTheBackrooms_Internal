@@ -35,10 +35,10 @@ public:
 	void RemoveAnimations();
 	void OnQueryFinish(class UEnvQueryInstanceBlueprintWrapper* QueryInstance, EEnvQueryStatus QueryStatus);
 	void SpawnAnimations();
-	void OnPlayerSpawn(class ABPCharacter_Demo_C* Player);
 	void UserConstructionScript();
 	void LoadCheckpoints();
 	void ReceiveBeginPlay();
+	void OnPlayerSpawn(class ABPCharacter_Demo_C* Player);
 	class AActor* ChoosePlayerStart(class AController* Player);
 
 public:

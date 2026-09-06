@@ -12,7 +12,6 @@
 
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "Backrooms_structs.hpp"
 
 
 namespace SDK
@@ -35,7 +34,7 @@ public:
 public:
 	void ExecuteUbergraph_BP_Item(int32 EntryPoint);
 	void ToggleEvent(bool Enable);
-	void OnEventLoaded(EEventType EventType);
+	void OnEventLoaded(uint8 EventType);
 	void ReceiveBeginPlay();
 	void OnFinishConsume(class AFancyCharacter* Player);
 	void UnHide();

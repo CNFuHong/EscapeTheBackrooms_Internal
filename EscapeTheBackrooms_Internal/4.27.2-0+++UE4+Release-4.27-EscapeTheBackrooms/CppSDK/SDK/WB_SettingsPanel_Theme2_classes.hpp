@@ -12,19 +12,19 @@
 
 #include "Engine_structs.hpp"
 #include "E_CameraSetting_structs.hpp"
-#include "AdvancedSessions_structs.hpp"
-#include "Backrooms_structs.hpp"
 #include "UMG_structs.hpp"
 #include "UMG_classes.hpp"
 #include "SlateCore_structs.hpp"
+#include "Backrooms_structs.hpp"
 #include "E_GameMode_structs.hpp"
+#include "AdvancedSessions_structs.hpp"
 
 
 namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass WB_SettingsPanel_Theme2.WB_SettingsPanel_Theme2_C
-// 0x0500 (0x0770 - 0x0270)
+// 0x0518 (0x0788 - 0x0270)
 class UWB_SettingsPanel_Theme2_C final : public UUserWidget
 {
 public:
@@ -209,9 +209,12 @@ public:
 	int32                                         NumberOfOptions;                                   // 0x0758(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_75C[0x4];                                      // 0x075C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<class UWidget*>                        ConsoleFocusArrayGraphics;                         // 0x0760(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance, ContainsInstancedReference)
+	TMulticastInlineDelegate<void()>              OnVisualEffectQualityChanged;                      // 0x0770(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	class UFancyTelemetryEventBuilder*            ActivitySessionStartEventBuilder;                  // 0x0780(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_WB_SettingsPanel_Theme2(int32 EntryPoint);
+	void Destruct();
 	void BndEvt__WB_SettingsPanel_Theme2_InviteButton_K2Node_ComponentBoundEvent_78_OnClick__DelegateSignature();
 	void ForcePressRestoreDefaultsButton();
 	void EnqueueRefreshLobbyFocus();
@@ -383,6 +386,9 @@ public:
 	ESlateVisibility CollapseVisibilityOnConsolesAndWinGDK();
 	void PlaystationSpecificSettings();
 	ESlateVisibility Get_InviteButton_Visibility_0();
+	void SetGameResumeInputMode();
+	void SendActivitySessionStartEvent();
+	void SendActivitySessionEndEvent();
 
 public:
 	static class UClass* StaticClass()

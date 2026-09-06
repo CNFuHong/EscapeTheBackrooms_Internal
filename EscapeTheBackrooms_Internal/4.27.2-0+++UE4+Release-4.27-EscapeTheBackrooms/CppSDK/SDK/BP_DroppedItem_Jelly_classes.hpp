@@ -11,9 +11,8 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "BP_DroppedItem_classes.hpp"
 #include "CoreUObject_structs.hpp"
-#include "Backrooms_structs.hpp"
+#include "BP_DroppedItem_classes.hpp"
 
 
 namespace SDK
@@ -34,7 +33,7 @@ public:
 public:
 	void ExecuteUbergraph_BP_DroppedItem_Jelly(int32 EntryPoint);
 	void DropJelly();
-	void OnEventLoaded(EEventType EventType);
+	void OnEventLoaded(uint8 EventType);
 	void ToggleEvent(bool Enable);
 	void Lerp__UpdateFunc();
 	void Lerp__FinishedFunc();

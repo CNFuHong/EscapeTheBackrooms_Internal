@@ -12,7 +12,6 @@
 
 #include "Engine_structs.hpp"
 #include "BP_DroppedItem_classes.hpp"
-#include "Backrooms_structs.hpp"
 
 
 namespace SDK
@@ -28,7 +27,7 @@ public:
 public:
 	void ExecuteUbergraph_BP_DroppedItem_AlmondWater(int32 EntryPoint);
 	void ToggleEvent(bool Enable);
-	void OnEventLoaded(EEventType EventType);
+	void OnEventLoaded(uint8 EventType);
 
 public:
 	static class UClass* StaticClass()

@@ -28,7 +28,7 @@ public:
 	static int32 GetFriendSteamLevel(const struct FBPUniqueNetId& UniqueNetId);
 	static struct FBPUniqueNetId GetLocalSteamIDFromSteam();
 	static class UTexture2D* GetSteamFriendAvatar(const struct FBPUniqueNetId& UniqueNetId, EBlueprintAsyncResultSwitch* Result, ESteamAvatarSize AvatarSize);
-	static void GetSteamFriendGamePlayed(const struct FBPUniqueNetId& UniqueNetId, EBlueprintResultSwitch* Result, int32* AppID);
+	static void GetSteamFriendGamePlayed(const struct FBPUniqueNetId& UniqueNetId, EBlueprintResultSwitch* Result, int32* AppId);
 	static void GetSteamGroups(TArray<struct FBPSteamGroupInfo>* SteamGroups);
 	static class FString GetSteamPersonaName(const struct FBPUniqueNetId& UniqueNetId);
 	static bool InitTextFiltering();
@@ -82,8 +82,8 @@ DUMPER7_ASSERTS_UAdvancedSteamWorkshopLibrary;
 class USteamRequestGroupOfficersCallbackProxy final : public UOnlineBlueprintCallProxyBase
 {
 public:
-	TMulticastInlineDelegate<void(const TArray<struct FBPSteamGroupOfficer>& OfficerList)> OnSuccess; // 0x0030(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(const TArray<struct FBPSteamGroupOfficer>& OfficerList)> OnFailure; // 0x0040(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const TArray<struct FBPSteamGroupOfficer>& OfficerList)> onSuccess; // 0x0030(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const TArray<struct FBPSteamGroupOfficer>& OfficerList)> onFailure; // 0x0040(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_50[0x58];                                      // 0x0050(0x0058)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
@@ -110,8 +110,8 @@ DUMPER7_ASSERTS_USteamRequestGroupOfficersCallbackProxy;
 class USteamWSRequestUGCDetailsCallbackProxy final : public UOnlineBlueprintCallProxyBase
 {
 public:
-	TMulticastInlineDelegate<void(const struct FBPSteamWorkshopItemDetails& WorkShopDetails)> OnSuccess; // 0x0030(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(const struct FBPSteamWorkshopItemDetails& WorkShopDetails)> OnFailure; // 0x0040(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FBPSteamWorkshopItemDetails& WorkShopDetails)> onSuccess; // 0x0030(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(const struct FBPSteamWorkshopItemDetails& WorkShopDetails)> onFailure; // 0x0040(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	uint8                                         Pad_50[0x38];                                      // 0x0050(0x0038)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:

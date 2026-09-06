@@ -19,7 +19,7 @@ namespace SDK
 {
 
 // WidgetBlueprintGeneratedClass W_CostumeSelector.W_CostumeSelector_C
-// 0x0068 (0x02D8 - 0x0270)
+// 0x0078 (0x02E8 - 0x0270)
 class UW_CostumeSelector_C final : public UUserWidget
 {
 public:
@@ -34,9 +34,12 @@ public:
 	TMulticastInlineDelegate<void()>              OnCostumeSelectorClosed;                           // 0x02B0(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
 	class UCostume*                               HoveredCostume;                                    // 0x02C0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	TArray<class FName>                           Costume_Category;                                  // 0x02C8(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	class UFancyTelemetryEventBuilder*            ActivitySessionStartEventBuilder;                  // 0x02D8(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          IgnoreInitialSelection;                            // 0x02E0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 
 public:
 	void ExecuteUbergraph_W_CostumeSelector(int32 EntryPoint);
+	void Destruct();
 	void BndEvt__W_CostumeSelector_CostumeList_K2Node_ComponentBoundEvent_3_OnListEntryReleasedDynamic__DelegateSignature(class UUserWidget* Widget);
 	void BndEvt__W_CostumeSelector_CostumeList_K2Node_ComponentBoundEvent_1_OnListEntryGeneratedDynamic__DelegateSignature(class UUserWidget* Widget);
 	void ExitCostumeSelector();
@@ -49,6 +52,9 @@ public:
 	void SetUp(class ACostumeSelector* CostumeSelectorActor, const TArray<struct FCostumeWidgetData>& CostumeList_0);
 	class UWidget* DoCustomNavigation_0(EUINavigation Navigation_0);
 	struct FEventReply OnKeyDown(const struct FGeometry& MyGeometry, const struct FKeyEvent& InKeyEvent);
+	void SendActivitySessionStartEvent();
+	void SendCosmeticSelectionEvent(class UCostume* ChosenCosmetic);
+	void SendActivitySessionEndEvent();
 
 public:
 	static class UClass* StaticClass()

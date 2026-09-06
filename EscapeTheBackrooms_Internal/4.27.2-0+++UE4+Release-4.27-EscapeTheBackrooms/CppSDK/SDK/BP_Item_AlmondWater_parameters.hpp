@@ -10,9 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Backrooms_structs.hpp"
-#include "Engine_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "Engine_structs.hpp"
 
 
 namespace SDK::Params
@@ -62,7 +61,7 @@ public:
 	class AMP_PS_C*                               K2Node_DynamicCast_AsMP_PS;                        // 0x0150(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_DynamicCast_bSuccess_3;                     // 0x0158(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 	bool                                          K2Node_Event_Enable;                               // 0x0159(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
-	EEventType                                    K2Node_Event_EventType;                            // 0x015A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         K2Node_Event_EventType;                            // 0x015A(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_15B[0x1];                                      // 0x015B(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FHitResult                             CallFunc_K2_SetRelativeRotation_SweepHitResult;    // 0x015C(0x0088)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
 	struct FHitResult                             CallFunc_K2_SetRelativeRotation_SweepHitResult_1;  // 0x01E4(0x0088)(IsPlainOldData, NoDestructor, ContainsInstancedReference)
@@ -70,15 +69,6 @@ public:
 	class UAudioComponent*                        CallFunc_SpawnSoundAttached_ReturnValue_1;         // 0x0270(0x0008)(ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BP_Item_AlmondWater_C_ExecuteUbergraph_BP_Item_AlmondWater;
-
-// Function BP_Item_AlmondWater.BP_Item_AlmondWater_C.OnEventLoaded
-// 0x0001 (0x0001 - 0x0000)
-struct BP_Item_AlmondWater_C_OnEventLoaded final
-{
-public:
-	EEventType                                    EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-DUMPER7_ASSERTS_BP_Item_AlmondWater_C_OnEventLoaded;
 
 // Function BP_Item_AlmondWater.BP_Item_AlmondWater_C.ToggleEvent
 // 0x0001 (0x0001 - 0x0000)
@@ -143,6 +133,15 @@ public:
 	class FName                                   NotifyName;                                        // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BP_Item_AlmondWater_C_OnNotifyEnd_3881A8424F905F4C29433AB5756CB3DA;
+
+// Function BP_Item_AlmondWater.BP_Item_AlmondWater_C.OnEventLoaded
+// 0x0001 (0x0001 - 0x0000)
+struct BP_Item_AlmondWater_C_OnEventLoaded final
+{
+public:
+	uint8                                         EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+DUMPER7_ASSERTS_BP_Item_AlmondWater_C_OnEventLoaded;
 
 // Function BP_Item_AlmondWater.BP_Item_AlmondWater_C.SetMaterial
 // 0x0002 (0x0002 - 0x0000)

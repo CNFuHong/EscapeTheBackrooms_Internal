@@ -47,9 +47,10 @@ public:
 	void GrowVines();
 	void ReceiveTick(float DeltaSeconds);
 	void ReceiveBeginPlay();
-	void IsPlayerInGrass(bool* IsInGrass);
+	void Is_Player_Compromised(bool* IsInGrass);
 	void OnRep_GrowVinesClient();
 	void CheckAllPlayersTangled(bool* AllTangled, TArray<class ABPCharacter_Demo_C*>* Characters);
+	void SpawnClientVisuals();
 
 public:
 	static class UClass* StaticClass()

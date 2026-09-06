@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Engine_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "E_GlowstickColor_structs.hpp"
 #include "HorrorEngineSettings_structs.hpp"
+#include "Engine_structs.hpp"
 #include "PhysicsCore_structs.hpp"
 #include "E_CameraSetting_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "E_GlowstickColor_structs.hpp"
 #include "Backrooms_structs.hpp"
 #include "Backrooms_classes.hpp"
 #include "FootstepActionsEnum_structs.hpp"
@@ -337,25 +337,28 @@ public:
 	E_GlowstickColor                              IsHoldingGlowstick;                                // 0x0B0D(0x0001)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_B0E[0x2];                                      // 0x0B0E(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	float                                         CrouchWalkSpeed;                                   // 0x0B10(0x0004)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
-	float                                         Delta_Seconds;                                     // 0x0B14(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         BaseLookUpRate;                                    // 0x0B18(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         BaseTurnRate;                                      // 0x0B1C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          IsTangled;                                         // 0x0B20(0x0001)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
-	uint8                                         Pad_B21[0x3];                                      // 0x0B21(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         ControllerSensitivity;                             // 0x0B24(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	class UVOIPTalker*                            PlayerTalker;                                      // 0x0B28(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          ControllerFeedback;                                // 0x0B30(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
-	bool                                          WantsToCrouchAfterLanding;                         // 0x0B31(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
-	bool                                          IsUsingGamepad;                                    // 0x0B32(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
-	uint8                                         Pad_B33[0x5];                                      // 0x0B33(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	class UCostume*                               Costume;                                           // 0x0B38(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          bRenderClarityBoostEnabled;                        // 0x0B40(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
-	uint8                                         Pad_B41[0x3];                                      // 0x0B41(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         OriginalDLSSQuality;                               // 0x0B44(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	float                                         OriginalSecondaryScreenPercentage;                 // 0x0B48(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          IsTangled;                                         // 0x0B14(0x0001)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	uint8                                         Pad_B15[0x3];                                      // 0x0B15(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         ControllerSensitivity;                             // 0x0B18(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_B1C[0x4];                                      // 0x0B1C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UVOIPTalker*                            PlayerTalker;                                      // 0x0B20(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          ControllerFeedback;                                // 0x0B28(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	bool                                          WantsToCrouchAfterLanding;                         // 0x0B29(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	bool                                          IsUsingGamepad;                                    // 0x0B2A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	uint8                                         Pad_B2B[0x5];                                      // 0x0B2B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	class UCostume*                               Costume;                                           // 0x0B30(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          bRenderClarityBoostEnabled;                        // 0x0B38(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	uint8                                         Pad_B39[0x3];                                      // 0x0B39(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         OriginalDLSSQuality;                               // 0x0B3C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	float                                         OriginalSecondaryScreenPercentage;                 // 0x0B40(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          HasBeenKilled;                                     // 0x0B44(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 
 public:
 	void ExecuteUbergraph_BPCharacter_Demo(int32 EntryPoint);
+	void InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1(float AxisValue);
+	void InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0(float AxisValue);
+	void InpAxisEvt_LookUp_K2Node_InputAxisEvent_172(float AxisValue);
+	void InpAxisEvt_Turn_K2Node_InputAxisEvent_157(float AxisValue);
 	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
 	void SpawnCard();
 	void ApplyCostume(class UCostume* Costume_0);
@@ -364,8 +367,6 @@ public:
 	void OnLandedCrouchCheck();
 	void ResetJumpOffset();
 	void OffsetJump();
-	void InpAxisEvt_LookUpRate_K2Node_InputAxisEvent_1(float AxisValue);
-	void InpAxisEvt_TurnRate_K2Node_InputAxisEvent_0(float AxisValue);
 	void OC_StartSwimming();
 	void SRV_OrientMovement();
 	void StopBob();
@@ -398,8 +399,6 @@ public:
 	void Burnout();
 	void InpAxisEvt_MoveRight_K2Node_InputAxisEvent_192(float AxisValue);
 	void InpAxisEvt_MoveForward_K2Node_InputAxisEvent_181(float AxisValue);
-	void InpAxisEvt_LookUp_K2Node_InputAxisEvent_172(float AxisValue);
-	void InpAxisEvt_Turn_K2Node_InputAxisEvent_157(float AxisValue);
 	void FinishKeySequence();
 	void SetCrouchWalkSpeedServer(float Speed);
 	void ClimbCaveLadder();
@@ -423,7 +422,7 @@ public:
 	void SetMinPitch();
 	void ReceiveDestroyed();
 	void KillServer(bool bResetInteractable);
-	void KillClient();
+	void KillClient(class FName DeathCause);
 	void SetWalkSpeedServer(float Speed);
 	void SRV_ResetSanityWarning();
 	void SRV_WarnSanity();
@@ -517,6 +516,8 @@ public:
 	void StartClimbingBot_SERVER();
 	void StartClimbingTop();
 	void StartClimbing();
+	void RemoveTag_MC(const class FString& Tag);
+	void AddTag_MC(const class FString& Tag);
 	void InpAxisKeyEvt_Gamepad_LeftY_K2Node_InputAxisKeyEvent_1(float AxisValue);
 	void InpAxisKeyEvt_Gamepad_LeftX_K2Node_InputAxisKeyEvent_0(float AxisValue);
 	void InpActEvt_Crouch_K2Node_InputActionEvent_0(const struct FKey& Key);
@@ -733,6 +734,9 @@ public:
 	void ClampMovement(float In, float* Clamped);
 	void OnRep_Card();
 	void Toggle_Render_Clarity_Boost(bool bEnable);
+	void GetPawnsAtLocation(bool* FoundActors, TArray<class AActor*>* OverlappedActors);
+	void GetOppositeOffset(TArray<class AActor*>& Actors, float OffsetLength, struct FVector* OffsetDirection);
+	void SendPlayerDeathTelemetryEvent(const class FString& DeathCause);
 
 public:
 	static class UClass* StaticClass()

@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "Backrooms_structs.hpp"
 #include "S_PlayerConnectionInfo_structs.hpp"
 #include "AdvancedSessions_structs.hpp"
 #include "S_PlayerData_structs.hpp"
-#include "E_HeadsetType_structs.hpp"
 #include "S_UserProfile_structs.hpp"
+#include "Backrooms_structs.hpp"
+#include "E_HeadsetType_structs.hpp"
 
 
 namespace SDK::Params
@@ -27,8 +27,7 @@ struct MP_PS_C_ExecuteUbergraph_MP_PS final
 {
 public:
 	int32                                         EntryPoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	EFancyPlatform                                CallFunc_GetPlatform_ReturnValue;                  // 0x0004(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	uint8                                         Pad_5[0x3];                                        // 0x0005(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	class APlayerState*                           K2Node_Event_NewPlayerState;                       // 0x0008(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          Temp_bool_Has_Been_Initd_Variable;                 // 0x0010(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 	uint8                                         Pad_11[0x3];                                       // 0x0011(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
@@ -75,6 +74,7 @@ public:
 	uint8                                         Pad_EA[0x2];                                       // 0x00EA(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
 	int32                                         K2Node_CustomEvent_Index1;                         // 0x00EC(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         K2Node_CustomEvent_Index2;                         // 0x00F0(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EFancyPlatform                                CallFunc_GetPlatform_ReturnValue;                  // 0x00F4(0x0001)(ConstParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_MP_PS_C_ExecuteUbergraph_MP_PS;
 

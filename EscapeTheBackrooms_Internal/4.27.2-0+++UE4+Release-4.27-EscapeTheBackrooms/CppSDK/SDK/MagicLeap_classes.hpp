@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
-#include "CoreUObject_classes.hpp"
 #include "MagicLeap_structs.hpp"
 #include "Engine_classes.hpp"
 #include "HeadMountedDisplay_classes.hpp"
+#include "CoreUObject_structs.hpp"
+#include "CoreUObject_classes.hpp"
 
 
 namespace SDK
@@ -61,7 +61,7 @@ public:
 	uint8                                         Pad_120[0x8];                                      // 0x0120(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
 
 public:
-	bool TryGetItemsDetailsAsync(const TArray<class FString>& ItemIDs);
+	bool TryGetItemsDetailsAsync(const TArray<class FString>& ItemIds);
 	bool TryGetPurchaseHistoryAsync(int32 InNumPages);
 	bool TryPurchaseItemAsync(const struct FPurchaseItemDetails& ItemDetails);
 
@@ -115,7 +115,7 @@ public:
 	TMulticastInlineDelegate<void()>              DeviceHasReactivatedDelegate;                      // 0x0140(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              DeviceWillEnterRealityModeDelegate;                // 0x0150(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              DeviceWillGoInStandbyDelegate;                     // 0x0160(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
-	TMulticastInlineDelegate<void(EFocusLostReason reason)> FocusLostDelegate;                       // 0x0170(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
+	TMulticastInlineDelegate<void(EFocusLostReason Reason)> FocusLostDelegate;                       // 0x0170(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 	TMulticastInlineDelegate<void()>              FocusGainedDelegate;                               // 0x0180(0x0010)(ZeroConstructor, InstancedReference, BlueprintAssignable, NativeAccessSpecifierPublic)
 
 public:

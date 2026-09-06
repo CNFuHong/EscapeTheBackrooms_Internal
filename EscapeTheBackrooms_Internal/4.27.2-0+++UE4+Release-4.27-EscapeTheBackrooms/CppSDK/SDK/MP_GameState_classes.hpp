@@ -10,17 +10,19 @@
 
 #include "Basic.hpp"
 
+#include "AdvancedSessions_structs.hpp"
+#include "E_Difficulty_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
 #include "S_HubLevels_structs.hpp"
-#include "AdvancedSessions_structs.hpp"
+#include "E_GameMode_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass MP_GameState.MP_GameState_C
-// 0x0098 (0x0328 - 0x0290)
+// 0x00A0 (0x0330 - 0x0290)
 class AMP_GameState_C final : public AGameState
 {
 public:
@@ -32,14 +34,20 @@ public:
 	int32                                         MaxPlayers;                                        // 0x0310(0x0004)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, RepNotify, NoDestructor, HasGetValueTypeHash)
 	uint8                                         Pad_314[0x4];                                      // 0x0314(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	TMulticastInlineDelegate<void()>              OnLobbyDataChanged;                                // 0x0318(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	E_GameMode                                    LevelMode;                                         // 0x0328(0x0001)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	E_Difficulty                                  LevelDifficulty;                                   // 0x0329(0x0001)(Edit, BlueprintVisible, Net, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
 public:
 	void ExecuteUbergraph_MP_GameState(int32 EntryPoint);
+	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
 	void SetMEGUnlocked();
 	void ReceiveBeginPlay();
 	void Generate_Encrypted_Name(const class FText& Level, class FString* Name_0);
 	void GenerateUUID();
 	void OnRep_MaxPlayers();
+	void SendTelemetryEventStart();
+	void SendTelemetryEventEnd(EEndPlayReason EndPlayReason);
+	void UpdateLevelData();
 
 public:
 	static class UClass* StaticClass()

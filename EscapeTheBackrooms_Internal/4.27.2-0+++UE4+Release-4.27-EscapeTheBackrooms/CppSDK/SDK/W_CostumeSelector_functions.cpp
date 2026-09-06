@@ -37,6 +37,20 @@ void UW_CostumeSelector_C::ExecuteUbergraph_W_CostumeSelector(int32 EntryPoint)
 }
 
 
+// Function W_CostumeSelector.W_CostumeSelector_C.Destruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UW_CostumeSelector_C::Destruct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_CostumeSelector_C", "Destruct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function W_CostumeSelector.W_CostumeSelector_C.BndEvt__W_CostumeSelector_CostumeList_K2Node_ComponentBoundEvent_3_OnListEntryReleasedDynamic__DelegateSignature
 // (BlueprintEvent)
 // Parameters:
@@ -258,6 +272,54 @@ struct FEventReply UW_CostumeSelector_C::OnKeyDown(const struct FGeometry& MyGeo
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function W_CostumeSelector.W_CostumeSelector_C.SendActivitySessionStartEvent
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void UW_CostumeSelector_C::SendActivitySessionStartEvent()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_CostumeSelector_C", "SendActivitySessionStartEvent");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function W_CostumeSelector.W_CostumeSelector_C.SendCosmeticSelectionEvent
+// (Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// class UCostume*                         ChosenCosmetic                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UW_CostumeSelector_C::SendCosmeticSelectionEvent(class UCostume* ChosenCosmetic)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_CostumeSelector_C", "SendCosmeticSelectionEvent");
+
+	Params::W_CostumeSelector_C_SendCosmeticSelectionEvent Parms{};
+
+	Parms.ChosenCosmetic = ChosenCosmetic;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function W_CostumeSelector.W_CostumeSelector_C.SendActivitySessionEndEvent
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UW_CostumeSelector_C::SendActivitySessionEndEvent()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("W_CostumeSelector_C", "SendActivitySessionEndEvent");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

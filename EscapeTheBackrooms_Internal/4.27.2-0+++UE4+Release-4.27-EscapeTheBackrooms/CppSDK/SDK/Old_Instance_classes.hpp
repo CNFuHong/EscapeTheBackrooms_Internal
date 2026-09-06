@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
+#include "AdvancedSessions_classes.hpp"
 #include "E_Difficulty_structs.hpp"
 #include "Engine_structs.hpp"
-#include "AdvancedSessions_classes.hpp"
 
 
 namespace SDK

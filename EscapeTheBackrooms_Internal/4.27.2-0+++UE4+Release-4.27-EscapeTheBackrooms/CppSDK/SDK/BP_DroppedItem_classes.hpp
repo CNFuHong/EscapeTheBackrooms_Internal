@@ -11,7 +11,6 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "Backrooms_structs.hpp"
 #include "Backrooms_classes.hpp"
 #include "EN_ItemRarity_structs.hpp"
 
@@ -31,7 +30,7 @@ public:
 public:
 	void ExecuteUbergraph_BP_DroppedItem(int32 EntryPoint);
 	void ToggleEvent(bool Enable);
-	void OnEventLoaded(EEventType EventType);
+	void OnEventLoaded(uint8 EventType);
 	void OnBeginFocus();
 	void OnEndFocus();
 	void ReceiveBeginPlay();

@@ -10,11 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
+#include "ST_FlowerRoomSaveData_structs.hpp"
 #include "E_Difficulty_structs.hpp"
-#include "S_DroppedItem_structs.hpp"
-#include "S_LevelStats_structs.hpp"
 #include "S_Glowstick_Data_structs.hpp"
+#include "S_LevelStats_structs.hpp"
+#include "S_DroppedItem_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "S_TV_Data_structs.hpp"
 #include "S_UploadStatus_structs.hpp"
 #include "S_WorldCommon_structs.hpp"
@@ -1288,6 +1289,34 @@ public:
 	class FString                                 CallFunc_Concat_StrStr_ReturnValue_2;              // 0x0060(0x0010)(ZeroConstructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BPFL_SaveSystem_C_GetSlotNameForSaveGameName;
+
+// Function BPFL_SaveSystem.BPFL_SaveSystem_C.SetPlasticMarianaCheckpoint
+// 0x0020 (0x0020 - 0x0000)
+struct BPFL_SaveSystem_C_SetPlasticMarianaCheckpoint final
+{
+public:
+	int32                                         Checkpoint;                                        // 0x0000(0x0004)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         Pad_4[0x4];                                        // 0x0004(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                __WorldContext;                                    // 0x0008(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UBP_New_SaveGame_C*                     CallFunc_Load_Game_SaveGame;                       // 0x0010(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CallFunc_IsShippingBuild_ReturnValue;              // 0x0018(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
+	bool                                          CallFunc_Greater_IntInt_ReturnValue;               // 0x0019(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
+};
+DUMPER7_ASSERTS_BPFL_SaveSystem_C_SetPlasticMarianaCheckpoint;
+
+// Function BPFL_SaveSystem.BPFL_SaveSystem_C.SetPlasticMarianaFlowerLocations
+// 0x00B8 (0x00B8 - 0x0000)
+struct BPFL_SaveSystem_C_SetPlasticMarianaFlowerLocations final
+{
+public:
+	TMap<class FString, struct FST_FlowerRoomSaveData> RandomRoomsUsed;                              // 0x0000(0x0050)(BlueprintVisible, BlueprintReadOnly, Parm)
+	TMap<class FString, struct FST_FlowerRoomSaveData> RandomSolverRoomsUsed;                        // 0x0050(0x0050)(BlueprintVisible, BlueprintReadOnly, Parm)
+	bool                                          bLoadFromSave;                                     // 0x00A0(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+	uint8                                         Pad_A1[0x7];                                       // 0x00A1(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	class UObject*                                __WorldContext;                                    // 0x00A8(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UBP_New_SaveGame_C*                     CallFunc_Load_Game_SaveGame;                       // 0x00B0(0x0008)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+DUMPER7_ASSERTS_BPFL_SaveSystem_C_SetPlasticMarianaFlowerLocations;
 
 }
 

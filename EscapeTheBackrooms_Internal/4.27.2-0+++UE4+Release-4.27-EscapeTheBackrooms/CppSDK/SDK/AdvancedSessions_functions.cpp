@@ -337,9 +337,9 @@ void UAdvancedIdentityLibrary::GetUserAccountDisplayName(const struct FBPUserOnl
 // (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
 // const struct FBPUserOnlineAccount&      AccountInfo                                            (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// class FString*                          UserName                                               (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString*                          Username                                               (Parm, OutParm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UAdvancedIdentityLibrary::GetUserAccountRealName(const struct FBPUserOnlineAccount& AccountInfo, class FString* UserName)
+void UAdvancedIdentityLibrary::GetUserAccountRealName(const struct FBPUserOnlineAccount& AccountInfo, class FString* Username)
 {
 	static class UFunction* Func = nullptr;
 
@@ -357,8 +357,8 @@ void UAdvancedIdentityLibrary::GetUserAccountRealName(const struct FBPUserOnline
 
 	Func->FunctionFlags = Flgs;
 
-	if (UserName != nullptr)
-		*UserName = std::move(Parms.UserName);
+	if (Username != nullptr)
+		*Username = std::move(Parms.Username);
 }
 
 
@@ -736,10 +736,10 @@ void UAdvancedFriendsGameInstance::OnSessionInviteAccepted(bool bWasSuccessful, 
 // Parameters:
 // int32                                   LocalPlayerNum                                         (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FBPUniqueNetId&            PersonInviting                                         (Parm, NativeAccessSpecifierPublic)
-// const class FString&                    AppID                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    AppId                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const struct FBlueprintSessionResult&   SessionToJoin                                          (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
 
-void UAdvancedFriendsGameInstance::OnSessionInviteReceived(int32 LocalPlayerNum, const struct FBPUniqueNetId& PersonInviting, const class FString& AppID, const struct FBlueprintSessionResult& SessionToJoin)
+void UAdvancedFriendsGameInstance::OnSessionInviteReceived(int32 LocalPlayerNum, const struct FBPUniqueNetId& PersonInviting, const class FString& AppId, const struct FBlueprintSessionResult& SessionToJoin)
 {
 	static class UFunction* Func = nullptr;
 
@@ -750,7 +750,7 @@ void UAdvancedFriendsGameInstance::OnSessionInviteReceived(int32 LocalPlayerNum,
 
 	Parms.LocalPlayerNum = LocalPlayerNum;
 	Parms.PersonInviting = std::move(PersonInviting);
-	Parms.AppID = std::move(AppID);
+	Parms.AppId = std::move(AppId);
 	Parms.SessionToJoin = std::move(SessionToJoin);
 
 	UObject::ProcessEvent(Func, &Parms);
@@ -3057,12 +3057,12 @@ class UGetUserPrivilegeCallbackProxy* UGetUserPrivilegeCallbackProxy::GetUserPri
 // Parameters:
 // class UObject*                          WorldContextObject                                     (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class APlayerController*                PlayerController                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const class FString&                    UserID                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    UserId                                                 (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const class FString&                    UserToken                                              (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // const class FString&                    AuthType                                               (Parm, ZeroConstructor, AdvancedDisplay, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // class ULoginUserCallbackProxy*          ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class ULoginUserCallbackProxy* ULoginUserCallbackProxy::LoginUser(class UObject* WorldContextObject, class APlayerController* PlayerController, const class FString& UserID, const class FString& UserToken, const class FString& AuthType)
+class ULoginUserCallbackProxy* ULoginUserCallbackProxy::LoginUser(class UObject* WorldContextObject, class APlayerController* PlayerController, const class FString& UserId, const class FString& UserToken, const class FString& AuthType)
 {
 	static class UFunction* Func = nullptr;
 
@@ -3073,7 +3073,7 @@ class ULoginUserCallbackProxy* ULoginUserCallbackProxy::LoginUser(class UObject*
 
 	Parms.WorldContextObject = WorldContextObject;
 	Parms.PlayerController = PlayerController;
-	Parms.UserID = std::move(UserID);
+	Parms.UserId = std::move(UserId);
 	Parms.UserToken = std::move(UserToken);
 	Parms.AuthType = std::move(AuthType);
 

@@ -42,7 +42,6 @@ public:
 	void ResetInputModeToDefault(class UWidget* PreviousFocusedWidget);
 	void ShowNonModalMessage(const class FText& Message);
 	void ReceiveBeginPlay();
-	void ClientHUDInit();
 	void OC_CompleteMission(const struct FMissionStructure& Mission, bool Failed);
 	void Client_RecieveVoiceData(class ABPCharacter_Demo_C* Player_0, const TArray<uint8>& Voice, bool bUseRadio, const struct FBPUniqueNetId& Sender);
 	void CaveHint();
@@ -52,7 +51,6 @@ public:
 	void ValveHint();
 	void ShowEndCutscene();
 	void ShowCameraFade();
-	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
 	void ScoreboardDelay();
 	void OC_KickedFromLobby();
 	void SetSpawnRotation(const struct FRotator& Rotation);
@@ -88,6 +86,8 @@ public:
 	void AddMissionStructUIData(const struct FMissionStructure& MissionStructureIn, bool Failed, struct FMissionStructure* MissionStructureOut);
 	void SaveMissionProgress(const struct FMissionStructure& MissionStructure);
 	void CreateVoipPlayerList();
+	void ClientHUDInit();
+	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
 
 public:
 	static class UClass* StaticClass()

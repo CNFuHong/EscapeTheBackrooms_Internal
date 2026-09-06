@@ -74,45 +74,32 @@ public:
 };
 DUMPER7_ASSERTS_UVRNotificationsComponent;
 
-// Class HeadMountedDisplay.MotionTrackedDeviceFunctionLibrary
+// Class HeadMountedDisplay.XRLoadingScreenFunctionLibrary
 // 0x0000 (0x0028 - 0x0028)
-class UMotionTrackedDeviceFunctionLibrary final : public UBlueprintFunctionLibrary
+class UXRLoadingScreenFunctionLibrary final : public UBlueprintFunctionLibrary
 {
 public:
-	static void DisableMotionTrackingForComponent(const class UMotionControllerComponent* MotionControllerComponent);
-	static void DisableMotionTrackingOfAllControllers();
-	static void DisableMotionTrackingOfControllersForPlayer(int32 PlayerIndex);
-	static void DisableMotionTrackingOfDevice(int32 PlayerIndex, EControllerHand Hand);
-	static void DisableMotionTrackingOfSource(int32 PlayerIndex, class FName SourceName);
-	static bool EnableMotionTrackingForComponent(class UMotionControllerComponent* MotionControllerComponent);
-	static bool EnableMotionTrackingOfDevice(int32 PlayerIndex, EControllerHand Hand);
-	static bool EnableMotionTrackingOfSource(int32 PlayerIndex, class FName SourceName);
-	static TArray<class FName> EnumerateMotionSources();
-	static class FName GetActiveTrackingSystemName();
-	static int32 GetMaximumMotionTrackedControllerCount();
-	static int32 GetMotionTrackingEnabledControllerCount();
-	static bool IsMotionSourceTracking(int32 PlayerIndex, class FName SourceName);
-	static bool IsMotionTrackedDeviceCountManagementNecessary();
-	static bool IsMotionTrackingEnabledForComponent(const class UMotionControllerComponent* MotionControllerComponent);
-	static bool IsMotionTrackingEnabledForDevice(int32 PlayerIndex, EControllerHand Hand);
-	static bool IsMotionTrackingEnabledForSource(int32 PlayerIndex, class FName SourceName);
-	static void SetIsControllerMotionTrackingEnabledByDefault(bool Enable);
+	static void AddLoadingScreenSplash(class UTexture* Texture, const struct FVector& Translation, const struct FRotator& Rotation, const struct FVector2D& Size, const struct FRotator& DeltaRotation, bool bClearBeforeAdd);
+	static void ClearLoadingScreenSplashes();
+	static void HideLoadingScreen();
+	static void SetLoadingScreen(class UTexture* Texture, const struct FVector2D& Scale, const struct FVector& Offset, bool bShowLoadingMovie, bool bShowOnSet);
+	static void ShowLoadingScreen();
 
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("MotionTrackedDeviceFunctionLibrary")
+		STATIC_CLASS_IMPL("XRLoadingScreenFunctionLibrary")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"MotionTrackedDeviceFunctionLibrary")
+		STATIC_NAME_IMPL(L"XRLoadingScreenFunctionLibrary")
 	}
-	static class UMotionTrackedDeviceFunctionLibrary* GetDefaultObj()
+	static class UXRLoadingScreenFunctionLibrary* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UMotionTrackedDeviceFunctionLibrary>();
+		return GetDefaultObjImpl<UXRLoadingScreenFunctionLibrary>();
 	}
 };
-DUMPER7_ASSERTS_UMotionTrackedDeviceFunctionLibrary;
+DUMPER7_ASSERTS_UXRLoadingScreenFunctionLibrary;
 
 // Class HeadMountedDisplay.MotionControllerComponent
 // 0x00C0 (0x0510 - 0x0450)
@@ -236,6 +223,46 @@ public:
 };
 DUMPER7_ASSERTS_UHeadMountedDisplayFunctionLibrary;
 
+// Class HeadMountedDisplay.MotionTrackedDeviceFunctionLibrary
+// 0x0000 (0x0028 - 0x0028)
+class UMotionTrackedDeviceFunctionLibrary final : public UBlueprintFunctionLibrary
+{
+public:
+	static void DisableMotionTrackingForComponent(const class UMotionControllerComponent* MotionControllerComponent);
+	static void DisableMotionTrackingOfAllControllers();
+	static void DisableMotionTrackingOfControllersForPlayer(int32 PlayerIndex);
+	static void DisableMotionTrackingOfDevice(int32 PlayerIndex, EControllerHand Hand);
+	static void DisableMotionTrackingOfSource(int32 PlayerIndex, class FName SourceName);
+	static bool EnableMotionTrackingForComponent(class UMotionControllerComponent* MotionControllerComponent);
+	static bool EnableMotionTrackingOfDevice(int32 PlayerIndex, EControllerHand Hand);
+	static bool EnableMotionTrackingOfSource(int32 PlayerIndex, class FName SourceName);
+	static TArray<class FName> EnumerateMotionSources();
+	static class FName GetActiveTrackingSystemName();
+	static int32 GetMaximumMotionTrackedControllerCount();
+	static int32 GetMotionTrackingEnabledControllerCount();
+	static bool IsMotionSourceTracking(int32 PlayerIndex, class FName SourceName);
+	static bool IsMotionTrackedDeviceCountManagementNecessary();
+	static bool IsMotionTrackingEnabledForComponent(const class UMotionControllerComponent* MotionControllerComponent);
+	static bool IsMotionTrackingEnabledForDevice(int32 PlayerIndex, EControllerHand Hand);
+	static bool IsMotionTrackingEnabledForSource(int32 PlayerIndex, class FName SourceName);
+	static void SetIsControllerMotionTrackingEnabledByDefault(bool Enable);
+
+public:
+	static class UClass* StaticClass()
+	{
+		STATIC_CLASS_IMPL("MotionTrackedDeviceFunctionLibrary")
+	}
+	static const class FName& StaticName()
+	{
+		STATIC_NAME_IMPL(L"MotionTrackedDeviceFunctionLibrary")
+	}
+	static class UMotionTrackedDeviceFunctionLibrary* GetDefaultObj()
+	{
+		return GetDefaultObjImpl<UMotionTrackedDeviceFunctionLibrary>();
+	}
+};
+DUMPER7_ASSERTS_UMotionTrackedDeviceFunctionLibrary;
+
 // Class HeadMountedDisplay.XRAssetFunctionLibrary
 // 0x0000 (0x0028 - 0x0028)
 class UXRAssetFunctionLibrary final : public UBlueprintFunctionLibrary
@@ -289,33 +316,6 @@ public:
 	}
 };
 DUMPER7_ASSERTS_UAsyncTask_LoadXRDeviceVisComponent;
-
-// Class HeadMountedDisplay.XRLoadingScreenFunctionLibrary
-// 0x0000 (0x0028 - 0x0028)
-class UXRLoadingScreenFunctionLibrary final : public UBlueprintFunctionLibrary
-{
-public:
-	static void AddLoadingScreenSplash(class UTexture* Texture, const struct FVector& Translation, const struct FRotator& Rotation, const struct FVector2D& Size, const struct FRotator& DeltaRotation, bool bClearBeforeAdd);
-	static void ClearLoadingScreenSplashes();
-	static void HideLoadingScreen();
-	static void SetLoadingScreen(class UTexture* Texture, const struct FVector2D& Scale, const struct FVector& Offset, bool bShowLoadingMovie, bool bShowOnSet);
-	static void ShowLoadingScreen();
-
-public:
-	static class UClass* StaticClass()
-	{
-		STATIC_CLASS_IMPL("XRLoadingScreenFunctionLibrary")
-	}
-	static const class FName& StaticName()
-	{
-		STATIC_NAME_IMPL(L"XRLoadingScreenFunctionLibrary")
-	}
-	static class UXRLoadingScreenFunctionLibrary* GetDefaultObj()
-	{
-		return GetDefaultObjImpl<UXRLoadingScreenFunctionLibrary>();
-	}
-};
-DUMPER7_ASSERTS_UXRLoadingScreenFunctionLibrary;
 
 }
 

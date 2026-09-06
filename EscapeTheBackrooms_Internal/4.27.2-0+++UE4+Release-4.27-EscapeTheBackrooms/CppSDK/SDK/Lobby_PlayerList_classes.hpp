@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
+#include "UMG_classes.hpp"
 #include "S_ConnectedPlayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "AdvancedSessions_structs.hpp"
-#include "UMG_classes.hpp"
 
 
 namespace SDK

@@ -14,8 +14,8 @@
 #include "Engine_classes.hpp"
 #include "AnimGraphRuntime_structs.hpp"
 #include "HorrorEngineSettings_structs.hpp"
-#include "FootstepActionsEnum_structs.hpp"
 #include "PhysicsCore_structs.hpp"
+#include "FootstepActionsEnum_structs.hpp"
 
 
 namespace SDK

@@ -10,10 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "Backrooms_structs.hpp"
-#include "EN_ItemRarity_structs.hpp"
-#include "CoreUObject_structs.hpp"
 #include "ST_Item_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "EN_ItemRarity_structs.hpp"
 #include "SlateCore_structs.hpp"
 
 
@@ -56,7 +55,7 @@ public:
 	bool                                          CallFunc_NotEqual_ByteByte_ReturnValue_1;          // 0x0164(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 	uint8                                         Pad_165[0x3];                                      // 0x0165(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FSlateColor                            K2Node_MakeStruct_SlateColor;                      // 0x0168(0x0028)()
-	EEventType                                    K2Node_CustomEvent_EventType;                      // 0x0190(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         K2Node_CustomEvent_EventType;                      // 0x0190(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	bool                                          K2Node_Event_Enable;                               // 0x0191(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 };
 DUMPER7_ASSERTS_BP_DroppedItem_C_ExecuteUbergraph_BP_DroppedItem;
@@ -75,7 +74,7 @@ DUMPER7_ASSERTS_BP_DroppedItem_C_ToggleEvent;
 struct BP_DroppedItem_C_OnEventLoaded final
 {
 public:
-	EEventType                                    EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	uint8                                         EventType;                                         // 0x0000(0x0001)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 };
 DUMPER7_ASSERTS_BP_DroppedItem_C_OnEventLoaded;
 

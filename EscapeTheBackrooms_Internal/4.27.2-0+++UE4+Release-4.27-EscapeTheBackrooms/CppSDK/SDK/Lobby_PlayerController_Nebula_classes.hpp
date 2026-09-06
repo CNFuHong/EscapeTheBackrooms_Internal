@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
+#include "UMG_structs.hpp"
 #include "S_ConnectedPlayer_structs.hpp"
 #include "Engine_structs.hpp"
 #include "BP_BasePlayerController_classes.hpp"
-#include "UMG_structs.hpp"
 
 
 namespace SDK
@@ -61,7 +61,6 @@ public:
 	void ResetInputModeToDefault(class UWidget* PreviousFocusedWidget);
 	void OC_Create_MapTravel_Loadingscreen(class FName Map);
 	void OC_KickedFromLobby();
-	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
 	void OC_Update_ConnectedPlayersList(const TArray<struct FS_ConnectedPlayer>& ConnectedPlayers_0);
 	void OC_Update_ServerName(const class FText& ServerName_0);
 	void OC_Launchevent(bool IsLaunchingGame_0);
@@ -92,6 +91,7 @@ public:
 	void Update_Player_Speaking(bool IsSpeaking, const struct FBPUniqueNetId& UniqueId);
 	void IsMissionSelectOpen(bool* Yes);
 	void GetAudioComponentForRemoteSpeaker(const class FString& RemoteId, class UVoipAudioComponent** Component);
+	void ReceiveEndPlay(EEndPlayReason EndPlayReason);
 
 public:
 	static class UClass* StaticClass()

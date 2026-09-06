@@ -153,26 +153,6 @@ void ALobby_PlayerController_Nebula_C::OC_KickedFromLobby()
 }
 
 
-// Function Lobby_PlayerController_Nebula.Lobby_PlayerController_Nebula_C.ReceiveEndPlay
-// (Event, Protected, BlueprintEvent)
-// Parameters:
-// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void ALobby_PlayerController_Nebula_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("Lobby_PlayerController_Nebula_C", "ReceiveEndPlay");
-
-	Params::Lobby_PlayerController_Nebula_C_ReceiveEndPlay Parms{};
-
-	Parms.EndPlayReason = EndPlayReason;
-
-	UObject::ProcessEvent(Func, &Parms);
-}
-
-
 // Function Lobby_PlayerController_Nebula.Lobby_PlayerController_Nebula_C.OC_Update_ConnectedPlayersList
 // (Net, NetReliable, HasOutParams, NetClient, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -731,6 +711,26 @@ void ALobby_PlayerController_Nebula_C::GetAudioComponentForRemoteSpeaker(const c
 
 	if (Component != nullptr)
 		*Component = Parms.Component;
+}
+
+
+// Function Lobby_PlayerController_Nebula.Lobby_PlayerController_Nebula_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void ALobby_PlayerController_Nebula_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("Lobby_PlayerController_Nebula_C", "ReceiveEndPlay");
+
+	Params::Lobby_PlayerController_Nebula_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason = EndPlayReason;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

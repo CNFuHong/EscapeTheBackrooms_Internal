@@ -24,14 +24,14 @@ class UBP_JoinWithLobbyCodeFlow_C final : public UFancyUserFlow
 public:
 	struct FPointerToUberGraphFrame               UberGraphFrame;                                    // 0x00A8(0x0008)(ZeroConstructor, Transient, DuplicateTransient)
 	class UWidget*                                PrevFocusedWidget;                                 // 0x00B0(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-	bool                                          bDidAttemptToEnterLobby;                           // 0x00B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	bool                                          bSuccessfullyEnteredLobby;                         // 0x00B8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 
 public:
 	void ExecuteUbergraph_BP_JoinWithLobbyCodeFlow(int32 EntryPoint);
+	void Run();
+	void OnComplete(class UUserWidget* Modal);
 	void ExitFlow();
 	void PrepareModal(class UUserWidget* Modal);
-	void OnComplete(class UUserWidget* Modal);
-	void Run();
 
 public:
 	static class UClass* StaticClass()

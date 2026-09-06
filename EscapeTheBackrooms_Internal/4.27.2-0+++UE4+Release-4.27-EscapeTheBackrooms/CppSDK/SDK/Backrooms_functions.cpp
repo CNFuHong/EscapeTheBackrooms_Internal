@@ -17,6 +17,75 @@
 namespace SDK
 {
 
+// Function Backrooms.FancyUserControllerSystem.GetActiveUserIcon
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// struct FSlateBrush                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
+
+struct FSlateBrush UFancyUserControllerSystem::GetActiveUserIcon()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserControllerSystem", "GetActiveUserIcon");
+
+	Params::FancyUserControllerSystem_GetActiveUserIcon Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyUserControllerSystem.InitiateEOSLogin
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyUserControllerSystem::InitiateEOSLogin()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserControllerSystem", "InitiateEOSLogin");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserControllerSystem.IsConnectToInternet
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyUserControllerSystem::IsConnectToInternet() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserControllerSystem", "IsConnectToInternet");
+
+	Params::FancyUserControllerSystem_IsConnectToInternet Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function Backrooms.InteractablePawn.BlockUsage
 // (Native, Public, BlueprintCallable)
 
@@ -81,6 +150,25 @@ void AInteractablePawn::OnHiddenPossess(class ACharacter* Character)
 	Func->FunctionFlags |= 0x400;
 
 	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.InteractablePawn.OnPermanentlyDisabled
+// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
+
+void AInteractablePawn::OnPermanentlyDisabled()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("InteractablePawn", "OnPermanentlyDisabled");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
 }
@@ -409,6 +497,147 @@ void AInteractablePawn::ToggleMouse(bool bHide)
 }
 
 
+// Function Backrooms.FancySaveSubsystem.DeleteGameInSlot
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancySaveSubsystem::DeleteGameInSlot(const class FString& SlotName)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancySaveSubsystem", "DeleteGameInSlot");
+
+	Params::FancySaveSubsystem_DeleteGameInSlot Parms{};
+
+	Parms.SlotName = std::move(SlotName);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancySaveSubsystem.DoesSaveGameExist
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancySaveSubsystem::DoesSaveGameExist(const class FString& SlotName)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancySaveSubsystem", "DoesSaveGameExist");
+
+	Params::FancySaveSubsystem_DoesSaveGameExist Parms{};
+
+	Parms.SlotName = std::move(SlotName);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancySaveSubsystem.LoadGameFromSlot
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class USaveGame*                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class USaveGame* UFancySaveSubsystem::LoadGameFromSlot(const class FString& SlotName)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancySaveSubsystem", "LoadGameFromSlot");
+
+	Params::FancySaveSubsystem_LoadGameFromSlot Parms{};
+
+	Parms.SlotName = std::move(SlotName);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancySaveSubsystem.SaveGameToCache
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class USaveGame*                        SaveGame                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancySaveSubsystem::SaveGameToCache(const class FString& SlotName, class USaveGame* SaveGame)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancySaveSubsystem", "SaveGameToCache");
+
+	Params::FancySaveSubsystem_SaveGameToCache Parms{};
+
+	Parms.SlotName = std::move(SlotName);
+	Parms.SaveGame = SaveGame;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancySaveSubsystem.SaveGameToDisk
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class USaveGame*                        SaveGame                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancySaveSubsystem::SaveGameToDisk(const class FString& SlotName, class USaveGame* SaveGame)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancySaveSubsystem", "SaveGameToDisk");
+
+	Params::FancySaveSubsystem_SaveGameToDisk Parms{};
+
+	Parms.SlotName = std::move(SlotName);
+	Parms.SaveGame = SaveGame;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function Backrooms.FancyPlayerController.ClientHUDInit
 // (BlueprintCosmetic, Event, Protected, BlueprintEvent)
 
@@ -542,49 +771,24 @@ EInputMode AFancyPlayerController::GetInputMode() const
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.BudgeFlow
-// (Final, Native, Static, Public, BlueprintCallable)
+// Function Backrooms.FancySessionUtilsLibrary.CreateSessionPropertyKeyPair_BoolVal
+// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContext                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      Name_0                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    Val                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FSessionPropertyKeyPair          ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
-void UFancyUserFlowSubsystem::BudgeFlow(class UObject* WorldContext, class UFancyUserFlow* Flow)
+struct FSessionPropertyKeyPair UFancySessionUtilsLibrary::CreateSessionPropertyKeyPair_BoolVal(const class FName& Name_0, bool Val)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "BudgeFlow");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionPropertyKeyPair_BoolVal");
 
-	Params::FancyUserFlowSubsystem_BudgeFlow Parms{};
+	Params::FancySessionUtilsLibrary_CreateSessionPropertyKeyPair_BoolVal Parms{};
 
-	Parms.WorldContext = WorldContext;
-	Parms.Flow = Flow;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlowSubsystem.IsAnyFancyFlowInProgress
-// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
-// Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UFancyUserFlowSubsystem::IsAnyFancyFlowInProgress(const class UObject* WorldContext)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "IsAnyFancyFlowInProgress");
-
-	Params::FancyUserFlowSubsystem_IsAnyFancyFlowInProgress Parms{};
-
-	Parms.WorldContext = WorldContext;
+	Parms.Name_0 = Name_0;
+	Parms.Val = Val;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -597,24 +801,24 @@ bool UFancyUserFlowSubsystem::IsAnyFancyFlowInProgress(const class UObject* Worl
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.IsFancyFlowInProgressOrQueued
-// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Function Backrooms.FancySessionUtilsLibrary.CreateSessionPropertyKeyPair_IntVal
+// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// TSoftClassPtr<class UClass>             SoftFlowType                                           (Parm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      Name_0                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   Val                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FSessionPropertyKeyPair          ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
-bool UFancyUserFlowSubsystem::IsFancyFlowInProgressOrQueued(const class UObject* WorldContext, TSoftClassPtr<class UClass> SoftFlowType)
+struct FSessionPropertyKeyPair UFancySessionUtilsLibrary::CreateSessionPropertyKeyPair_IntVal(const class FName& Name_0, int32 Val)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "IsFancyFlowInProgressOrQueued");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionPropertyKeyPair_IntVal");
 
-	Params::FancyUserFlowSubsystem_IsFancyFlowInProgressOrQueued Parms{};
+	Params::FancySessionUtilsLibrary_CreateSessionPropertyKeyPair_IntVal Parms{};
 
-	Parms.WorldContext = WorldContext;
-	Parms.SoftFlowType = SoftFlowType;
+	Parms.Name_0 = Name_0;
+	Parms.Val = Val;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -627,78 +831,24 @@ bool UFancyUserFlowSubsystem::IsFancyFlowInProgressOrQueued(const class UObject*
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.QueueFancyUserFlow
-// (Final, Native, Static, Public, BlueprintCallable)
+// Function Backrooms.FancySessionUtilsLibrary.CreateSessionPropertyKeyPair_StringVal
+// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UObject*                          WorldContext                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FName&                      Name_0                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Val                                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// struct FSessionPropertyKeyPair          ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
-void UFancyUserFlowSubsystem::QueueFancyUserFlow(class UObject* WorldContext, class UFancyUserFlow* Flow)
+struct FSessionPropertyKeyPair UFancySessionUtilsLibrary::CreateSessionPropertyKeyPair_StringVal(const class FName& Name_0, const class FString& Val)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "QueueFancyUserFlow");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionPropertyKeyPair_StringVal");
 
-	Params::FancyUserFlowSubsystem_QueueFancyUserFlow Parms{};
+	Params::FancySessionUtilsLibrary_CreateSessionPropertyKeyPair_StringVal Parms{};
 
-	Parms.WorldContext = WorldContext;
-	Parms.Flow = Flow;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlowSubsystem.ResumeFancyFlows
-// (Final, Native, Static, Public, BlueprintCallable)
-// Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyUserFlowSubsystem::ResumeFancyFlows(const class UObject* WorldContext)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "ResumeFancyFlows");
-
-	Params::FancyUserFlowSubsystem_ResumeFancyFlows Parms{};
-
-	Parms.WorldContext = WorldContext;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlowSubsystem.RunSingleFlowAndWait
-// (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
-// Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FLatentActionInfo&         LatentActionInfo                                       (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// class UFancyUserFlow**                  CompletedFlowOut                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyUserFlowSubsystem::RunSingleFlowAndWait(const class UObject* WorldContext, class UFancyUserFlow* Flow, const struct FLatentActionInfo& LatentActionInfo, class UFancyUserFlow** CompletedFlowOut)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "RunSingleFlowAndWait");
-
-	Params::FancyUserFlowSubsystem_RunSingleFlowAndWait Parms{};
-
-	Parms.WorldContext = WorldContext;
-	Parms.Flow = Flow;
-	Parms.LatentActionInfo = std::move(LatentActionInfo);
+	Parms.Name_0 = Name_0;
+	Parms.Val = std::move(Val);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -707,28 +857,28 @@ void UFancyUserFlowSubsystem::RunSingleFlowAndWait(const class UObject* WorldCon
 
 	Func->FunctionFlags = Flgs;
 
-	if (CompletedFlowOut != nullptr)
-		*CompletedFlowOut = Parms.CompletedFlowOut;
+	return Parms.ReturnValue;
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.WaitForQueuedFancyFlows
-// (Final, Native, Static, Public, BlueprintCallable)
+// Function Backrooms.FancySessionUtilsLibrary.CreateSessionsSearchSetting
+// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
 // Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FLatentActionInfo&         LatentActionInfo                                       (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// EOnlineComparisonOpRedux                CompareOp                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FSessionPropertyKeyPair&   Val                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
+// struct FSessionsSearchSetting           ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
 
-void UFancyUserFlowSubsystem::WaitForQueuedFancyFlows(const class UObject* WorldContext, const struct FLatentActionInfo& LatentActionInfo)
+struct FSessionsSearchSetting UFancySessionUtilsLibrary::CreateSessionsSearchSetting(EOnlineComparisonOpRedux CompareOp, const struct FSessionPropertyKeyPair& Val)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "WaitForQueuedFancyFlows");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionsSearchSetting");
 
-	Params::FancyUserFlowSubsystem_WaitForQueuedFancyFlows Parms{};
+	Params::FancySessionUtilsLibrary_CreateSessionsSearchSetting Parms{};
 
-	Parms.WorldContext = WorldContext;
-	Parms.LatentActionInfo = std::move(LatentActionInfo);
+	Parms.CompareOp = CompareOp;
+	Parms.Val = std::move(Val);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -736,75 +886,89 @@ void UFancyUserFlowSubsystem::WaitForQueuedFancyFlows(const class UObject* World
 	GetDefaultObj()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.CompleteRunningSingleFlow
-// (Final, Native, Private)
+// Function Backrooms.FancySessionUtilsLibrary.GenerateLobbyCode
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   NumCharacters                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UFancyUserFlowSubsystem::CompleteRunningSingleFlow(class UFancyUserFlow* Flow)
+class FString UFancySessionUtilsLibrary::GenerateLobbyCode(int32 NumCharacters)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlowSubsystem", "CompleteRunningSingleFlow");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "GenerateLobbyCode");
 
-	Params::FancyUserFlowSubsystem_CompleteRunningSingleFlow Parms{};
+	Params::FancySessionUtilsLibrary_GenerateLobbyCode Parms{};
 
-	Parms.Flow = Flow;
+	Parms.NumCharacters = NumCharacters;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.HandleFlowComplete
-// (Final, Native, Private)
+// Function Backrooms.FancySessionUtilsLibrary.GetBuildVersionId
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
-// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UFancyUserFlowSubsystem::HandleFlowComplete(class UFancyUserFlow* Flow)
+int32 UFancySessionUtilsLibrary::GetBuildVersionId()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlowSubsystem", "HandleFlowComplete");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "GetBuildVersionId");
 
-	Params::FancyUserFlowSubsystem_HandleFlowComplete Parms{};
-
-	Parms.Flow = Flow;
+	Params::FancySessionUtilsLibrary_GetBuildVersionId Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, &Parms);
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 
-// Function Backrooms.FancyUserFlowSubsystem.RunNextQueuedFancyUserFlow
-// (Final, Native, Private)
+// Function Backrooms.FancySessionUtilsLibrary.GetMaxPlayersForGameMode
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Parameters:
+// class AGameModeBase*                    GameMode                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-void UFancyUserFlowSubsystem::RunNextQueuedFancyUserFlow()
+int32 UFancySessionUtilsLibrary::GetMaxPlayersForGameMode(class AGameModeBase* GameMode)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlowSubsystem", "RunNextQueuedFancyUserFlow");
+		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "GetMaxPlayersForGameMode");
+
+	Params::FancySessionUtilsLibrary_GetMaxPlayersForGameMode Parms{};
+
+	Parms.GameMode = GameMode;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
 
-	UObject::ProcessEvent(Func, nullptr);
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 
@@ -969,10 +1133,10 @@ bool UFancyUserReportingSubsystem::GetAllBlockedPlayers(TArray<struct FBPFancyRe
 // Function Backrooms.FancyUserReportingSubsystem.GetInteractedWithPlayers
 // (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
 // Parameters:
-// TArray<struct FBPUniqueNetId>*          IDs                                                    (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
+// TArray<struct FBPUniqueNetId>*          Ids                                                    (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 // TArray<class FString>*                  Names                                                  (Parm, OutParm, ZeroConstructor, NativeAccessSpecifierPublic)
 
-void UFancyUserReportingSubsystem::GetInteractedWithPlayers(TArray<struct FBPUniqueNetId>* IDs, TArray<class FString>* Names) const
+void UFancyUserReportingSubsystem::GetInteractedWithPlayers(TArray<struct FBPUniqueNetId>* Ids, TArray<class FString>* Names) const
 {
 	static class UFunction* Func = nullptr;
 
@@ -988,8 +1152,8 @@ void UFancyUserReportingSubsystem::GetInteractedWithPlayers(TArray<struct FBPUni
 
 	Func->FunctionFlags = Flgs;
 
-	if (IDs != nullptr)
-		*IDs = std::move(Parms.IDs);
+	if (Ids != nullptr)
+		*Ids = std::move(Parms.Ids);
 
 	if (Names != nullptr)
 		*Names = std::move(Parms.Names);
@@ -1252,6 +1416,240 @@ struct FAimAssistTarget UAimAssistComponent::GetCurrentTargetOrDefault() const
 		Func = Class->GetFunction("AimAssistComponent", "GetCurrentTargetOrDefault");
 
 	Params::AimAssistComponent_GetCurrentTargetOrDefault Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.AddUniquePlayerIdAndCostume
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class APlayerState*               NewPlayerState                                         (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetryEventBuilder::AddUniquePlayerIdAndCostume(const class APlayerState* NewPlayerState)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "AddUniquePlayerIdAndCostume");
+
+	Params::FancyTelemetryEventBuilder_AddUniquePlayerIdAndCostume Parms{};
+
+	Parms.NewPlayerState = NewPlayerState;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.FetchIsPrivateSession
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyTelemetryEventBuilder::FetchIsPrivateSession()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "FetchIsPrivateSession");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.FetchLevelName
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyTelemetryEventBuilder::FetchLevelName()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "FetchLevelName");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.FetchMultiplayerSessionId
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyTelemetryEventBuilder::FetchMultiplayerSessionId()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "FetchMultiplayerSessionId");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.GenerateGuidField
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    Field                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetryEventBuilder::GenerateGuidField(const class FString& Field)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "GenerateGuidField");
+
+	Params::FancyTelemetryEventBuilder_GenerateGuidField Parms{};
+
+	Parms.Field = std::move(Field);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.SetActivitySessionType
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// EFancyActivitySessionType               ActivitySessionType                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetryEventBuilder::SetActivitySessionType(EFancyActivitySessionType ActivitySessionType)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "SetActivitySessionType");
+
+	Params::FancyTelemetryEventBuilder_SetActivitySessionType Parms{};
+
+	Parms.ActivitySessionType = ActivitySessionType;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.SetGameplayActivityEndStatus
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// EFancyGameplayActivityEndStatus         GameplayActivityEndStatus                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetryEventBuilder::SetGameplayActivityEndStatus(EFancyGameplayActivityEndStatus GameplayActivityEndStatus)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "SetGameplayActivityEndStatus");
+
+	Params::FancyTelemetryEventBuilder_SetGameplayActivityEndStatus Parms{};
+
+	Parms.GameplayActivityEndStatus = GameplayActivityEndStatus;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.SetPlayerDisconnectReason
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// EFancyPlayerDisconnectReason            PlayerDisconnectReason                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetryEventBuilder::SetPlayerDisconnectReason(EFancyPlayerDisconnectReason PlayerDisconnectReason)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "SetPlayerDisconnectReason");
+
+	Params::FancyTelemetryEventBuilder_SetPlayerDisconnectReason Parms{};
+
+	Parms.PlayerDisconnectReason = PlayerDisconnectReason;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.SetStringField
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    Field                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Value                                                  (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetryEventBuilder::SetStringField(const class FString& Field, const class FString& Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "SetStringField");
+
+	Params::FancyTelemetryEventBuilder_SetStringField Parms{};
+
+	Parms.Field = std::move(Field);
+	Parms.Value = std::move(Value);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetryEventBuilder.GetEventType
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// EFancyTelemetryEventType                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+EFancyTelemetryEventType UFancyTelemetryEventBuilder::GetEventType() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetryEventBuilder", "GetEventType");
+
+	Params::FancyTelemetryEventBuilder_GetEventType Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -1933,57 +2331,103 @@ void UBackroomsBPFunctionLibrary::SetLogValue(const class FString& Key, const cl
 }
 
 
-// Function Backrooms.FancyUserFlow.CancelAllRunningLatentActions
-// (Final, Native, Private)
-
-void UFancyUserFlow::CancelAllRunningLatentActions()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "CancelAllRunningLatentActions");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.Complete
-// (Final, Native, Protected, BlueprintCallable)
-
-void UFancyUserFlow::Complete()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "Complete");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.GetFocusedWidget
-// (Final, Native, Protected, BlueprintCallable)
+// Function Backrooms.FancyTelemetrySubsystem.OnEOSLoginComplete
+// (Final, Native, Protected)
 // Parameters:
-// class UWidget*                          ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    bSuccess                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UWidget* UFancyUserFlow::GetFocusedWidget()
+void UFancyTelemetrySubsystem::OnEOSLoginComplete(bool bSuccess)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "GetFocusedWidget");
+		Func = Class->GetFunction("FancyTelemetrySubsystem", "OnEOSLoginComplete");
 
-	Params::FancyUserFlow_GetFocusedWidget Parms{};
+	Params::FancyTelemetrySubsystem_OnEOSLoginComplete Parms{};
+
+	Parms.bSuccess = bSuccess;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetrySubsystem.OnTelemetryFailure
+// (Final, Native, Protected)
+// Parameters:
+// const struct FPlayFabError&             Error                                                  (Parm, NativeAccessSpecifierPublic)
+// class UObject*                          customData                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetrySubsystem::OnTelemetryFailure(const struct FPlayFabError& Error, class UObject* customData)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetrySubsystem", "OnTelemetryFailure");
+
+	Params::FancyTelemetrySubsystem_OnTelemetryFailure Parms{};
+
+	Parms.Error = std::move(Error);
+	Parms.customData = customData;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetrySubsystem.OnTelemetrySuccess
+// (Final, Native, Protected)
+// Parameters:
+// const struct FEventsWriteEventsResponse&Result                                                 (Parm, NativeAccessSpecifierPublic)
+// class UObject*                          customData                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyTelemetrySubsystem::OnTelemetrySuccess(const struct FEventsWriteEventsResponse& Result, class UObject* customData)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetrySubsystem", "OnTelemetrySuccess");
+
+	Params::FancyTelemetrySubsystem_OnTelemetrySuccess Parms{};
+
+	Parms.Result = std::move(Result);
+	Parms.customData = customData;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyTelemetrySubsystem.RequestTelemetryEventBuilder
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// EFancyTelemetryEventType                EventType                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyTelemetryEventBuilder*      MatchingEventBuilder                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyTelemetryEventBuilder*      ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UFancyTelemetryEventBuilder* UFancyTelemetrySubsystem::RequestTelemetryEventBuilder(EFancyTelemetryEventType EventType, class UFancyTelemetryEventBuilder* MatchingEventBuilder)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyTelemetrySubsystem", "RequestTelemetryEventBuilder");
+
+	Params::FancyTelemetrySubsystem_RequestTelemetryEventBuilder Parms{};
+
+	Parms.EventType = EventType;
+	Parms.MatchingEventBuilder = MatchingEventBuilder;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -1996,193 +2440,21 @@ class UWidget* UFancyUserFlow::GetFocusedWidget()
 }
 
 
-// Function Backrooms.FancyUserFlow.GetGameInstance
-// (Final, Native, Protected, BlueprintCallable, BlueprintPure)
+// Function Backrooms.FancyTelemetrySubsystem.SendTelemetryEvent
+// (Final, Native, Public, BlueprintCallable)
 // Parameters:
-// TSubclassOf<class UGameInstance>        GameInstanceType                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UGameInstance*                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyTelemetryEventBuilder*      EventBuilder                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-class UGameInstance* UFancyUserFlow::GetGameInstance(TSubclassOf<class UGameInstance> GameInstanceType)
+void UFancyTelemetrySubsystem::SendTelemetryEvent(class UFancyTelemetryEventBuilder* EventBuilder)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "GetGameInstance");
+		Func = Class->GetFunction("FancyTelemetrySubsystem", "SendTelemetryEvent");
 
-	Params::FancyUserFlow_GetGameInstance Parms{};
+	Params::FancyTelemetrySubsystem_SendTelemetryEvent Parms{};
 
-	Parms.GameInstanceType = GameInstanceType;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancyUserFlow.HandleInterrupted
-// (Native, Event, Public, BlueprintEvent)
-
-void UFancyUserFlow::HandleInterrupted()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "HandleInterrupted");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.ResetInputModeToGameModeDefault
-// (Final, Native, Protected, BlueprintCallable)
-// Parameters:
-// class UWidget*                          OverrideWidgetFocus                                    (Parm, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyUserFlow::ResetInputModeToGameModeDefault(class UWidget* OverrideWidgetFocus)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "ResetInputModeToGameModeDefault");
-
-	Params::FancyUserFlow_ResetInputModeToGameModeDefault Parms{};
-
-	Parms.OverrideWidgetFocus = OverrideWidgetFocus;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.Resume
-// (Final, Native, Private)
-
-void UFancyUserFlow::Resume()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "Resume");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.ReturnToMainMenu
-// (Final, Native, Protected, BlueprintCallable)
-// Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
-
-void UFancyUserFlow::ReturnToMainMenu(const class UObject* WorldContext, const struct FLatentActionInfo& LatentInfo)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "ReturnToMainMenu");
-
-	Params::FancyUserFlow_ReturnToMainMenu Parms{};
-
-	Parms.WorldContext = WorldContext;
-	Parms.LatentInfo = std::move(LatentInfo);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.Run
-// (Native, Event, Public, BlueprintEvent)
-
-void UFancyUserFlow::Run()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "Run");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyUserFlow.RunSubFlow
-// (Final, Native, Protected, HasOutParams, BlueprintCallable)
-// Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class UFancyUserFlow*                   FancyUserFlow                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
-// class UFancyUserFlow**                  CompletedFlowOut                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyUserFlow::RunSubFlow(const class UObject* WorldContext, class UFancyUserFlow* FancyUserFlow, const struct FLatentActionInfo& LatentInfo, class UFancyUserFlow** CompletedFlowOut)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "RunSubFlow");
-
-	Params::FancyUserFlow_RunSubFlow Parms{};
-
-	Parms.WorldContext = WorldContext;
-	Parms.FancyUserFlow = FancyUserFlow;
-	Parms.LatentInfo = std::move(LatentInfo);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	if (CompletedFlowOut != nullptr)
-		*CompletedFlowOut = Parms.CompletedFlowOut;
-}
-
-
-// Function Backrooms.FancyUserFlow.ShowNonModalMessage
-// (Final, Native, Protected, BlueprintCallable)
-// Parameters:
-// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const class FText&                      Message                                                (ConstParm, Parm, NativeAccessSpecifierPublic)
-
-void UFancyUserFlow::ShowNonModalMessage(const class UObject* WorldContext, const class FText& Message)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserFlow", "ShowNonModalMessage");
-
-	Params::FancyUserFlow_ShowNonModalMessage Parms{};
-
-	Parms.WorldContext = WorldContext;
-	Parms.Message = std::move(Message);
+	Parms.EventBuilder = EventBuilder;
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -2697,140 +2969,6 @@ void AInteractableActor::ResetUsage()
 }
 
 
-// Function Backrooms.FancyVideoSubsystem.PauseVideo
-// (Final, Native, Public, BlueprintCallable)
-
-void UFancyVideoSubsystem::PauseVideo()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVideoSubsystem", "PauseVideo");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVideoSubsystem.PlayVideo
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    MediaFileName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    AddToQueue                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyVideoSubsystem::PlayVideo(const class FString& MediaFileName, bool AddToQueue)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVideoSubsystem", "PlayVideo");
-
-	Params::FancyVideoSubsystem_PlayVideo Parms{};
-
-	Parms.MediaFileName = std::move(MediaFileName);
-	Parms.AddToQueue = AddToQueue;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVideoSubsystem.SkipVideo
-// (Final, Native, Public, BlueprintCallable)
-
-void UFancyVideoSubsystem::SkipVideo()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVideoSubsystem", "SkipVideo");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVideoSubsystem.StopVideo
-// (Final, Native, Public, BlueprintCallable)
-
-void UFancyVideoSubsystem::StopVideo()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVideoSubsystem", "StopVideo");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVideoSubsystem.GetActiveVideoPlayer
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// class AFancyVideoPlayer*                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class AFancyVideoPlayer* UFancyVideoSubsystem::GetActiveVideoPlayer() const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVideoSubsystem", "GetActiveVideoPlayer");
-
-	Params::FancyVideoSubsystem_GetActiveVideoPlayer Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancyVideoSubsystem.IsPlaying
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UFancyVideoSubsystem::IsPlaying() const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVideoSubsystem", "IsPlaying");
-
-	Params::FancyVideoSubsystem_IsPlaying Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
 // Function Backrooms.ClientInteractableActor.OnUsed
 // (Native, Event, Public, BlueprintEvent)
 
@@ -2866,6 +3004,34 @@ void AClientInteractablePawn::OnUsed()
 	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.Costume.GetCostumeSourceDisplayName
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Parameters:
+// const class UCostume*                   Costume                                                (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class FString UCostume::GetCostumeSourceDisplayName(const class UCostume* Costume)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("Costume", "GetCostumeSourceDisplayName");
+
+	Params::Costume_GetCostumeSourceDisplayName Parms{};
+
+	Parms.Costume = Costume;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
 }
 
 
@@ -3513,204 +3679,6 @@ void ICostumeSelectorWidget::ShowLoadingWheel()
 		Func = AsUObject()->Class->GetFunction("CostumeSelectorWidget", "ShowLoadingWheel");
 
 	AsUObject()->ProcessEvent(Func, nullptr);
-}
-
-
-// Function Backrooms.FancyVotingComponent.ChangeVoteServer
-// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
-// Parameters:
-// class APlayerState*                     PlayerState                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    NewVote                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyVotingComponent::ChangeVoteServer(class APlayerState* PlayerState, bool NewVote)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "ChangeVoteServer");
-
-	Params::FancyVotingComponent_ChangeVoteServer Parms{};
-
-	Parms.PlayerState = PlayerState;
-	Parms.NewVote = NewVote;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVotingComponent.CheckVoteFinishedCondition
-// (Native, Protected, BlueprintCallable, BlueprintPure)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UFancyVotingComponent::CheckVoteFinishedCondition()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "CheckVoteFinishedCondition");
-
-	Params::FancyVotingComponent_CheckVoteFinishedCondition Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancyVotingComponent.FinishVoteMulticast
-// (Net, NetReliable, Native, Event, NetMulticast, Public)
-// Parameters:
-// bool                                    Result                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyVotingComponent::FinishVoteMulticast(bool Result)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "FinishVoteMulticast");
-
-	Params::FancyVotingComponent_FinishVoteMulticast Parms{};
-
-	Parms.Result = Result;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVotingComponent.FinishVoteServer
-// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
-
-void UFancyVotingComponent::FinishVoteServer()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "FinishVoteServer");
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, nullptr);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVotingComponent.StartVoteMulticast
-// (Net, NetReliable, Native, Event, NetMulticast, Public)
-// Parameters:
-// const struct FVoteParameters&           VoteParameters                                         (Parm, NoDestructor, NativeAccessSpecifierPublic)
-
-void UFancyVotingComponent::StartVoteMulticast(const struct FVoteParameters& VoteParameters)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "StartVoteMulticast");
-
-	Params::FancyVotingComponent_StartVoteMulticast Parms{};
-
-	Parms.VoteParameters = std::move(VoteParameters);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVotingComponent.StartVoteServer
-// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
-// Parameters:
-// const struct FVoteParameters&           VoteParameters                                         (Parm, NoDestructor, NativeAccessSpecifierPublic)
-
-void UFancyVotingComponent::StartVoteServer(const struct FVoteParameters& VoteParameters)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "StartVoteServer");
-
-	Params::FancyVotingComponent_StartVoteServer Parms{};
-
-	Parms.VoteParameters = std::move(VoteParameters);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVotingComponent.VoteUpdated
-// (Net, NetReliable, Native, Event, NetMulticast, Protected)
-// Parameters:
-// class APlayerState*                     PlayerState                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    NewVote                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancyVotingComponent::VoteUpdated(class APlayerState* PlayerState, bool NewVote)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "VoteUpdated");
-
-	Params::FancyVotingComponent_VoteUpdated Parms{};
-
-	Parms.PlayerState = PlayerState;
-	Parms.NewVote = NewVote;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancyVotingComponent.IsVotingActive
-// (Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UFancyVotingComponent::IsVotingActive() const
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyVotingComponent", "IsVotingActive");
-
-	Params::FancyVotingComponent_IsVotingActive Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
 }
 
 
@@ -4647,6 +4615,58 @@ class UFancyCheckPrivilegeProxy* UFancyCheckPrivilegeProxy::CheckPrivilege(class
 }
 
 
+// Function Backrooms.FancyConfigOverrideSubsystem.ClearSecondaryScreenPercentageOverride
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// uint8                                   Priority                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyConfigOverrideSubsystem::ClearSecondaryScreenPercentageOverride(uint8 Priority)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyConfigOverrideSubsystem", "ClearSecondaryScreenPercentageOverride");
+
+	Params::FancyConfigOverrideSubsystem_ClearSecondaryScreenPercentageOverride Parms{};
+
+	Parms.Priority = Priority;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyConfigOverrideSubsystem.SetSecondaryScreenPercentageOverride
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// uint8                                   Priority                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// float                                   Value                                                  (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyConfigOverrideSubsystem::SetSecondaryScreenPercentageOverride(uint8 Priority, float Value)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyConfigOverrideSubsystem", "SetSecondaryScreenPercentageOverride");
+
+	Params::FancyConfigOverrideSubsystem_SetSecondaryScreenPercentageOverride Parms{};
+
+	Parms.Priority = Priority;
+	Parms.Value = Value;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
 // Function Backrooms.FancyCustomModal.BindCustomModalCompleteCallback
 // (Event, Public, HasOutParams, BlueprintEvent)
 // Parameters:
@@ -4690,6 +4710,62 @@ class UFancyDestroySessionCallbackProxy* UFancyDestroySessionCallbackProxy::Fanc
 	Func->FunctionFlags |= 0x400;
 
 	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyDLCSubsystem.DoesUserHaveDLC
+// (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// const struct FGameplayTag&              DLCTag                                                 (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyDLCSubsystem::DoesUserHaveDLC(const struct FGameplayTag& DLCTag) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyDLCSubsystem", "DoesUserHaveDLC");
+
+	Params::FancyDLCSubsystem_DoesUserHaveDLC Parms{};
+
+	Parms.DLCTag = std::move(DLCTag);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyDLCSubsystem.InvokeStoreForDLC
+// (Final, Native, Public, HasOutParams, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// const struct FGameplayTag&              DLCTag                                                 (ConstParm, Parm, OutParm, ReferenceParm, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyDLCSubsystem::InvokeStoreForDLC(const struct FGameplayTag& DLCTag) const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyDLCSubsystem", "InvokeStoreForDLC");
+
+	Params::FancyDLCSubsystem_InvokeStoreForDLC Parms{};
+
+	Parms.DLCTag = std::move(DLCTag);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
 
 	Func->FunctionFlags = Flgs;
 
@@ -5027,6 +5103,26 @@ void UFancyGameInstance::ResetAchievements()
 	UObject::ProcessEvent(Func, nullptr);
 
 	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyGameInstance.ResolveGameplayActivityEndStatusEvent
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// const class FString&                    PendingMapOptions                                      (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyGameInstance::ResolveGameplayActivityEndStatusEvent(const class FString& PendingMapOptions)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyGameInstance", "ResolveGameplayActivityEndStatusEvent");
+
+	Params::FancyGameInstance_ResolveGameplayActivityEndStatusEvent Parms{};
+
+	Parms.PendingMapOptions = std::move(PendingMapOptions);
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -7050,6 +7146,31 @@ bool UFancyPlatformUtilsLibrary::IsOnXboxSeriesPlatform()
 }
 
 
+// Function Backrooms.FancyPlatformUtilsLibrary.IsOnXboxSeriesS
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyPlatformUtilsLibrary::IsOnXboxSeriesS()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyPlatformUtilsLibrary", "IsOnXboxSeriesS");
+
+	Params::FancyPlatformUtilsLibrary_IsOnXboxSeriesS Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function Backrooms.FancyPlatformUtilsLibrary.IsShippingBuild
 // (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
 // Parameters:
@@ -7573,382 +7694,15 @@ void UFancySaveIndicatorSubsystem::HandleDiskWritingStateChanged(bool bIsWriting
 }
 
 
-// Function Backrooms.FancySaveSubsystem.DeleteGameInSlot
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// Function Backrooms.FancyUserFlow.CancelAllRunningLatentActions
+// (Final, Native, Private)
 
-bool UFancySaveSubsystem::DeleteGameInSlot(const class FString& SlotName)
+void UFancyUserFlow::CancelAllRunningLatentActions()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancySaveSubsystem", "DeleteGameInSlot");
-
-	Params::FancySaveSubsystem_DeleteGameInSlot Parms{};
-
-	Parms.SlotName = std::move(SlotName);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySaveSubsystem.DoesSaveGameExist
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UFancySaveSubsystem::DoesSaveGameExist(const class FString& SlotName)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancySaveSubsystem", "DoesSaveGameExist");
-
-	Params::FancySaveSubsystem_DoesSaveGameExist Parms{};
-
-	Parms.SlotName = std::move(SlotName);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySaveSubsystem.LoadGameFromSlot
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class USaveGame*                        ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class USaveGame* UFancySaveSubsystem::LoadGameFromSlot(const class FString& SlotName)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancySaveSubsystem", "LoadGameFromSlot");
-
-	Params::FancySaveSubsystem_LoadGameFromSlot Parms{};
-
-	Parms.SlotName = std::move(SlotName);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySaveSubsystem.SaveGameToCache
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class USaveGame*                        SaveGame                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-void UFancySaveSubsystem::SaveGameToCache(const class FString& SlotName, class USaveGame* SaveGame)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancySaveSubsystem", "SaveGameToCache");
-
-	Params::FancySaveSubsystem_SaveGameToCache Parms{};
-
-	Parms.SlotName = std::move(SlotName);
-	Parms.SaveGame = SaveGame;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-}
-
-
-// Function Backrooms.FancySaveSubsystem.SaveGameToDisk
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// const class FString&                    SlotName                                               (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class USaveGame*                        SaveGame                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-bool UFancySaveSubsystem::SaveGameToDisk(const class FString& SlotName, class USaveGame* SaveGame)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancySaveSubsystem", "SaveGameToDisk");
-
-	Params::FancySaveSubsystem_SaveGameToDisk Parms{};
-
-	Parms.SlotName = std::move(SlotName);
-	Parms.SaveGame = SaveGame;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.CreateSessionPropertyKeyPair_BoolVal
-// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
-// Parameters:
-// const class FName&                      Name_0                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// bool                                    Val                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FSessionPropertyKeyPair          ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
-
-struct FSessionPropertyKeyPair UFancySessionUtilsLibrary::CreateSessionPropertyKeyPair_BoolVal(const class FName& Name_0, bool Val)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionPropertyKeyPair_BoolVal");
-
-	Params::FancySessionUtilsLibrary_CreateSessionPropertyKeyPair_BoolVal Parms{};
-
-	Parms.Name_0 = Name_0;
-	Parms.Val = Val;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.CreateSessionPropertyKeyPair_IntVal
-// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
-// Parameters:
-// const class FName&                      Name_0                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   Val                                                    (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FSessionPropertyKeyPair          ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
-
-struct FSessionPropertyKeyPair UFancySessionUtilsLibrary::CreateSessionPropertyKeyPair_IntVal(const class FName& Name_0, int32 Val)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionPropertyKeyPair_IntVal");
-
-	Params::FancySessionUtilsLibrary_CreateSessionPropertyKeyPair_IntVal Parms{};
-
-	Parms.Name_0 = Name_0;
-	Parms.Val = Val;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.CreateSessionPropertyKeyPair_StringVal
-// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
-// Parameters:
-// const class FName&                      Name_0                                                 (ConstParm, Parm, OutParm, ZeroConstructor, ReferenceParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const class FString&                    Val                                                    (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// struct FSessionPropertyKeyPair          ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
-
-struct FSessionPropertyKeyPair UFancySessionUtilsLibrary::CreateSessionPropertyKeyPair_StringVal(const class FName& Name_0, const class FString& Val)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionPropertyKeyPair_StringVal");
-
-	Params::FancySessionUtilsLibrary_CreateSessionPropertyKeyPair_StringVal Parms{};
-
-	Parms.Name_0 = Name_0;
-	Parms.Val = std::move(Val);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.CreateSessionsSearchSetting
-// (Final, Native, Static, Public, HasOutParams, BlueprintCallable, BlueprintPure)
-// Parameters:
-// EOnlineComparisonOpRedux                CompareOp                                              (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// const struct FSessionPropertyKeyPair&   Val                                                    (ConstParm, Parm, OutParm, ReferenceParm, NativeAccessSpecifierPublic)
-// struct FSessionsSearchSetting           ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
-
-struct FSessionsSearchSetting UFancySessionUtilsLibrary::CreateSessionsSearchSetting(EOnlineComparisonOpRedux CompareOp, const struct FSessionPropertyKeyPair& Val)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "CreateSessionsSearchSetting");
-
-	Params::FancySessionUtilsLibrary_CreateSessionsSearchSetting Parms{};
-
-	Parms.CompareOp = CompareOp;
-	Parms.Val = std::move(Val);
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.GenerateLobbyCode
-// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
-// Parameters:
-// int32                                   NumCharacters                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// class FString                           ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-class FString UFancySessionUtilsLibrary::GenerateLobbyCode(int32 NumCharacters)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "GenerateLobbyCode");
-
-	Params::FancySessionUtilsLibrary_GenerateLobbyCode Parms{};
-
-	Parms.NumCharacters = NumCharacters;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.GetBuildVersionId
-// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
-// Parameters:
-// int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-int32 UFancySessionUtilsLibrary::GetBuildVersionId()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "GetBuildVersionId");
-
-	Params::FancySessionUtilsLibrary_GetBuildVersionId Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancySessionUtilsLibrary.GetMaxPlayersForGameMode
-// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
-// Parameters:
-// class AGameModeBase*                    GameMode                                               (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-// int32                                   ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-
-int32 UFancySessionUtilsLibrary::GetMaxPlayersForGameMode(class AGameModeBase* GameMode)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = StaticClass()->GetFunction("FancySessionUtilsLibrary", "GetMaxPlayersForGameMode");
-
-	Params::FancySessionUtilsLibrary_GetMaxPlayersForGameMode Parms{};
-
-	Parms.GameMode = GameMode;
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	GetDefaultObj()->ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancyUserControllerSystem.GetActiveUserIcon
-// (Final, Native, Public, BlueprintCallable)
-// Parameters:
-// struct FSlateBrush                      ReturnValue                                            (Parm, OutParm, ReturnParm, NativeAccessSpecifierPublic)
-
-struct FSlateBrush UFancyUserControllerSystem::GetActiveUserIcon()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserControllerSystem", "GetActiveUserIcon");
-
-	Params::FancyUserControllerSystem_GetActiveUserIcon Parms{};
-
-	auto Flgs = Func->FunctionFlags;
-	Func->FunctionFlags |= 0x400;
-
-	UObject::ProcessEvent(Func, &Parms);
-
-	Func->FunctionFlags = Flgs;
-
-	return Parms.ReturnValue;
-}
-
-
-// Function Backrooms.FancyUserControllerSystem.InitiateEOSLogin
-// (Final, Native, Public, BlueprintCallable)
-
-void UFancyUserControllerSystem::InitiateEOSLogin()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserControllerSystem", "InitiateEOSLogin");
+		Func = Class->GetFunction("FancyUserFlow", "CancelAllRunningLatentActions");
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -7959,19 +7713,38 @@ void UFancyUserControllerSystem::InitiateEOSLogin()
 }
 
 
-// Function Backrooms.FancyUserControllerSystem.IsConnectToInternet
-// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
-// Parameters:
-// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// Function Backrooms.FancyUserFlow.Complete
+// (Final, Native, Protected, BlueprintCallable)
 
-bool UFancyUserControllerSystem::IsConnectToInternet() const
+void UFancyUserFlow::Complete()
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("FancyUserControllerSystem", "IsConnectToInternet");
+		Func = Class->GetFunction("FancyUserFlow", "Complete");
 
-	Params::FancyUserControllerSystem_IsConnectToInternet Parms{};
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlow.GetFocusedWidget
+// (Final, Native, Protected, BlueprintCallable)
+// Parameters:
+// class UWidget*                          ReturnValue                                            (ExportObject, Parm, OutParm, ZeroConstructor, ReturnParm, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UWidget* UFancyUserFlow::GetFocusedWidget()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "GetFocusedWidget");
+
+	Params::FancyUserFlow_GetFocusedWidget Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;
@@ -7981,6 +7754,203 @@ bool UFancyUserControllerSystem::IsConnectToInternet() const
 	Func->FunctionFlags = Flgs;
 
 	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyUserFlow.GetGameInstance
+// (Final, Native, Protected, BlueprintCallable, BlueprintPure)
+// Parameters:
+// TSubclassOf<class UGameInstance>        GameInstanceType                                       (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UGameInstance*                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class UGameInstance* UFancyUserFlow::GetGameInstance(TSubclassOf<class UGameInstance> GameInstanceType)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "GetGameInstance");
+
+	Params::FancyUserFlow_GetGameInstance Parms{};
+
+	Parms.GameInstanceType = GameInstanceType;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyUserFlow.HandleInterrupted
+// (Native, Event, Public, BlueprintEvent)
+
+void UFancyUserFlow::HandleInterrupted()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "HandleInterrupted");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlow.ResetInputModeToGameModeDefault
+// (Final, Native, Protected, BlueprintCallable)
+// Parameters:
+// class UWidget*                          OverrideWidgetFocus                                    (Parm, ZeroConstructor, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlow::ResetInputModeToGameModeDefault(class UWidget* OverrideWidgetFocus)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "ResetInputModeToGameModeDefault");
+
+	Params::FancyUserFlow_ResetInputModeToGameModeDefault Parms{};
+
+	Parms.OverrideWidgetFocus = OverrideWidgetFocus;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlow.Resume
+// (Final, Native, Private)
+
+void UFancyUserFlow::Resume()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "Resume");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlow.ReturnToMainMenu
+// (Final, Native, Protected, BlueprintCallable)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+
+void UFancyUserFlow::ReturnToMainMenu(const class UObject* WorldContext, const struct FLatentActionInfo& LatentInfo)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "ReturnToMainMenu");
+
+	Params::FancyUserFlow_ReturnToMainMenu Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.LatentInfo = std::move(LatentInfo);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlow.Run
+// (Native, Event, Public, BlueprintEvent)
+
+void UFancyUserFlow::Run()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "Run");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlow.RunSubFlow
+// (Final, Native, Protected, HasOutParams, BlueprintCallable)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyUserFlow*                   FancyUserFlow                                          (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentInfo                                             (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// class UFancyUserFlow**                  CompletedFlowOut                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlow::RunSubFlow(const class UObject* WorldContext, class UFancyUserFlow* FancyUserFlow, const struct FLatentActionInfo& LatentInfo, class UFancyUserFlow** CompletedFlowOut)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "RunSubFlow");
+
+	Params::FancyUserFlow_RunSubFlow Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.FancyUserFlow = FancyUserFlow;
+	Parms.LatentInfo = std::move(LatentInfo);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (CompletedFlowOut != nullptr)
+		*CompletedFlowOut = Parms.CompletedFlowOut;
+}
+
+
+// Function Backrooms.FancyUserFlow.ShowNonModalMessage
+// (Final, Native, Protected, BlueprintCallable)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FText&                      Message                                                (ConstParm, Parm, NativeAccessSpecifierPublic)
+
+void UFancyUserFlow::ShowNonModalMessage(const class UObject* WorldContext, const class FText& Message)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlow", "ShowNonModalMessage");
+
+	Params::FancyUserFlow_ShowNonModalMessage Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.Message = std::move(Message);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
 }
 
 
@@ -8021,6 +7991,272 @@ void IFancyUserFlowDelegate::ShowNonModalMessage(const class FText& Message)
 	Parms.Message = std::move(Message);
 
 	AsUObject()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.BudgeFlow
+// (Final, Native, Static, Public, BlueprintCallable)
+// Parameters:
+// class UObject*                          WorldContext                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::BudgeFlow(class UObject* WorldContext, class UFancyUserFlow* Flow)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "BudgeFlow");
+
+	Params::FancyUserFlowSubsystem_BudgeFlow Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.Flow = Flow;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.IsAnyFancyFlowInProgress
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyUserFlowSubsystem::IsAnyFancyFlowInProgress(const class UObject* WorldContext)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "IsAnyFancyFlowInProgress");
+
+	Params::FancyUserFlowSubsystem_IsAnyFancyFlowInProgress Parms{};
+
+	Parms.WorldContext = WorldContext;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.IsFancyFlowInProgressOrQueued
+// (Final, Native, Static, Public, BlueprintCallable, BlueprintPure)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// TSoftClassPtr<class UClass>             SoftFlowType                                           (Parm, UObjectWrapper, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyUserFlowSubsystem::IsFancyFlowInProgressOrQueued(const class UObject* WorldContext, TSoftClassPtr<class UClass> SoftFlowType)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "IsFancyFlowInProgressOrQueued");
+
+	Params::FancyUserFlowSubsystem_IsFancyFlowInProgressOrQueued Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.SoftFlowType = SoftFlowType;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.QueueFancyUserFlow
+// (Final, Native, Static, Public, BlueprintCallable)
+// Parameters:
+// class UObject*                          WorldContext                                           (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::QueueFancyUserFlow(class UObject* WorldContext, class UFancyUserFlow* Flow)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "QueueFancyUserFlow");
+
+	Params::FancyUserFlowSubsystem_QueueFancyUserFlow Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.Flow = Flow;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.ResumeFancyFlows
+// (Final, Native, Static, Public, BlueprintCallable)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::ResumeFancyFlows(const class UObject* WorldContext)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "ResumeFancyFlows");
+
+	Params::FancyUserFlowSubsystem_ResumeFancyFlows Parms{};
+
+	Parms.WorldContext = WorldContext;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.RunSingleFlowAndWait
+// (Final, Native, Static, Public, HasOutParams, BlueprintCallable)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentActionInfo                                       (Parm, NoDestructor, NativeAccessSpecifierPublic)
+// class UFancyUserFlow**                  CompletedFlowOut                                       (Parm, OutParm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::RunSingleFlowAndWait(const class UObject* WorldContext, class UFancyUserFlow* Flow, const struct FLatentActionInfo& LatentActionInfo, class UFancyUserFlow** CompletedFlowOut)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "RunSingleFlowAndWait");
+
+	Params::FancyUserFlowSubsystem_RunSingleFlowAndWait Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.Flow = Flow;
+	Parms.LatentActionInfo = std::move(LatentActionInfo);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	if (CompletedFlowOut != nullptr)
+		*CompletedFlowOut = Parms.CompletedFlowOut;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.WaitForQueuedFancyFlows
+// (Final, Native, Static, Public, BlueprintCallable)
+// Parameters:
+// const class UObject*                    WorldContext                                           (ConstParm, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const struct FLatentActionInfo&         LatentActionInfo                                       (Parm, NoDestructor, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::WaitForQueuedFancyFlows(const class UObject* WorldContext, const struct FLatentActionInfo& LatentActionInfo)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("FancyUserFlowSubsystem", "WaitForQueuedFancyFlows");
+
+	Params::FancyUserFlowSubsystem_WaitForQueuedFancyFlows Parms{};
+
+	Parms.WorldContext = WorldContext;
+	Parms.LatentActionInfo = std::move(LatentActionInfo);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.CompleteRunningSingleFlow
+// (Final, Native, Private)
+// Parameters:
+// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::CompleteRunningSingleFlow(class UFancyUserFlow* Flow)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlowSubsystem", "CompleteRunningSingleFlow");
+
+	Params::FancyUserFlowSubsystem_CompleteRunningSingleFlow Parms{};
+
+	Parms.Flow = Flow;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.HandleFlowComplete
+// (Final, Native, Private)
+// Parameters:
+// class UFancyUserFlow*                   Flow                                                   (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyUserFlowSubsystem::HandleFlowComplete(class UFancyUserFlow* Flow)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlowSubsystem", "HandleFlowComplete");
+
+	Params::FancyUserFlowSubsystem_HandleFlowComplete Parms{};
+
+	Parms.Flow = Flow;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyUserFlowSubsystem.RunNextQueuedFancyUserFlow
+// (Final, Native, Private)
+
+void UFancyUserFlowSubsystem::RunNextQueuedFancyUserFlow()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyUserFlowSubsystem", "RunNextQueuedFancyUserFlow");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
 }
 
 
@@ -8377,6 +8613,140 @@ bool AFancyVideoPlayer::IsPlaying() const
 }
 
 
+// Function Backrooms.FancyVideoSubsystem.PauseVideo
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyVideoSubsystem::PauseVideo()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVideoSubsystem", "PauseVideo");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVideoSubsystem.PlayVideo
+// (Final, Native, Public, BlueprintCallable)
+// Parameters:
+// const class FString&                    MediaFileName                                          (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    AddToQueue                                             (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyVideoSubsystem::PlayVideo(const class FString& MediaFileName, bool AddToQueue)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVideoSubsystem", "PlayVideo");
+
+	Params::FancyVideoSubsystem_PlayVideo Parms{};
+
+	Parms.MediaFileName = std::move(MediaFileName);
+	Parms.AddToQueue = AddToQueue;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVideoSubsystem.SkipVideo
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyVideoSubsystem::SkipVideo()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVideoSubsystem", "SkipVideo");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVideoSubsystem.StopVideo
+// (Final, Native, Public, BlueprintCallable)
+
+void UFancyVideoSubsystem::StopVideo()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVideoSubsystem", "StopVideo");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVideoSubsystem.GetActiveVideoPlayer
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// class AFancyVideoPlayer*                ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+class AFancyVideoPlayer* UFancyVideoSubsystem::GetActiveVideoPlayer() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVideoSubsystem", "GetActiveVideoPlayer");
+
+	Params::FancyVideoSubsystem_GetActiveVideoPlayer Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyVideoSubsystem.IsPlaying
+// (Final, Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyVideoSubsystem::IsPlaying() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVideoSubsystem", "IsPlaying");
+
+	Params::FancyVideoSubsystem_IsPlaying Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
 // Function Backrooms.FancyVoipManagerComponent.TryMuteEOSVoip
 // (Final, Native, Static, Public, BlueprintCallable)
 
@@ -8412,6 +8782,204 @@ bool UFancyVoipManagerComponent::FancyInitVoice(class AController* Controller)
 	Params::FancyVoipManagerComponent_FancyInitVoice Parms{};
 
 	Parms.Controller = Controller;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyVotingComponent.ChangeVoteServer
+// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
+// Parameters:
+// class APlayerState*                     PlayerState                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    NewVote                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyVotingComponent::ChangeVoteServer(class APlayerState* PlayerState, bool NewVote)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "ChangeVoteServer");
+
+	Params::FancyVotingComponent_ChangeVoteServer Parms{};
+
+	Parms.PlayerState = PlayerState;
+	Parms.NewVote = NewVote;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVotingComponent.CheckVoteFinishedCondition
+// (Native, Protected, BlueprintCallable, BlueprintPure)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyVotingComponent::CheckVoteFinishedCondition()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "CheckVoteFinishedCondition");
+
+	Params::FancyVotingComponent_CheckVoteFinishedCondition Parms{};
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+
+	return Parms.ReturnValue;
+}
+
+
+// Function Backrooms.FancyVotingComponent.FinishVoteMulticast
+// (Net, NetReliable, Native, Event, NetMulticast, Public)
+// Parameters:
+// bool                                    Result                                                 (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyVotingComponent::FinishVoteMulticast(bool Result)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "FinishVoteMulticast");
+
+	Params::FancyVotingComponent_FinishVoteMulticast Parms{};
+
+	Parms.Result = Result;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVotingComponent.FinishVoteServer
+// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
+
+void UFancyVotingComponent::FinishVoteServer()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "FinishVoteServer");
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, nullptr);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVotingComponent.StartVoteMulticast
+// (Net, NetReliable, Native, Event, NetMulticast, Public)
+// Parameters:
+// const struct FVoteParameters&           VoteParameters                                         (Parm, NoDestructor, NativeAccessSpecifierPublic)
+
+void UFancyVotingComponent::StartVoteMulticast(const struct FVoteParameters& VoteParameters)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "StartVoteMulticast");
+
+	Params::FancyVotingComponent_StartVoteMulticast Parms{};
+
+	Parms.VoteParameters = std::move(VoteParameters);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVotingComponent.StartVoteServer
+// (Net, NetReliable, Native, Event, Public, NetServer, BlueprintCallable)
+// Parameters:
+// const struct FVoteParameters&           VoteParameters                                         (Parm, NoDestructor, NativeAccessSpecifierPublic)
+
+void UFancyVotingComponent::StartVoteServer(const struct FVoteParameters& VoteParameters)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "StartVoteServer");
+
+	Params::FancyVotingComponent_StartVoteServer Parms{};
+
+	Parms.VoteParameters = std::move(VoteParameters);
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVotingComponent.VoteUpdated
+// (Net, NetReliable, Native, Event, NetMulticast, Protected)
+// Parameters:
+// class APlayerState*                     PlayerState                                            (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// bool                                    NewVote                                                (Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+void UFancyVotingComponent::VoteUpdated(class APlayerState* PlayerState, bool NewVote)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "VoteUpdated");
+
+	Params::FancyVotingComponent_VoteUpdated Parms{};
+
+	Parms.PlayerState = PlayerState;
+	Parms.NewVote = NewVote;
+
+	auto Flgs = Func->FunctionFlags;
+	Func->FunctionFlags |= 0x400;
+
+	UObject::ProcessEvent(Func, &Parms);
+
+	Func->FunctionFlags = Flgs;
+}
+
+
+// Function Backrooms.FancyVotingComponent.IsVotingActive
+// (Native, Public, BlueprintCallable, BlueprintPure, Const)
+// Parameters:
+// bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+
+bool UFancyVotingComponent::IsVotingActive() const
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("FancyVotingComponent", "IsVotingActive");
+
+	Params::FancyVotingComponent_IsVotingActive Parms{};
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

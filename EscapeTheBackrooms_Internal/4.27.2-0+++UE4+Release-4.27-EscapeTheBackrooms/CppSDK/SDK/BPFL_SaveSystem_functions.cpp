@@ -2191,5 +2191,53 @@ class FString UBPFL_SaveSystem_C::GetSlotNameForSaveGameName(const class FString
 	return Parms.ReturnValue;
 }
 
+
+// Function BPFL_SaveSystem.BPFL_SaveSystem_C.SetPlasticMarianaCheckpoint
+// (Static, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// int32                                   Checkpoint                                             (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UBPFL_SaveSystem_C::SetPlasticMarianaCheckpoint(int32 Checkpoint, class UObject* __WorldContext)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("BPFL_SaveSystem_C", "SetPlasticMarianaCheckpoint");
+
+	Params::BPFL_SaveSystem_C_SetPlasticMarianaCheckpoint Parms{};
+
+	Parms.Checkpoint = Checkpoint;
+	Parms.__WorldContext = __WorldContext;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+}
+
+
+// Function BPFL_SaveSystem.BPFL_SaveSystem_C.SetPlasticMarianaFlowerLocations
+// (Static, Public, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// const TMap<class FString, struct FST_FlowerRoomSaveData>&RandomRoomsUsed                                        (BlueprintVisible, BlueprintReadOnly, Parm)
+// const TMap<class FString, struct FST_FlowerRoomSaveData>&RandomSolverRoomsUsed                                  (BlueprintVisible, BlueprintReadOnly, Parm)
+// bool                                    bLoadFromSave                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
+// class UObject*                          __WorldContext                                         (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void UBPFL_SaveSystem_C::SetPlasticMarianaFlowerLocations(const TMap<class FString, struct FST_FlowerRoomSaveData>& RandomRoomsUsed, const TMap<class FString, struct FST_FlowerRoomSaveData>& RandomSolverRoomsUsed, bool bLoadFromSave, class UObject* __WorldContext)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = StaticClass()->GetFunction("BPFL_SaveSystem_C", "SetPlasticMarianaFlowerLocations");
+
+	Params::BPFL_SaveSystem_C_SetPlasticMarianaFlowerLocations Parms{};
+
+	Parms.RandomRoomsUsed = std::move(RandomRoomsUsed);
+	Parms.RandomSolverRoomsUsed = std::move(RandomSolverRoomsUsed);
+	Parms.bLoadFromSave = bLoadFromSave;
+	Parms.__WorldContext = __WorldContext;
+
+	GetDefaultObj()->ProcessEvent(Func, &Parms);
+}
+
 }
 

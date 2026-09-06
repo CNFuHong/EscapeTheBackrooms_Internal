@@ -105,15 +105,6 @@ public:
 };
 DUMPER7_ASSERTS_MP_Level94_C_OnQueryFinish;
 
-// Function MP_Level94.MP_Level94_C.OnPlayerSpawn
-// 0x0008 (0x0008 - 0x0000)
-struct MP_Level94_C_OnPlayerSpawn final
-{
-public:
-	class ABPCharacter_Demo_C*                    Player;                                            // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-};
-DUMPER7_ASSERTS_MP_Level94_C_OnPlayerSpawn;
-
 // Function MP_Level94.MP_Level94_C.UserConstructionScript
 // 0x0001 (0x0001 - 0x0000)
 struct MP_Level94_C_UserConstructionScript final
@@ -140,6 +131,15 @@ public:
 	bool                                          K2Node_SwitchInteger_CmpSuccess;                   // 0x0060(0x0001)(ZeroConstructor, IsPlainOldData, NoDestructor)
 };
 DUMPER7_ASSERTS_MP_Level94_C_LoadCheckpoints;
+
+// Function MP_Level94.MP_Level94_C.OnPlayerSpawn
+// 0x0008 (0x0008 - 0x0000)
+struct MP_Level94_C_OnPlayerSpawn final
+{
+public:
+	class ABPCharacter_Demo_C*                    Player;                                            // 0x0000(0x0008)(BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+};
+DUMPER7_ASSERTS_MP_Level94_C_OnPlayerSpawn;
 
 // Function MP_Level94.MP_Level94_C.ChoosePlayerStart
 // 0x0090 (0x0090 - 0x0000)

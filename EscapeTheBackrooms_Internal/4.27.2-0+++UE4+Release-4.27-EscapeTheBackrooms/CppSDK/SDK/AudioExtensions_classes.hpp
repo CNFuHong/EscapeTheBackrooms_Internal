@@ -16,25 +16,25 @@
 namespace SDK
 {
 
-// Class AudioExtensions.ReverbPluginSourceSettingsBase
+// Class AudioExtensions.SoundModulatorBase
 // 0x0000 (0x0028 - 0x0028)
-class UReverbPluginSourceSettingsBase final : public UObject
+class USoundModulatorBase final : public UObject
 {
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("ReverbPluginSourceSettingsBase")
+		STATIC_CLASS_IMPL("SoundModulatorBase")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"ReverbPluginSourceSettingsBase")
+		STATIC_NAME_IMPL(L"SoundModulatorBase")
 	}
-	static class UReverbPluginSourceSettingsBase* GetDefaultObj()
+	static class USoundModulatorBase* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<UReverbPluginSourceSettingsBase>();
+		return GetDefaultObjImpl<USoundModulatorBase>();
 	}
 };
-DUMPER7_ASSERTS_UReverbPluginSourceSettingsBase;
+DUMPER7_ASSERTS_USoundModulatorBase;
 
 // Class AudioExtensions.SoundfieldEncodingSettingsBase
 // 0x0000 (0x0028 - 0x0028)
@@ -136,25 +136,25 @@ public:
 };
 DUMPER7_ASSERTS_UOcclusionPluginSourceSettingsBase;
 
-// Class AudioExtensions.SoundModulatorBase
+// Class AudioExtensions.ReverbPluginSourceSettingsBase
 // 0x0000 (0x0028 - 0x0028)
-class USoundModulatorBase final : public UObject
+class UReverbPluginSourceSettingsBase final : public UObject
 {
 public:
 	static class UClass* StaticClass()
 	{
-		STATIC_CLASS_IMPL("SoundModulatorBase")
+		STATIC_CLASS_IMPL("ReverbPluginSourceSettingsBase")
 	}
 	static const class FName& StaticName()
 	{
-		STATIC_NAME_IMPL(L"SoundModulatorBase")
+		STATIC_NAME_IMPL(L"ReverbPluginSourceSettingsBase")
 	}
-	static class USoundModulatorBase* GetDefaultObj()
+	static class UReverbPluginSourceSettingsBase* GetDefaultObj()
 	{
-		return GetDefaultObjImpl<USoundModulatorBase>();
+		return GetDefaultObjImpl<UReverbPluginSourceSettingsBase>();
 	}
 };
-DUMPER7_ASSERTS_USoundModulatorBase;
+DUMPER7_ASSERTS_UReverbPluginSourceSettingsBase;
 
 // Class AudioExtensions.SoundfieldEndpointSettingsBase
 // 0x0000 (0x0028 - 0x0028)

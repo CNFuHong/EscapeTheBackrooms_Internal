@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "ST_UI_Mission_structs.hpp"
-#include "UMG_structs.hpp"
-#include "AdvancedSessions_structs.hpp"
-#include "Backrooms_structs.hpp"
 #include "SlateCore_structs.hpp"
-#include "InputCore_structs.hpp"
-#include "E_Difficulty_structs.hpp"
+#include "Backrooms_structs.hpp"
 #include "S_ConnectedPlayer_structs.hpp"
-#include "Engine_structs.hpp"
+#include "UMG_structs.hpp"
+#include "InputCore_structs.hpp"
+#include "AdvancedSessions_structs.hpp"
+#include "ST_UI_Mission_structs.hpp"
 #include "S_Difficulty_structs.hpp"
+#include "E_Difficulty_structs.hpp"
+#include "Engine_structs.hpp"
 #include "E_GameMode_structs.hpp"
 
 
@@ -632,7 +632,7 @@ struct UI_Menu_Lobby_C_UpdatePlayerList final
 {
 public:
 	TArray<struct FS_ConnectedPlayer>             ConnectedPlayers;                                  // 0x0000(0x0010)(BlueprintVisible, BlueprintReadOnly, Parm, OutParm, ReferenceParm, ContainsInstancedReference)
-	TArray<struct FBPUniqueNetId>                 IDs;                                               // 0x0010(0x0010)(Edit, BlueprintVisible)
+	TArray<struct FBPUniqueNetId>                 Ids;                                               // 0x0010(0x0010)(Edit, BlueprintVisible)
 	int32                                         CallFunc_Array_Length_ReturnValue;                 // 0x0020(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Array_Index_Variable;                     // 0x0024(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 	int32                                         Temp_int_Loop_Counter_Variable;                    // 0x0028(0x0004)(ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)

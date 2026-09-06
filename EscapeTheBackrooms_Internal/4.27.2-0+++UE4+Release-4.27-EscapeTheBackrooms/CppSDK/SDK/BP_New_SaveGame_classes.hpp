@@ -10,14 +10,15 @@
 
 #include "Basic.hpp"
 
-#include "S_Glowstick_Data_structs.hpp"
-#include "E_Mailbox_structs.hpp"
-#include "S_PlayerData_structs.hpp"
-#include "S_LevelStats_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "E_Difficulty_structs.hpp"
 #include "S_UploadStatus_structs.hpp"
+#include "E_Mailbox_structs.hpp"
+#include "S_Glowstick_Data_structs.hpp"
+#include "S_LevelStats_structs.hpp"
+#include "E_Difficulty_structs.hpp"
 #include "S_TV_Data_structs.hpp"
+#include "S_PlayerData_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "ST_FlowerRoomSaveData_structs.hpp"
 #include "Engine_classes.hpp"
 
 
@@ -25,7 +26,7 @@ namespace SDK
 {
 
 // BlueprintGeneratedClass BP_New_SaveGame.BP_New_SaveGame_C
-// 0x03D8 (0x0400 - 0x0028)
+// 0x0480 (0x04A8 - 0x0028)
 class UBP_New_SaveGame_C final : public USaveGame
 {
 public:
@@ -147,6 +148,11 @@ public:
 	uint8                                         Pad_3DD[0x3];                                      // 0x03DD(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
 	TArray<bool>                                  SlidesDropped;                                     // 0x03E0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
 	TArray<bool>                                  NPCDropped;                                        // 0x03F0(0x0010)(Edit, BlueprintVisible, DisableEditOnInstance)
+	int32                                         PlasticMarianaCheckpoint;                          // 0x0400(0x0004)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          bLoadPlasticMarianaFromSave;                       // 0x0404(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
+	uint8                                         Pad_405[0x3];                                      // 0x0405(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	TMap<class FString, struct FST_FlowerRoomSaveData> RandomRoomsUsed;                              // 0x0408(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
+	TMap<class FString, struct FST_FlowerRoomSaveData> RandomSolverRoomsUsed;                        // 0x0458(0x0050)(Edit, BlueprintVisible, DisableEditOnInstance)
 
 public:
 	static class UClass* StaticClass()

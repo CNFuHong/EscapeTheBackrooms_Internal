@@ -10,21 +10,21 @@
 
 #include "Basic.hpp"
 
-#include "Backrooms_structs.hpp"
-#include "Backrooms_classes.hpp"
-#include "AdvancedSessions_structs.hpp"
 #include "CoreUObject_structs.hpp"
+#include "AdvancedSessions_structs.hpp"
 #include "E_Difficulty_structs.hpp"
-#include "E_HeadsetType_structs.hpp"
 #include "Engine_structs.hpp"
 #include "E_GameMode_structs.hpp"
+#include "Backrooms_structs.hpp"
+#include "Backrooms_classes.hpp"
+#include "E_HeadsetType_structs.hpp"
 
 
 namespace SDK
 {
 
 // BlueprintGeneratedClass BP_MyGameInstance.BP_MyGameInstance_C
-// 0x01F0 (0x0468 - 0x0278)
+// 0x0208 (0x0480 - 0x0278)
 class UBP_MyGameInstance_C final : public UFancyGameInstance
 {
 public:
@@ -87,16 +87,21 @@ public:
 	uint8                                         Pad_44C[0x4];                                      // 0x044C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
 	struct FDateTime                              LastPrivCheckTime;                                 // 0x0450(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, NoDestructor, HasGetValueTypeHash)
 	TMulticastInlineDelegate<void(bool bSuccess)> OnCheckCrossplayPrivilegeComplete;                 // 0x0458(0x0010)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, BlueprintAssignable, BlueprintCallable)
+	class UFancyTelemetryEventBuilder*            GameplayActivityStartEventBuilder;                 // 0x0468(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	class UFancyTelemetryEventBuilder*            GameplayActivityEndEventBuilder;                   // 0x0470(0x0008)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	EFancyGameplayActivityEndStatus               GameplayActivityEndStatus;                         // 0x0478(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+	bool                                          CanSendDisconnectionEvent;                         // 0x0479(0x0001)(Edit, BlueprintVisible, ZeroConstructor, DisableEditOnInstance, IsPlainOldData, NoDestructor)
 
 public:
 	void ExecuteUbergraph_BP_MyGameInstance(int32 EntryPoint);
+	void ResolveGameplayActivityEndStatusEvent(const class FString& PendingMapOptions);
 	void RefreshPlayerCommPrivileges();
 	void _CheckCanCrossplayPrivilege_Internal(bool bForceAttemptToResolve);
 	void ShowLoadingScreen(class APlayerController* PlayerController, const class FText& Message);
 	void OnSessionInviteAccepted(bool bWasSuccessful, int32 LocalPlayerNum, const struct FBPUniqueNetId& PersonInvited, const struct FBlueprintSessionResult& SessionToJoin);
+	void CreateServer(class APlayerController* PlayerController, class UWidget* WidgetRef, class UWidget* ParentRef, class FName LevelName, int32 MaxPlayer, bool IsPrivate);
 	void SageGameChatActive(bool bActive);
 	void OnPlayerLoginChanged(int32 PlayerNum);
-	void CreateServer(class APlayerController* PlayerController, class UWidget* WidgetRef, class UWidget* ParentRef, class FName LevelName, int32 MaxPlayer, bool IsPrivate);
 	void OnCheckPremiumStateDone_Login(bool JustGotPremium);
 	void OnEOSLoginDone(bool bSuccess);
 	void InlineLogin();
@@ -120,14 +125,14 @@ public:
 	void UnlockAchievementFromQueue(class FName Name_0);
 	void FramePacingOnXSS();
 	void UpdateMissionTime(float DeltaSeconds);
-	void OnInputDeviceChangedEvent(const EFancyInputDevice NewInputDevice);
 	void Initialize_AudioSettings();
+	void OnInputDeviceChangedEvent(const EFancyInputDevice NewInputDevice);
 	void ReceiveShutdown();
-	void OnSteamOverlayIsActive(bool isOverlayActive);
 	void ReceiveInit();
+	void OnSteamOverlayIsActive(bool isOverlayActive);
 	void ResetAfterErrorFocus(class APlayerController* PlayerController, class UWidget* Widget);
-	void UnlockAchievement(class FName AchievementName, class APlayerController* PlayerController);
 	void OnPlayerTalkingStateChanged(const struct FBPUniqueNetId& PlayerId, bool bIsTalking);
+	void UnlockAchievement(class FName AchievementName, class APlayerController* PlayerController);
 	void OnSuccess_738E87BA453FC78726BB63BF27C708EE();
 	void OnFailure_738E87BA453FC78726BB63BF27C708EE();
 	void OnSuccess_36EA07F14906798B445565A0E68A0CAB(const bool SessionInfo);
@@ -165,6 +170,11 @@ public:
 	void BindEOSLoginCallback();
 	void UnBindEOSLoginCallback();
 	void CheckCanCrossplayPrivilege(bool bForceAttemptToResolve, const TDelegate<void(bool bSuccess)>& Event);
+	void SendGameplayActivityStartEvent();
+	void SendGameplayActivityEndEvent(E_GameMode LevelMode, E_Difficulty LevelDifficulty);
+	void SendPlayerDisconnectEvent(EFancyPlayerDisconnectReason DisconnectReason);
+	void ResolveGameplayActivityEndStatus(const class FString& Options);
+	void RefreshGameplayActivityEventData(class APlayerState* NewPlayerState);
 
 public:
 	static class UClass* StaticClass()

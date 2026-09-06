@@ -124,6 +124,8 @@ public:
 	static void CalculateGameTime(TArray<class FName>& AdditionalLevelsToCount, class UObject* __WorldContext, float* Time);
 	static void SetCollectedAllPlushies(class UObject* __WorldContext);
 	static class FString GetSlotNameForSaveGameName(const class FString& SaveGameName, E_Difficulty Difficulty, class UObject* __WorldContext);
+	static void SetPlasticMarianaCheckpoint(int32 Checkpoint, class UObject* __WorldContext);
+	static void SetPlasticMarianaFlowerLocations(const TMap<class FString, struct FST_FlowerRoomSaveData>& RandomRoomsUsed, const TMap<class FString, struct FST_FlowerRoomSaveData>& RandomSolverRoomsUsed, bool bLoadFromSave, class UObject* __WorldContext);
 
 public:
 	static class UClass* StaticClass()

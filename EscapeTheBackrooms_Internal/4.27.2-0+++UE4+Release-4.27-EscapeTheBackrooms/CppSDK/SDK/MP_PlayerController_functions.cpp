@@ -105,20 +105,6 @@ void AMP_PlayerController_C::ReceiveBeginPlay()
 }
 
 
-// Function MP_PlayerController.MP_PlayerController_C.ClientHUDInit
-// (BlueprintCosmetic, Event, Protected, BlueprintEvent)
-
-void AMP_PlayerController_C::ClientHUDInit()
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("MP_PlayerController_C", "ClientHUDInit");
-
-	UObject::ProcessEvent(Func, nullptr);
-}
-
-
 // Function MP_PlayerController.MP_PlayerController_C.OC_CompleteMission
 // (Net, NetReliable, NetClient, BlueprintCallable, BlueprintEvent)
 // Parameters:
@@ -280,26 +266,6 @@ void AMP_PlayerController_C::ShowCameraFade()
 		Func = Class->GetFunction("MP_PlayerController_C", "ShowCameraFade");
 
 	UObject::ProcessEvent(Func, nullptr);
-}
-
-
-// Function MP_PlayerController.MP_PlayerController_C.ReceiveEndPlay
-// (Event, Protected, BlueprintEvent)
-// Parameters:
-// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
-
-void AMP_PlayerController_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
-{
-	static class UFunction* Func = nullptr;
-
-	if (Func == nullptr)
-		Func = Class->GetFunction("MP_PlayerController_C", "ReceiveEndPlay");
-
-	Params::MP_PlayerController_C_ReceiveEndPlay Parms{};
-
-	Parms.EndPlayReason = EndPlayReason;
-
-	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -905,6 +871,40 @@ void AMP_PlayerController_C::CreateVoipPlayerList()
 		Func = Class->GetFunction("MP_PlayerController_C", "CreateVoipPlayerList");
 
 	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function MP_PlayerController.MP_PlayerController_C.ClientHUDInit
+// (BlueprintCosmetic, Event, Protected, BlueprintEvent)
+
+void AMP_PlayerController_C::ClientHUDInit()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_PlayerController_C", "ClientHUDInit");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function MP_PlayerController.MP_PlayerController_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMP_PlayerController_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_PlayerController_C", "ReceiveEndPlay");
+
+	Params::MP_PlayerController_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason = EndPlayReason;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 }

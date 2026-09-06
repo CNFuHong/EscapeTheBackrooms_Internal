@@ -37,6 +37,20 @@ void UWB_SettingsPanel_Theme2_C::ExecuteUbergraph_WB_SettingsPanel_Theme2(int32 
 }
 
 
+// Function WB_SettingsPanel_Theme2.WB_SettingsPanel_Theme2_C.Destruct
+// (BlueprintCosmetic, Event, Public, BlueprintEvent)
+
+void UWB_SettingsPanel_Theme2_C::Destruct()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("WB_SettingsPanel_Theme2_C", "Destruct");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
 // Function WB_SettingsPanel_Theme2.WB_SettingsPanel_Theme2_C.BndEvt__WB_SettingsPanel_Theme2_InviteButton_K2Node_ComponentBoundEvent_78_OnClick__DelegateSignature
 // (BlueprintEvent)
 
@@ -3354,6 +3368,48 @@ ESlateVisibility UWB_SettingsPanel_Theme2_C::Get_InviteButton_Visibility_0()
 	UObject::ProcessEvent(Func, &Parms);
 
 	return Parms.ReturnValue;
+}
+
+
+// Function WB_SettingsPanel_Theme2.WB_SettingsPanel_Theme2_C.SetGameResumeInputMode
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UWB_SettingsPanel_Theme2_C::SetGameResumeInputMode()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("WB_SettingsPanel_Theme2_C", "SetGameResumeInputMode");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function WB_SettingsPanel_Theme2.WB_SettingsPanel_Theme2_C.SendActivitySessionStartEvent
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void UWB_SettingsPanel_Theme2_C::SendActivitySessionStartEvent()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("WB_SettingsPanel_Theme2_C", "SendActivitySessionStartEvent");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function WB_SettingsPanel_Theme2.WB_SettingsPanel_Theme2_C.SendActivitySessionEndEvent
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void UWB_SettingsPanel_Theme2_C::SendActivitySessionEndEvent()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("WB_SettingsPanel_Theme2_C", "SendActivitySessionEndEvent");
+
+	UObject::ProcessEvent(Func, nullptr);
 }
 
 }

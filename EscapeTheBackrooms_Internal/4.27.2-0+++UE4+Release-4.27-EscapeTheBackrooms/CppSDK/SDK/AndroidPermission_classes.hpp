@@ -47,7 +47,7 @@ class UAndroidPermissionFunctionLibrary final : public UBlueprintFunctionLibrary
 {
 public:
 	static class UAndroidPermissionCallbackProxy* AcquirePermissions(const TArray<class FString>& Permissions);
-	static bool CheckPermission(const class FString& permission);
+	static bool CheckPermission(const class FString& Permission);
 
 public:
 	static class UClass* StaticClass()

@@ -10,9 +10,9 @@
 
 #include "Basic.hpp"
 
-#include "MagicLeapARPin_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "CoreUObject_classes.hpp"
+#include "MagicLeapARPin_structs.hpp"
 #include "Engine_classes.hpp"
 
 

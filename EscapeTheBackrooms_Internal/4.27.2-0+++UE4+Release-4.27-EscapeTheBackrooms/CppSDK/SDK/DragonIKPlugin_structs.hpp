@@ -109,6 +109,16 @@ enum class ETwist_Type_DragonIK : uint8
 	ENUM_MAX                                 = 2,
 };
 
+// ScriptStruct DragonIKPlugin.DragonData_PhysicsParentRelationship
+// 0x0010 (0x0010 - 0x0000)
+struct FDragonData_PhysicsParentRelationship final
+{
+public:
+	class FName                                   child_bone_name;                                   // 0x0000(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FName                                   parent_bone_name;                                  // 0x0008(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FDragonData_PhysicsParentRelationship;
+
 // ScriptStruct DragonIKPlugin.DragonData_FingerData
 // 0x0020 (0x0020 - 0x0000)
 struct FDragonData_FingerData final
@@ -162,6 +172,15 @@ public:
 	TArray<struct FDragonData_FootData>           FeetBones;                                         // 0x0010(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_FDragonData_MultiInput;
+
+// ScriptStruct DragonIKPlugin.DragonData_FeetAlpha_Struct
+// 0x0010 (0x0010 - 0x0000)
+struct FDragonData_FeetAlpha_Struct final
+{
+public:
+	TArray<float>                                 feet_IK_alpha_array;                               // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FDragonData_FeetAlpha_Struct;
 
 // ScriptStruct DragonIKPlugin.AnimNode_DragonControlBase
 // 0x00B8 (0x00C8 - 0x0010)
@@ -350,181 +369,14 @@ public:
 };
 DUMPER7_ASSERTS_FAnimNode_DragonAimSolver;
 
-// ScriptStruct DragonIKPlugin.SocketDragonReference
-// 0x0040 (0x0040 - 0x0000)
-struct alignas(0x10) FSocketDragonReference final
+// ScriptStruct DragonIKPlugin.CCDIK_Modified_ChainLink
+// 0x0070 (0x0070 - 0x0000)
+struct alignas(0x10) FCCDIK_Modified_ChainLink final
 {
 public:
-	uint8                                         Pad_0[0x30];                                       // 0x0000(0x0030)(Fixing Size After Last Property [ Dumper-7 ])
-	class FName                                   SocketName;                                        // 0x0030(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	uint8                                         Pad_0[0x70];                                       // 0x0000(0x0070)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
-DUMPER7_ASSERTS_FSocketDragonReference;
-
-// ScriptStruct DragonIKPlugin.BoneDragonSocketTarget
-// 0x0060 (0x0060 - 0x0000)
-struct FBoneDragonSocketTarget final
-{
-public:
-	bool                                          bUseSocket;                                        // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FBoneReference                         BoneReference;                                     // 0x0004(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-	uint8                                         Pad_14[0xC];                                       // 0x0014(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FSocketDragonReference                 SocketReference;                                   // 0x0020(0x0040)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FBoneDragonSocketTarget;
-
-// ScriptStruct DragonIKPlugin.AnimNode_DragonFabrikSolver
-// 0x0098 (0x0160 - 0x00C8)
-struct FAnimNode_DragonFabrikSolver final : public FAnimNode_DragonControlBase
-{
-public:
-	struct FBoneReference                         StartSplineBone;                                   // 0x00C8(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-	struct FBoneReference                         EndSplineBone;                                     // 0x00D8(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-	float                                         Precision;                                         // 0x00E8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         MaxIterations;                                     // 0x00EC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FTransform                             Target_Transform;                                  // 0x00F0(0x0030)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
-	uint8                                         Pad_120[0x40];                                     // 0x0120(0x0040)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FAnimNode_DragonFabrikSolver;
-
-// ScriptStruct DragonIKPlugin.DragonData_FeetAlpha_Struct
-// 0x0010 (0x0010 - 0x0000)
-struct FDragonData_FeetAlpha_Struct final
-{
-public:
-	TArray<float>                                 feet_IK_alpha_array;                               // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FDragonData_FeetAlpha_Struct;
-
-// ScriptStruct DragonIKPlugin.DragonData_StickyFeetStruct
-// 0x0010 (0x0010 - 0x0000)
-struct FDragonData_StickyFeetStruct final
-{
-public:
-	TArray<bool>                                  sticky_feet_array;                                 // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FDragonData_StickyFeetStruct;
-
-// ScriptStruct DragonIKPlugin.DragonData_StickySocketStruct
-// 0x0010 (0x0010 - 0x0000)
-struct FDragonData_StickySocketStruct final
-{
-public:
-	TArray<struct FBoneSocketTarget>              sticky_socket_array;                               // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FDragonData_StickySocketStruct;
-
-// ScriptStruct DragonIKPlugin.AnimNode_DragonFeetSolver
-// 0x06F8 (0x07C0 - 0x00C8)
-struct alignas(0x10) FAnimNode_DragonFeetSolver final : public FAnimNode_DragonControlBase
-{
-public:
-	struct FDragonData_MultiInput                 dragon_input_data;                                 // 0x00C8(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	uint8                                         Pad_E8[0x70];                                      // 0x00E8(0x0070)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FDragonData_FeetAlpha_Struct           feet_alpha_multiplier_array;                       // 0x0158(0x0010)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	uint8                                         Pad_168[0x8];                                      // 0x0168(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	EIK_Type_Plugin                               ik_type;                                           // 0x0170(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	EIKTrace_Type_Plugin                          trace_type;                                        // 0x0171(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_172[0x2];                                      // 0x0172(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         Trace_Radius;                                      // 0x0174(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Override_Curve_Velocity;                           // 0x0178(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_179[0x3];                                      // 0x0179(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         custom_velocity;                                   // 0x017C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	EInterpoLocation_Type_Plugin                  loc_interp_type;                                   // 0x0180(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_181[0xB];                                      // 0x0181(0x000B)(Fixing Size After Last Property [ Dumper-7 ])
-	EInterpoRotation_Type_Plugin                  rot_interp_type;                                   // 0x018C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_18D[0x3];                                      // 0x018D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         virtual_scale;                                     // 0x0190(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          automatic_leg_make;                                // 0x0194(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Use_OptionalRef_Feet_As_Ref;                       // 0x0195(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          enable_solver;                                     // 0x0196(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Work_Outside_PIE;                                  // 0x0197(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FComponentSpacePoseLink                OptionalRefPose;                                   // 0x0198(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
-	bool                                          interpolate_only_z;                                // 0x01A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1A9[0x3];                                      // 0x01A9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         shift_speed;                                       // 0x01AC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1B0[0x8];                                      // 0x01B0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         Location_Lerp_Speed;                               // 0x01B8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         feet_rotation_speed;                               // 0x01BC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          ignore_shift_speed;                                // 0x01C0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Ignore_Lerping;                                    // 0x01C1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Ignore_Location_Lerping;                           // 0x01C2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_1C3[0x5];                                      // 0x01C3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRuntimeFloatCurve                     Interpolation_Velocity_Curve;                      // 0x01C8(0x0088)(Edit, NativeAccessSpecifierPublic)
-	bool                                          Enable_Complex_Rotation_Method;                    // 0x0250(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_251[0x7];                                      // 0x0251(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRuntimeFloatCurve                     ComplexSimpleFoot_Velocity_Curve;                  // 0x0258(0x0088)(Edit, NativeAccessSpecifierPublic)
-	uint8                                         Pad_2E0[0x40];                                     // 0x02E0(0x0040)(Fixing Size After Last Property [ Dumper-7 ])
-	ETraceTypeQuery                               Trace_Channel;                                     // 0x0320(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	ETraceTypeQuery                               Anti_Trace_Channel;                                // 0x0321(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_322[0x2];                                      // 0x0322(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         FPS_Lerp_Treshold;                                 // 0x0324(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_328[0x16C];                                    // 0x0328(0x016C)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         line_trace_upper_height;                           // 0x0494(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         line_trace_down_height;                            // 0x0498(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_49C[0x4];                                      // 0x049C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRuntimeFloatCurve                     Trace_Down_Multiplier_Curve;                       // 0x04A0(0x0088)(Edit, NativeAccessSpecifierPublic)
-	bool                                          Use_Anti_Channel;                                  // 0x0528(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          use_footstep_listening;                            // 0x0529(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_52A[0xE];                                      // 0x052A(0x000E)(Fixing Size After Last Property [ Dumper-7 ])
-	bool                                          Should_Rotate_Feet;                                // 0x0538(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_539[0x1];                                      // 0x0539(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
-	bool                                          show_trace_in_game;                                // 0x053A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_53B[0x15];                                     // 0x053B(0x0015)(Fixing Size After Last Property [ Dumper-7 ])
-	bool                                          Enable_Pitch;                                      // 0x0550(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Enable_Roll;                                       // 0x0551(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_552[0x2];                                      // 0x0552(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FVector                                character_direction_vector_CS;                     // 0x0554(0x000C)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector                                character_forward_direction_vector_CS;             // 0x0560(0x000C)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	struct FVector                                poles_forward_direction_vector_CS;                 // 0x056C(0x000C)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Use_Four_Point_Feets;                              // 0x0578(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Enable_Foot_Lift_Limit;                            // 0x0579(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Affect_Toes_Always;                                // 0x057A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_57B[0x5];                                      // 0x057B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FRuntimeFloatCurve                     Finger_Alpha_Velocity_Curve;                       // 0x0580(0x0088)(Edit, NativeAccessSpecifierPublic)
-	float                                         Max_Limb_Radius;                                   // 0x0608(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          sticky_feet_mode;                                  // 0x060C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_60D[0x3];                                      // 0x060D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         sticky_feet_on_speed;                              // 0x0610(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         sticky_feet_off_speed;                             // 0x0614(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Sticky_Feet_Range;                                 // 0x0618(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_61C[0x4];                                      // 0x061C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FDragonData_StickyFeetStruct           sticky_feets_data;                                 // 0x0620(0x0010)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	bool                                          sticky_floor_detection;                            // 0x0630(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_631[0x3];                                      // 0x0631(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         floor_value;                                       // 0x0634(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	bool                                          Auto_Sticky_Toggle;                                // 0x0638(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_639[0x7];                                      // 0x0639(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
-	struct FDragonData_StickySocketStruct         sticky_sockets_data;                               // 0x0640(0x0010)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	uint8                                         Pad_650[0x160];                                    // 0x0650(0x0160)(Fixing Size After Last Property [ Dumper-7 ])
-	float                                         Foot_01_Height_Offset;                             // 0x07B0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Foot_02_Height_Offset;                             // 0x07B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Foot_03_Height_Offset;                             // 0x07B8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	float                                         Foot_04_Height_Offset;                             // 0x07BC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FAnimNode_DragonFeetSolver;
-
-// ScriptStruct DragonIKPlugin.AnimNode_DragonPhysicsSolver
-// 0x0048 (0x0110 - 0x00C8)
-struct FAnimNode_DragonPhysicsSolver final : public FAnimNode_DragonControlBase
-{
-public:
-	uint8                                         Pad_C8[0x40];                                      // 0x00C8(0x0040)(Fixing Size After Last Property [ Dumper-7 ])
-	int32                                         physanim_tag_index;                                // 0x0108(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	uint8                                         Pad_10C[0x4];                                      // 0x010C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FAnimNode_DragonPhysicsSolver;
-
-// ScriptStruct DragonIKPlugin.DragonData_PhysicsBoneStrip
-// 0x0020 (0x0020 - 0x0000)
-struct FDragonData_PhysicsBoneStrip final
-{
-public:
-	struct FBoneReference                         Bone_Chain_Start;                                  // 0x0000(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-	struct FBoneReference                         Bone_Chain_End;                                    // 0x0010(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FDragonData_PhysicsBoneStrip;
+DUMPER7_ASSERTS_FCCDIK_Modified_ChainLink;
 
 // ScriptStruct DragonIKPlugin.AnimNode_DragonSpineSolver
 // 0x09D8 (0x0AA0 - 0x00C8)
@@ -660,6 +512,30 @@ public:
 };
 DUMPER7_ASSERTS_FAnimNode_DragonSpineSolver;
 
+// ScriptStruct DragonIKPlugin.SocketDragonReference
+// 0x0040 (0x0040 - 0x0000)
+struct alignas(0x10) FSocketDragonReference final
+{
+public:
+	uint8                                         Pad_0[0x30];                                       // 0x0000(0x0030)(Fixing Size After Last Property [ Dumper-7 ])
+	class FName                                   SocketName;                                        // 0x0030(0x0008)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_38[0x8];                                       // 0x0038(0x0008)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+DUMPER7_ASSERTS_FSocketDragonReference;
+
+// ScriptStruct DragonIKPlugin.BoneDragonSocketTarget
+// 0x0060 (0x0060 - 0x0000)
+struct FBoneDragonSocketTarget final
+{
+public:
+	bool                                          bUseSocket;                                        // 0x0000(0x0001)(Edit, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1[0x3];                                        // 0x0001(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FBoneReference                         BoneReference;                                     // 0x0004(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+	uint8                                         Pad_14[0xC];                                       // 0x0014(0x000C)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FSocketDragonReference                 SocketReference;                                   // 0x0020(0x0040)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FBoneDragonSocketTarget;
+
 // ScriptStruct DragonIKPlugin.DragonData_WarpLimbsData
 // 0x002C (0x002C - 0x0000)
 struct FDragonData_WarpLimbsData final
@@ -712,14 +588,148 @@ public:
 };
 DUMPER7_ASSERTS_FAnimNode_DragonWarpSolver;
 
-// ScriptStruct DragonIKPlugin.CCDIK_Modified_ChainLink
-// 0x0070 (0x0070 - 0x0000)
-struct alignas(0x10) FCCDIK_Modified_ChainLink final
+// ScriptStruct DragonIKPlugin.AnimNode_DragonFabrikSolver
+// 0x0098 (0x0160 - 0x00C8)
+struct FAnimNode_DragonFabrikSolver final : public FAnimNode_DragonControlBase
 {
 public:
-	uint8                                         Pad_0[0x70];                                       // 0x0000(0x0070)(Fixing Struct Size After Last Property [ Dumper-7 ])
+	struct FBoneReference                         StartSplineBone;                                   // 0x00C8(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+	struct FBoneReference                         EndSplineBone;                                     // 0x00D8(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+	float                                         Precision;                                         // 0x00E8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         MaxIterations;                                     // 0x00EC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FTransform                             Target_Transform;                                  // 0x00F0(0x0030)(Edit, BlueprintVisible, IsPlainOldData, NoDestructor, NativeAccessSpecifierPublic)
+	uint8                                         Pad_120[0x40];                                     // 0x0120(0x0040)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
-DUMPER7_ASSERTS_FCCDIK_Modified_ChainLink;
+DUMPER7_ASSERTS_FAnimNode_DragonFabrikSolver;
+
+// ScriptStruct DragonIKPlugin.DragonData_StickyFeetStruct
+// 0x0010 (0x0010 - 0x0000)
+struct FDragonData_StickyFeetStruct final
+{
+public:
+	TArray<bool>                                  sticky_feet_array;                                 // 0x0000(0x0010)(Edit, BlueprintVisible, ZeroConstructor, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FDragonData_StickyFeetStruct;
+
+// ScriptStruct DragonIKPlugin.DragonData_StickySocketStruct
+// 0x0010 (0x0010 - 0x0000)
+struct FDragonData_StickySocketStruct final
+{
+public:
+	TArray<struct FBoneSocketTarget>              sticky_socket_array;                               // 0x0000(0x0010)(Edit, ZeroConstructor, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FDragonData_StickySocketStruct;
+
+// ScriptStruct DragonIKPlugin.AnimNode_DragonFeetSolver
+// 0x06F8 (0x07C0 - 0x00C8)
+struct alignas(0x10) FAnimNode_DragonFeetSolver final : public FAnimNode_DragonControlBase
+{
+public:
+	struct FDragonData_MultiInput                 dragon_input_data;                                 // 0x00C8(0x0020)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	uint8                                         Pad_E8[0x70];                                      // 0x00E8(0x0070)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FDragonData_FeetAlpha_Struct           feet_alpha_multiplier_array;                       // 0x0158(0x0010)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	uint8                                         Pad_168[0x8];                                      // 0x0168(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	EIK_Type_Plugin                               ik_type;                                           // 0x0170(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	EIKTrace_Type_Plugin                          trace_type;                                        // 0x0171(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_172[0x2];                                      // 0x0172(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Trace_Radius;                                      // 0x0174(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Override_Curve_Velocity;                           // 0x0178(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_179[0x3];                                      // 0x0179(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         custom_velocity;                                   // 0x017C(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	EInterpoLocation_Type_Plugin                  loc_interp_type;                                   // 0x0180(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_181[0xB];                                      // 0x0181(0x000B)(Fixing Size After Last Property [ Dumper-7 ])
+	EInterpoRotation_Type_Plugin                  rot_interp_type;                                   // 0x018C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_18D[0x3];                                      // 0x018D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         virtual_scale;                                     // 0x0190(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          automatic_leg_make;                                // 0x0194(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Use_OptionalRef_Feet_As_Ref;                       // 0x0195(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          enable_solver;                                     // 0x0196(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Work_Outside_PIE;                                  // 0x0197(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FComponentSpacePoseLink                OptionalRefPose;                                   // 0x0198(0x0010)(Edit, BlueprintVisible, NoDestructor, NativeAccessSpecifierPublic)
+	bool                                          interpolate_only_z;                                // 0x01A8(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1A9[0x3];                                      // 0x01A9(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         shift_speed;                                       // 0x01AC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1B0[0x8];                                      // 0x01B0(0x0008)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Location_Lerp_Speed;                               // 0x01B8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         feet_rotation_speed;                               // 0x01BC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          ignore_shift_speed;                                // 0x01C0(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Ignore_Lerping;                                    // 0x01C1(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Ignore_Location_Lerping;                           // 0x01C2(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_1C3[0x5];                                      // 0x01C3(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRuntimeFloatCurve                     Interpolation_Velocity_Curve;                      // 0x01C8(0x0088)(Edit, NativeAccessSpecifierPublic)
+	bool                                          Enable_Complex_Rotation_Method;                    // 0x0250(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_251[0x7];                                      // 0x0251(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRuntimeFloatCurve                     ComplexSimpleFoot_Velocity_Curve;                  // 0x0258(0x0088)(Edit, NativeAccessSpecifierPublic)
+	uint8                                         Pad_2E0[0x40];                                     // 0x02E0(0x0040)(Fixing Size After Last Property [ Dumper-7 ])
+	ETraceTypeQuery                               Trace_Channel;                                     // 0x0320(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	ETraceTypeQuery                               Anti_Trace_Channel;                                // 0x0321(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_322[0x2];                                      // 0x0322(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         FPS_Lerp_Treshold;                                 // 0x0324(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_328[0x16C];                                    // 0x0328(0x016C)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         line_trace_upper_height;                           // 0x0494(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         line_trace_down_height;                            // 0x0498(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_49C[0x4];                                      // 0x049C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRuntimeFloatCurve                     Trace_Down_Multiplier_Curve;                       // 0x04A0(0x0088)(Edit, NativeAccessSpecifierPublic)
+	bool                                          Use_Anti_Channel;                                  // 0x0528(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          use_footstep_listening;                            // 0x0529(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_52A[0xE];                                      // 0x052A(0x000E)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          Should_Rotate_Feet;                                // 0x0538(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_539[0x1];                                      // 0x0539(0x0001)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          show_trace_in_game;                                // 0x053A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_53B[0x15];                                     // 0x053B(0x0015)(Fixing Size After Last Property [ Dumper-7 ])
+	bool                                          Enable_Pitch;                                      // 0x0550(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Enable_Roll;                                       // 0x0551(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_552[0x2];                                      // 0x0552(0x0002)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FVector                                character_direction_vector_CS;                     // 0x0554(0x000C)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector                                character_forward_direction_vector_CS;             // 0x0560(0x000C)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	struct FVector                                poles_forward_direction_vector_CS;                 // 0x056C(0x000C)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Use_Four_Point_Feets;                              // 0x0578(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Enable_Foot_Lift_Limit;                            // 0x0579(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Affect_Toes_Always;                                // 0x057A(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_57B[0x5];                                      // 0x057B(0x0005)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FRuntimeFloatCurve                     Finger_Alpha_Velocity_Curve;                       // 0x0580(0x0088)(Edit, NativeAccessSpecifierPublic)
+	float                                         Max_Limb_Radius;                                   // 0x0608(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          sticky_feet_mode;                                  // 0x060C(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_60D[0x3];                                      // 0x060D(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         sticky_feet_on_speed;                              // 0x0610(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         sticky_feet_off_speed;                             // 0x0614(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Sticky_Feet_Range;                                 // 0x0618(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_61C[0x4];                                      // 0x061C(0x0004)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FDragonData_StickyFeetStruct           sticky_feets_data;                                 // 0x0620(0x0010)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	bool                                          sticky_floor_detection;                            // 0x0630(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_631[0x3];                                      // 0x0631(0x0003)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         floor_value;                                       // 0x0634(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	bool                                          Auto_Sticky_Toggle;                                // 0x0638(0x0001)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_639[0x7];                                      // 0x0639(0x0007)(Fixing Size After Last Property [ Dumper-7 ])
+	struct FDragonData_StickySocketStruct         sticky_sockets_data;                               // 0x0640(0x0010)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	uint8                                         Pad_650[0x160];                                    // 0x0650(0x0160)(Fixing Size After Last Property [ Dumper-7 ])
+	float                                         Foot_01_Height_Offset;                             // 0x07B0(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Foot_02_Height_Offset;                             // 0x07B4(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Foot_03_Height_Offset;                             // 0x07B8(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	float                                         Foot_04_Height_Offset;                             // 0x07BC(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FAnimNode_DragonFeetSolver;
+
+// ScriptStruct DragonIKPlugin.AnimNode_DragonPhysicsSolver
+// 0x0048 (0x0110 - 0x00C8)
+struct FAnimNode_DragonPhysicsSolver final : public FAnimNode_DragonControlBase
+{
+public:
+	uint8                                         Pad_C8[0x40];                                      // 0x00C8(0x0040)(Fixing Size After Last Property [ Dumper-7 ])
+	int32                                         physanim_tag_index;                                // 0x0108(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	uint8                                         Pad_10C[0x4];                                      // 0x010C(0x0004)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+DUMPER7_ASSERTS_FAnimNode_DragonPhysicsSolver;
+
+// ScriptStruct DragonIKPlugin.DragonData_PhysicsBoneStrip
+// 0x0020 (0x0020 - 0x0000)
+struct FDragonData_PhysicsBoneStrip final
+{
+public:
+	struct FBoneReference                         Bone_Chain_Start;                                  // 0x0000(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+	struct FBoneReference                         Bone_Chain_End;                                    // 0x0010(0x0010)(Edit, NoDestructor, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FDragonData_PhysicsBoneStrip;
 
 // ScriptStruct DragonIKPlugin.DragonData_PhysicsHandleMultiplier
 // 0x000C (0x000C - 0x0000)
@@ -730,16 +740,6 @@ public:
 	float                                         bone_strength;                                     // 0x0008(0x0004)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_FDragonData_PhysicsHandleMultiplier;
-
-// ScriptStruct DragonIKPlugin.DragonData_PhysicsParentRelationship
-// 0x0010 (0x0010 - 0x0000)
-struct FDragonData_PhysicsParentRelationship final
-{
-public:
-	class FName                                   child_bone_name;                                   // 0x0000(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FName                                   parent_bone_name;                                  // 0x0008(0x0008)(Edit, BlueprintVisible, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FDragonData_PhysicsParentRelationship;
 
 }
 

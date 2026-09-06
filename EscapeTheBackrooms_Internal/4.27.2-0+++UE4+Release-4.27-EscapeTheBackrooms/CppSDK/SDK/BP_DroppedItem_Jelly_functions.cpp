@@ -54,9 +54,9 @@ void ABP_DroppedItem_Jelly_C::DropJelly()
 // Function BP_DroppedItem_Jelly.BP_DroppedItem_Jelly_C.OnEventLoaded
 // (BlueprintCallable, BlueprintEvent)
 // Parameters:
-// EEventType                              EventType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// uint8                                   EventType                                              (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
 
-void ABP_DroppedItem_Jelly_C::OnEventLoaded(EEventType EventType)
+void ABP_DroppedItem_Jelly_C::OnEventLoaded(uint8 EventType)
 {
 	static class UFunction* Func = nullptr;
 

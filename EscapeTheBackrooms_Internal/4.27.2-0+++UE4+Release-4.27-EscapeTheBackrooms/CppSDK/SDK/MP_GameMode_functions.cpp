@@ -101,15 +101,21 @@ void AMP_GameMode_C::ReceiveTick(float DeltaSeconds)
 
 // Function MP_GameMode.MP_GameMode_C.LoadBackIntoLobby
 // (BlueprintCallable, BlueprintEvent)
+// Parameters:
+// bool                                    HasFailedMission                                       (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
-void AMP_GameMode_C::LoadBackIntoLobby()
+void AMP_GameMode_C::LoadBackIntoLobby(bool HasFailedMission)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("MP_GameMode_C", "LoadBackIntoLobby");
 
-	UObject::ProcessEvent(Func, nullptr);
+	Params::MP_GameMode_C_LoadBackIntoLobby Parms{};
+
+	Parms.HasFailedMission = HasFailedMission;
+
+	UObject::ProcessEvent(Func, &Parms);
 }
 
 
@@ -269,21 +275,21 @@ void AMP_GameMode_C::OnPlayerSpawn(class ABPCharacter_Demo_C* Player)
 }
 
 
-// Function MP_GameMode.MP_GameMode_C.OnPlayerKilled
+// Function MP_GameMode.MP_GameMode_C.OnPlayerDestroyed
 // (Net, NetServer, BlueprintCallable, BlueprintEvent)
 // Parameters:
-// class ABPCharacter_Demo_C*              Killed                                                 (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+// bool                                    HasBeenKilled                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor)
 
-void AMP_GameMode_C::OnPlayerKilled(class ABPCharacter_Demo_C* Killed)
+void AMP_GameMode_C::OnPlayerDestroyed(bool HasBeenKilled)
 {
 	static class UFunction* Func = nullptr;
 
 	if (Func == nullptr)
-		Func = Class->GetFunction("MP_GameMode_C", "OnPlayerKilled");
+		Func = Class->GetFunction("MP_GameMode_C", "OnPlayerDestroyed");
 
-	Params::MP_GameMode_C_OnPlayerKilled Parms{};
+	Params::MP_GameMode_C_OnPlayerDestroyed Parms{};
 
-	Parms.Killed = Killed;
+	Parms.HasBeenKilled = HasBeenKilled;
 
 	UObject::ProcessEvent(Func, &Parms);
 }

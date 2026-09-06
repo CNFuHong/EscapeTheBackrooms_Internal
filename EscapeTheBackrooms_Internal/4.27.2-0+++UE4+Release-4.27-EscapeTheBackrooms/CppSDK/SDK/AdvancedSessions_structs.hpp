@@ -117,6 +117,15 @@ enum class EBPLoginStatus : uint8
 	EBPLoginStatus_MAX                       = 3,
 };
 
+// ScriptStruct AdvancedSessions.SessionPropertyKeyPair
+// 0x0020 (0x0020 - 0x0000)
+struct alignas(0x08) FSessionPropertyKeyPair final
+{
+public:
+	uint8                                         Pad_0[0x20];                                       // 0x0000(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+DUMPER7_ASSERTS_FSessionPropertyKeyPair;
+
 // ScriptStruct AdvancedSessions.BPUniqueNetId
 // 0x0028 (0x0028 - 0x0000)
 struct FBPUniqueNetId final
@@ -125,26 +134,6 @@ public:
 	struct FUniqueNetIdRepl                       ReplicatedId;                                      // 0x0000(0x0028)(HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_FBPUniqueNetId;
-
-// ScriptStruct AdvancedSessions.BPOnlineUser
-// 0x0048 (0x0048 - 0x0000)
-struct FBPOnlineUser
-{
-public:
-	struct FBPUniqueNetId                         UniqueNetId;                                       // 0x0000(0x0028)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
-	class FString                                 DisplayName;                                       // 0x0028(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-	class FString                                 RealName;                                          // 0x0038(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FBPOnlineUser;
-
-// ScriptStruct AdvancedSessions.BPOnlineRecentPlayer
-// 0x0010 (0x0058 - 0x0048)
-struct FBPOnlineRecentPlayer final : public FBPOnlineUser
-{
-public:
-	class FString                                 LastSeen;                                          // 0x0048(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_FBPOnlineRecentPlayer;
 
 // ScriptStruct AdvancedSessions.BPFriendPresenceInfo
 // 0x0018 (0x0018 - 0x0000)
@@ -178,24 +167,6 @@ public:
 };
 DUMPER7_ASSERTS_FBPFriendInfo;
 
-// ScriptStruct AdvancedSessions.SessionsSearchSetting
-// 0x0028 (0x0028 - 0x0000)
-struct alignas(0x08) FSessionsSearchSetting final
-{
-public:
-	uint8                                         Pad_0[0x28];                                       // 0x0000(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FSessionsSearchSetting;
-
-// ScriptStruct AdvancedSessions.SessionPropertyKeyPair
-// 0x0020 (0x0020 - 0x0000)
-struct alignas(0x08) FSessionPropertyKeyPair final
-{
-public:
-	uint8                                         Pad_0[0x20];                                       // 0x0000(0x0020)(Fixing Struct Size After Last Property [ Dumper-7 ])
-};
-DUMPER7_ASSERTS_FSessionPropertyKeyPair;
-
 // ScriptStruct AdvancedSessions.BPUserOnlineAccount
 // 0x0010 (0x0010 - 0x0000)
 struct alignas(0x08) FBPUserOnlineAccount final
@@ -204,6 +175,35 @@ public:
 	uint8                                         Pad_0[0x10];                                       // 0x0000(0x0010)(Fixing Struct Size After Last Property [ Dumper-7 ])
 };
 DUMPER7_ASSERTS_FBPUserOnlineAccount;
+
+// ScriptStruct AdvancedSessions.BPOnlineUser
+// 0x0048 (0x0048 - 0x0000)
+struct FBPOnlineUser
+{
+public:
+	struct FBPUniqueNetId                         UniqueNetId;                                       // 0x0000(0x0028)(Edit, BlueprintVisible, NativeAccessSpecifierPublic)
+	class FString                                 DisplayName;                                       // 0x0028(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+	class FString                                 RealName;                                          // 0x0038(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FBPOnlineUser;
+
+// ScriptStruct AdvancedSessions.BPOnlineRecentPlayer
+// 0x0010 (0x0058 - 0x0048)
+struct FBPOnlineRecentPlayer final : public FBPOnlineUser
+{
+public:
+	class FString                                 LastSeen;                                          // 0x0048(0x0010)(Edit, BlueprintVisible, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_FBPOnlineRecentPlayer;
+
+// ScriptStruct AdvancedSessions.SessionsSearchSetting
+// 0x0028 (0x0028 - 0x0000)
+struct alignas(0x08) FSessionsSearchSetting final
+{
+public:
+	uint8                                         Pad_0[0x28];                                       // 0x0000(0x0028)(Fixing Struct Size After Last Property [ Dumper-7 ])
+};
+DUMPER7_ASSERTS_FSessionsSearchSetting;
 
 }
 

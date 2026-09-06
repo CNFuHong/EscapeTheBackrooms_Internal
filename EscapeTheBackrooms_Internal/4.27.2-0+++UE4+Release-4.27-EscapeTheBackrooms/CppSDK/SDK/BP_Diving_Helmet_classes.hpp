@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "CoreUObject_structs.hpp"
 #include "Engine_structs.hpp"
+#include "CoreUObject_structs.hpp"
 #include "BP_Item_classes.hpp"
 
 
@@ -34,10 +34,8 @@ public:
 public:
 	void ExecuteUbergraph_BP_Diving_Helmet(int32 EntryPoint);
 	void MC_BlockPickup();
-	void ReceiveBeginPlay();
 	void SRV_EquipHelmet();
 	void PlayAnimation();
-	void UseItem();
 	void OnCompleted_3FE3233945D5FF790518F1ADBD2F23FC(class FName NotifyName);
 	void OnBlendOut_3FE3233945D5FF790518F1ADBD2F23FC(class FName NotifyName);
 	void OnInterrupted_3FE3233945D5FF790518F1ADBD2F23FC(class FName NotifyName);
@@ -45,6 +43,8 @@ public:
 	void OnNotifyEnd_3FE3233945D5FF790518F1ADBD2F23FC(class FName NotifyName);
 	void Shift__UpdateFunc();
 	void Shift__FinishedFunc();
+	void ReceiveBeginPlay();
+	void UseItem();
 
 public:
 	static class UClass* StaticClass()

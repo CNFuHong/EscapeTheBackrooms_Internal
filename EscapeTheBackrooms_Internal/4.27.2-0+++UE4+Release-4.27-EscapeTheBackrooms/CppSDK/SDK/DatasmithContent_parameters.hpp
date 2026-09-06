@@ -14,6 +14,15 @@
 namespace SDK::Params
 {
 
+// Function DatasmithContent.DatasmithImportedSequencesActor.PlayLevelSequence
+// 0x0008 (0x0008 - 0x0000)
+struct DatasmithImportedSequencesActor_PlayLevelSequence final
+{
+public:
+	class ULevelSequence*                         SequenceToPlay;                                    // 0x0000(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+};
+DUMPER7_ASSERTS_DatasmithImportedSequencesActor_PlayLevelSequence;
+
 // Function DatasmithContent.DatasmithContentBlueprintLibrary.GetDatasmithUserData
 // 0x0010 (0x0010 - 0x0000)
 struct DatasmithContentBlueprintLibrary_GetDatasmithUserData final
@@ -46,15 +55,6 @@ public:
 	class FString                                 ReturnValue;                                       // 0x0010(0x0010)(Parm, OutParm, ZeroConstructor, ReturnParm, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 };
 DUMPER7_ASSERTS_DatasmithContentBlueprintLibrary_GetDatasmithUserDataValueForKey;
-
-// Function DatasmithContent.DatasmithImportedSequencesActor.PlayLevelSequence
-// 0x0008 (0x0008 - 0x0000)
-struct DatasmithImportedSequencesActor_PlayLevelSequence final
-{
-public:
-	class ULevelSequence*                         SequenceToPlay;                                    // 0x0000(0x0008)(Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
-};
-DUMPER7_ASSERTS_DatasmithImportedSequencesActor_PlayLevelSequence;
 
 }
 

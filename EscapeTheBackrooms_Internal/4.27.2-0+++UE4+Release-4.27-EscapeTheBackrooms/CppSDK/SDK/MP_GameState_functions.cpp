@@ -37,6 +37,26 @@ void AMP_GameState_C::ExecuteUbergraph_MP_GameState(int32 EntryPoint)
 }
 
 
+// Function MP_GameState.MP_GameState_C.ReceiveEndPlay
+// (Event, Protected, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMP_GameState_C::ReceiveEndPlay(EEndPlayReason EndPlayReason)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_GameState_C", "ReceiveEndPlay");
+
+	Params::MP_GameState_C_ReceiveEndPlay Parms{};
+
+	Parms.EndPlayReason = EndPlayReason;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
 // Function MP_GameState.MP_GameState_C.SetMEGUnlocked
 // (Net, NetReliable, NetServer, BlueprintCallable, BlueprintEvent)
 
@@ -112,6 +132,54 @@ void AMP_GameState_C::OnRep_MaxPlayers()
 
 	if (Func == nullptr)
 		Func = Class->GetFunction("MP_GameState_C", "OnRep_MaxPlayers");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function MP_GameState.MP_GameState_C.SendTelemetryEventStart
+// (Protected, BlueprintCallable, BlueprintEvent)
+
+void AMP_GameState_C::SendTelemetryEventStart()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_GameState_C", "SendTelemetryEventStart");
+
+	UObject::ProcessEvent(Func, nullptr);
+}
+
+
+// Function MP_GameState.MP_GameState_C.SendTelemetryEventEnd
+// (Protected, BlueprintCallable, BlueprintEvent)
+// Parameters:
+// EEndPlayReason                          EndPlayReason                                          (BlueprintVisible, BlueprintReadOnly, Parm, ZeroConstructor, IsPlainOldData, NoDestructor, HasGetValueTypeHash)
+
+void AMP_GameState_C::SendTelemetryEventEnd(EEndPlayReason EndPlayReason)
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_GameState_C", "SendTelemetryEventEnd");
+
+	Params::MP_GameState_C_SendTelemetryEventEnd Parms{};
+
+	Parms.EndPlayReason = EndPlayReason;
+
+	UObject::ProcessEvent(Func, &Parms);
+}
+
+
+// Function MP_GameState.MP_GameState_C.UpdateLevelData
+// (Public, BlueprintCallable, BlueprintEvent)
+
+void AMP_GameState_C::UpdateLevelData()
+{
+	static class UFunction* Func = nullptr;
+
+	if (Func == nullptr)
+		Func = Class->GetFunction("MP_GameState_C", "UpdateLevelData");
 
 	UObject::ProcessEvent(Func, nullptr);
 }

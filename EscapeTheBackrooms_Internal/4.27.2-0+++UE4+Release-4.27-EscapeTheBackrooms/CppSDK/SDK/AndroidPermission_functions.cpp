@@ -48,10 +48,10 @@ class UAndroidPermissionCallbackProxy* UAndroidPermissionFunctionLibrary::Acquir
 // Function AndroidPermission.AndroidPermissionFunctionLibrary.CheckPermission
 // (Final, Native, Static, Public, BlueprintCallable)
 // Parameters:
-// const class FString&                    permission                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
+// const class FString&                    Permission                                             (Parm, ZeroConstructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 // bool                                    ReturnValue                                            (Parm, OutParm, ZeroConstructor, ReturnParm, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)
 
-bool UAndroidPermissionFunctionLibrary::CheckPermission(const class FString& permission)
+bool UAndroidPermissionFunctionLibrary::CheckPermission(const class FString& Permission)
 {
 	static class UFunction* Func = nullptr;
 
@@ -60,7 +60,7 @@ bool UAndroidPermissionFunctionLibrary::CheckPermission(const class FString& per
 
 	Params::AndroidPermissionFunctionLibrary_CheckPermission Parms{};
 
-	Parms.permission = std::move(permission);
+	Parms.Permission = std::move(Permission);
 
 	auto Flgs = Func->FunctionFlags;
 	Func->FunctionFlags |= 0x400;

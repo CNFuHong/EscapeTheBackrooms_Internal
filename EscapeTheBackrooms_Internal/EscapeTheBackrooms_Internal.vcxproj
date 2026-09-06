@@ -10,7 +10,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -18,9 +17,7 @@
     <RootNamespace>EscapeTheBackroomsInternal</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -34,20 +31,16 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <OutDir>$(ProjectDir)..\x64\$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)..\x64\obj\$(Configuration)\</IntDir>
     <TargetName>EscapeTheBackrooms_Internal</TargetName>
   </PropertyGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -64,7 +57,6 @@
       <AdditionalDependencies>d3d11.lib;d3d12.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -85,7 +77,6 @@
       <AdditionalDependencies>d3d11.lib;d3d12.lib;dxgi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <ClInclude Include="include\core\config.hpp" />
     <ClInclude Include="include\core\logger.hpp" />
@@ -108,11 +99,103 @@
     <ClInclude Include="include\render\renderer.hpp" />
     <ClInclude Include="include\render\esp_draw.hpp" />
     <ClInclude Include="include\ui\menu.hpp" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_allegro5.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_android.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_dx10.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_dx11.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_dx12.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_dx9.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_glut.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_metal.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_null.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_opengl2.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_osx.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_sdl2.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_sdl3.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_sdlgpu3.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_sdlgpu3_shaders.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_sdlrenderer2.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_sdlrenderer3.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_vulkan.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_wgpu.h" />
+    <ClInclude Include="lib\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="lib\imgui\examples\example_allegro5\imconfig_allegro5.h" />
+    <ClInclude Include="lib\imgui\examples\libs\emscripten\emscripten_mainloop_stub.h" />
+    <ClInclude Include="lib\imgui\examples\libs\glfw\include\GLFW\glfw3.h" />
+    <ClInclude Include="lib\imgui\examples\libs\glfw\include\GLFW\glfw3native.h" />
+    <ClInclude Include="lib\imgui\examples\libs\usynergy\uSynergy.h" />
+    <ClInclude Include="lib\imgui\imconfig.h" />
+    <ClInclude Include="lib\imgui\imgui.h" />
+    <ClInclude Include="lib\imgui\imgui_internal.h" />
+    <ClInclude Include="lib\imgui\imstb_rectpack.h" />
+    <ClInclude Include="lib\imgui\imstb_textedit.h" />
+    <ClInclude Include="lib\imgui\imstb_truetype.h" />
+    <ClInclude Include="lib\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="lib\imgui\misc\freetype\imgui_freetype.h" />
+    <ClInclude Include="lib\imgui\misc\single_file\imgui_single_file.h" />
+    <ClInclude Include="lib\minhook\include\MinHook.h" />
+    <ClInclude Include="lib\minhook\src\buffer.h" />
+    <ClInclude Include="lib\minhook\src\hde\hde32.h" />
+    <ClInclude Include="lib\minhook\src\hde\hde64.h" />
+    <ClInclude Include="lib\minhook\src\hde\pstdint.h" />
+    <ClInclude Include="lib\minhook\src\hde\table32.h" />
+    <ClInclude Include="lib\minhook\src\hde\table64.h" />
+    <ClInclude Include="lib\minhook\src\trampoline.h" />
     <ClInclude Include="lib\nlohmann\json.hpp" />
   </ItemGroup>
-
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_allegro5.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_android.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx10.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_dx9.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_glut.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_null.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_sdl3.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_sdlgpu3.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_sdlrenderer2.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_sdlrenderer3.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_vulkan.cpp" />
+    <ClCompile Include="lib\imgui\backends\imgui_impl_wgpu.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_allegro5\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_android_opengl3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_glfw_opengl2\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_glfw_opengl3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_glfw_vulkan\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_glfw_wgpu\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_glut_opengl2\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_null\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl2_directx11\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl2_opengl2\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl2_opengl3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl2_sdlrenderer2\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl2_vulkan\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl2_wgpu\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl3_directx11\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl3_opengl3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl3_sdlgpu3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl3_sdlrenderer3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl3_vulkan\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_sdl3_wgpu\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_win32_directx10\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_win32_directx11\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_win32_directx12\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_win32_directx9\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_win32_opengl3\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\example_win32_vulkan\main.cpp" />
+    <ClCompile Include="lib\imgui\examples\libs\usynergy\uSynergy.c" />
+    <ClCompile Include="lib\imgui\imgui_demo.cpp" />
+    <ClCompile Include="lib\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="lib\imgui\misc\fonts\binary_to_compressed_c.cpp" />
+    <ClCompile Include="lib\imgui\misc\freetype\imgui_freetype.cpp" />
+    <ClCompile Include="lib\minhook\src\hde\hde32.c" />
     <ClCompile Include="src\core\config.cpp" />
     <ClCompile Include="src\core\logger.cpp" />
     <ClCompile Include="src\core\runtime.cpp" />
@@ -150,7 +233,6 @@
     <ClCompile Include="src\render\renderer.cpp" />
     <ClCompile Include="src\render\esp_draw.cpp" />
     <ClCompile Include="src\ui\menu.cpp" />
-
     <ClCompile Include="lib\imgui\imgui.cpp" />
     <ClCompile Include="lib\imgui\imgui_draw.cpp" />
     <ClCompile Include="lib\imgui\imgui_tables.cpp" />
@@ -158,13 +240,17 @@
     <ClCompile Include="lib\imgui\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_dx12.cpp" />
-
     <ClCompile Include="lib\minhook\src\buffer.c" />
     <ClCompile Include="lib\minhook\src\hook.c" />
     <ClCompile Include="lib\minhook\src\trampoline.c" />
     <ClCompile Include="lib\minhook\src\hde\hde64.c" />
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="lib\imgui\examples\libs\emscripten\shell_minimal.html" />
+    <None Include="lib\minhook\dll_resources\MinHook.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="lib\minhook\dll_resources\MinHook.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
-
