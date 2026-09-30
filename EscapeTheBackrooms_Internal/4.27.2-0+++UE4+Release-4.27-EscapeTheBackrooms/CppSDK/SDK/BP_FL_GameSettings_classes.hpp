@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Engine_classes.hpp"
 #include "E_CameraSetting_structs.hpp"
+#include "Engine_classes.hpp"
 
 
 namespace SDK

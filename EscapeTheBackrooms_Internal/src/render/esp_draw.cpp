@@ -1,4 +1,4 @@
-﻿#include "render/esp_draw.hpp"
+#include "render/esp_draw.hpp"
 
 #include <algorithm>
 #include <cfloat>
@@ -93,32 +93,58 @@ void DrawEspVisual(ImDrawList* drawList, const EspVisual& visual, const EspDrawS
 
     if (style.boxes)
     {
-        const float rounding = std::clamp(width * 0.055f, 3.0f, 7.0f);
-        drawList->AddRect(ImVec2(boxMin.x + 2.0f, boxMin.y + 3.0f),
-                          ImVec2(boxMax.x + 2.0f, boxMax.y + 3.0f),
-                          IM_COL32(0, 0, 0, 90), rounding, 0, 3.0f);
-
-        if (style.filledBoxes)
+        if (style.threeD && visual.hasCorners)
         {
-            const int alpha = static_cast<int>(std::clamp(style.fillOpacity, 0.0f, 0.55f) * 255.0f);
-            drawList->AddRectFilled(boxMin, boxMax, IM_COL32(8, 11, 18, alpha), rounding);
-            drawList->AddRectFilled(ImVec2(boxMin.x, boxMin.y), ImVec2(boxMax.x, boxMin.y + 3.0f),
-                                    WithAlpha(color, std::min(alpha + 38, 135)), rounding);
+            const auto& c = visual.corners;
+            auto valid = [](const ImVec2& p)
+            {
+                return p.x > -50000.0f && p.x < 50000.0f &&
+                       p.y > -50000.0f && p.y < 50000.0f;
+            };
+            auto edge = [&](int a, int b, float thick, ImU32 col)
+            {
+                if (valid(c[a]) && valid(c[b]))
+                    drawList->AddLine(c[a], c[b], col, thick);
+            };
+            const int edges[12][2] = {
+                {0, 2}, {2, 6}, {6, 4}, {4, 0},  // bottom
+                {1, 3}, {3, 7}, {7, 5}, {5, 1},  // top
+                {0, 1}, {2, 3}, {4, 5}, {6, 7}}; // vertical
+            for (const auto& e : edges)
+            {
+                edge(e[0], e[1], 3.0f, IM_COL32(0, 0, 0, 110));
+                edge(e[0], e[1], 1.4f, WithAlpha(color, 220));
+            }
         }
+        else
+        {
+            const float rounding = std::clamp(width * 0.055f, 3.0f, 7.0f);
+            drawList->AddRect(ImVec2(boxMin.x + 2.0f, boxMin.y + 3.0f),
+                              ImVec2(boxMax.x + 2.0f, boxMax.y + 3.0f),
+                              IM_COL32(0, 0, 0, 90), rounding, 0, 3.0f);
 
-        drawList->AddRect(boxMin, boxMax, IM_COL32(4, 6, 10, 220), rounding, 0, 3.4f);
-        drawList->AddRect(boxMin, boxMax, WithAlpha(color, 225), rounding, 0, 1.45f);
+            if (style.filledBoxes)
+            {
+                const int alpha = static_cast<int>(std::clamp(style.fillOpacity, 0.0f, 0.55f) * 255.0f);
+                drawList->AddRectFilled(boxMin, boxMax, IM_COL32(8, 11, 18, alpha), rounding);
+                drawList->AddRectFilled(ImVec2(boxMin.x, boxMin.y), ImVec2(boxMax.x, boxMin.y + 3.0f),
+                                        WithAlpha(color, std::min(alpha + 38, 135)), rounding);
+            }
 
-        const float corner = std::clamp(std::min(width, height) * 0.24f, 5.0f, 18.0f);
-        const float thick = 2.5f;
-        drawList->AddLine(boxMin, ImVec2(boxMin.x + corner, boxMin.y), color, thick);
-        drawList->AddLine(boxMin, ImVec2(boxMin.x, boxMin.y + corner), color, thick);
-        drawList->AddLine(ImVec2(boxMax.x, boxMin.y), ImVec2(boxMax.x - corner, boxMin.y), color, thick);
-        drawList->AddLine(ImVec2(boxMax.x, boxMin.y), ImVec2(boxMax.x, boxMin.y + corner), color, thick);
-        drawList->AddLine(ImVec2(boxMin.x, boxMax.y), ImVec2(boxMin.x + corner, boxMax.y), color, thick);
-        drawList->AddLine(ImVec2(boxMin.x, boxMax.y), ImVec2(boxMin.x, boxMax.y - corner), color, thick);
-        drawList->AddLine(boxMax, ImVec2(boxMax.x - corner, boxMax.y), color, thick);
-        drawList->AddLine(boxMax, ImVec2(boxMax.x, boxMax.y - corner), color, thick);
+            drawList->AddRect(boxMin, boxMax, IM_COL32(4, 6, 10, 220), rounding, 0, 3.4f);
+            drawList->AddRect(boxMin, boxMax, WithAlpha(color, 225), rounding, 0, 1.45f);
+
+            const float corner = std::clamp(std::min(width, height) * 0.24f, 5.0f, 18.0f);
+            const float thick = 2.5f;
+            drawList->AddLine(boxMin, ImVec2(boxMin.x + corner, boxMin.y), color, thick);
+            drawList->AddLine(boxMin, ImVec2(boxMin.x, boxMin.y + corner), color, thick);
+            drawList->AddLine(ImVec2(boxMax.x, boxMin.y), ImVec2(boxMax.x - corner, boxMin.y), color, thick);
+            drawList->AddLine(ImVec2(boxMax.x, boxMin.y), ImVec2(boxMax.x, boxMin.y + corner), color, thick);
+            drawList->AddLine(ImVec2(boxMin.x, boxMax.y), ImVec2(boxMin.x + corner, boxMax.y), color, thick);
+            drawList->AddLine(ImVec2(boxMin.x, boxMax.y), ImVec2(boxMin.x, boxMax.y - corner), color, thick);
+            drawList->AddLine(boxMax, ImVec2(boxMax.x - corner, boxMax.y), color, thick);
+            drawList->AddLine(boxMax, ImVec2(boxMax.x, boxMax.y - corner), color, thick);
+        }
     }
 
     if (!style.labels)
@@ -202,6 +228,105 @@ void DrawEspVisual(ImDrawList* drawList, const EspVisual& visual, const EspDrawS
                       ImVec2(labelMin.x + 12.0f * scale, labelMin.y + 19.0f * scale),
                       IM_COL32(244, 247, 252, 255), displayName.c_str());
     drawList->PopClipRect();
+}
+
+void DrawChinaHat(ImDrawList* drawList, const ChinaHatMesh& mesh, const ChinaHatStyle& style)
+{
+    if (drawList == nullptr || !style.enabled || !mesh.valid)
+        return;
+
+    const int segments = std::clamp(mesh.segmentCount, 3, ChinaHatMesh::kMaxSegments);
+    if (segments < 3)
+        return;
+
+    ImVec2 points[ChinaHatMesh::kMaxSegments + 1];
+    const int total = segments + 1;
+    points[0] = mesh.apex;
+    for (int i = 0; i < segments; ++i)
+        points[i + 1] = mesh.brim[i];
+
+    std::sort(points, points + total, [](const ImVec2& a, const ImVec2& b)
+    {
+        return a.x < b.x || (a.x == b.x && a.y < b.y);
+    });
+
+    const auto cross = [](const ImVec2& o, const ImVec2& a, const ImVec2& b)
+    {
+        return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+    };
+
+    ImVec2 hull[ChinaHatMesh::kMaxSegments + 2];
+    int hullCount = 0;
+    for (int i = 0; i < total; ++i)
+    {
+        while (hullCount >= 2 && cross(hull[hullCount - 2], hull[hullCount - 1], points[i]) <= 0.0f)
+            --hullCount;
+        hull[hullCount++] = points[i];
+    }
+    for (int i = total - 2, lower = hullCount + 1; i >= 0; --i)
+    {
+        while (hullCount >= lower && cross(hull[hullCount - 2], hull[hullCount - 1], points[i]) <= 0.0f)
+            --hullCount;
+        hull[hullCount++] = points[i];
+    }
+    if (hullCount > 1)
+        --hullCount;
+    if (hullCount < 3)
+        return;
+
+    const float thickness = std::clamp(style.outlineThickness, 0.5f, 6.0f);
+    const ImU32 color = style.color;
+    const int half = segments / 2;
+
+    if (style.filled)
+    {
+        const int alpha = static_cast<int>(std::clamp(style.fillOpacity, 0.0f, 1.0f) * 255.0f);
+        drawList->AddConvexPolyFilled(hull, hullCount, WithAlpha(color, alpha));
+    }
+
+    if (style.farRim && segments >= 6)
+    {
+        ImVec2 farRim[ChinaHatMesh::kMaxSegments + 1];
+        int farCount = 0;
+        for (int i = half; i <= segments && farCount < ChinaHatMesh::kMaxSegments + 1; ++i)
+            farRim[farCount++] = mesh.brim[i % segments];
+        if (farCount >= 2)
+            drawList->AddPolyline(farRim, farCount, WithAlpha(color, 120), 0,
+                                  std::max(0.6f, thickness * 0.7f));
+
+        ImVec2 nearRim[ChinaHatMesh::kMaxSegments + 1];
+        int nearCount = 0;
+        for (int i = 0; i <= half && nearCount < ChinaHatMesh::kMaxSegments + 1; ++i)
+            nearRim[nearCount++] = mesh.brim[i % segments];
+        if (nearCount >= 2)
+            drawList->AddPolyline(nearRim, nearCount, WithAlpha(color, 215), 0,
+                                  std::max(0.6f, thickness * 0.85f));
+    }
+
+    if (style.ribs)
+    {
+        const int ribCount = std::clamp(style.ribCount, 2, 48);
+        for (int pass = 0; pass < 2; ++pass)
+        {
+            for (int r = 0; r < ribCount; ++r)
+            {
+                const int index = (r * segments) / ribCount;
+                const bool near = index <= half;
+                if ((pass == 0) == near)
+                    continue;
+                drawList->AddLine(mesh.apex, mesh.brim[index % segments],
+                                  WithAlpha(color, pass == 0 ? 85 : 185),
+                                  std::max(0.5f, thickness * 0.6f));
+            }
+        }
+    }
+
+    if (style.outline)
+    {
+        drawList->AddPolyline(hull, hullCount, IM_COL32(0, 0, 0, 120), ImDrawFlags_Closed,
+                              thickness + 1.5f);
+        drawList->AddPolyline(hull, hullCount, WithAlpha(color, 235), ImDrawFlags_Closed, thickness);
+    }
 }
 
 void DrawClassNameLabel(ImDrawList* drawList, const ImVec2& position, const std::string& className,

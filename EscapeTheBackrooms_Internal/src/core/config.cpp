@@ -6,6 +6,9 @@
 #include "features/movement.hpp"
 #include "features/notifications.hpp"
 #include "features/pickup.hpp"
+#include "features/session_limit.hpp"
+#include "features/spectator.hpp"
+#include "features/spawner.hpp"
 #include "features/vehicle_flight.hpp"
 #include "features/visuals.hpp"
 
@@ -16,12 +19,20 @@
 #include <cwctype>
 #include <filesystem>
 #include <fstream>
+#include <mutex>
 #include <string>
 
 namespace etb::core::config
 {
 namespace
 {
+constexpr int kConfigVersion = 3;
+std::mutex g_startupMutex;
+bool g_startupAttempted = false;
+bool g_startupLoaded = false;
+std::string g_startupName = "default";
+std::string g_startupMessage;
+
 std::filesystem::path ConfigDirectory()
 {
     wchar_t localAppData[32768]{};
@@ -55,6 +66,21 @@ std::wstring Utf8ToWide(const std::string_view value)
                         value.data(), static_cast<int>(value.size()),
                         wide.data(), length);
     return wide;
+}
+
+std::string WideToUtf8(const std::wstring_view value)
+{
+    if (value.empty())
+        return {};
+    const int length = WideCharToMultiByte(CP_UTF8, 0, value.data(),
+                                           static_cast<int>(value.size()),
+                                           nullptr, 0, nullptr, nullptr);
+    if (length <= 0)
+        return {};
+    std::string utf8(static_cast<std::size_t>(length), '\0');
+    WideCharToMultiByte(CP_UTF8, 0, value.data(), static_cast<int>(value.size()),
+                        utf8.data(), length, nullptr, nullptr);
+    return utf8;
 }
 
 std::wstring NormalizeName(const std::string_view name)
@@ -96,16 +122,126 @@ std::filesystem::path ConfigPath(const std::string_view name)
     return ConfigDirectory() / (NormalizeName(name) + L".json");
 }
 
+std::filesystem::path StartupStatePath()
+{
+    return ConfigDirectory() / L".state" / L"startup.json";
+}
+
+bool WriteJsonAtomically(const std::filesystem::path& path, const Json& json,
+                         std::string& message)
+{
+    std::filesystem::create_directories(path.parent_path());
+    const std::filesystem::path temporary = path.wstring() + L".tmp";
+    std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
+    if (!output)
+    {
+        message = "Cannot open configuration file for writing";
+        return false;
+    }
+    output << json.dump(4);
+    output.flush();
+    if (!output)
+    {
+        message = "Failed while writing configuration file";
+        return false;
+    }
+    output.close();
+    if (!MoveFileExW(temporary.c_str(), path.c_str(),
+                     MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
+    {
+        message = "Cannot replace configuration file: " + std::to_string(GetLastError());
+        return false;
+    }
+    return true;
+}
+
+void RememberConfigName(const std::string_view name)
+{
+    const std::string normalized = WideToUtf8(NormalizeName(name));
+    if (normalized.empty())
+        return;
+    Json state;
+    state["name"] = normalized;
+    std::string ignored;
+    WriteJsonAtomically(StartupStatePath(), state, ignored);
+}
+
+std::string ResolveStartupName()
+{
+    try
+    {
+        std::ifstream input(StartupStatePath(), std::ios::binary);
+        if (input)
+        {
+            const Json state = Json::parse(input, nullptr, true, true);
+            if (state.contains("name") && state.at("name").is_string())
+            {
+                const std::string name = WideToUtf8(NormalizeName(
+                    state.at("name").get<std::string>()));
+                if (!name.empty() && std::filesystem::exists(ConfigPath(name)))
+                    return name;
+            }
+        }
+    }
+    catch (...)
+    {
+    }
+
+    try
+    {
+        std::filesystem::path newest;
+        std::filesystem::file_time_type newestTime{};
+        bool found = false;
+        const std::filesystem::path directory = ConfigDirectory();
+        if (std::filesystem::exists(directory))
+        {
+            for (const auto& entry : std::filesystem::directory_iterator(directory))
+            {
+                if (!entry.is_regular_file())
+                    continue;
+                std::wstring extension = entry.path().extension().wstring();
+                std::transform(extension.begin(), extension.end(), extension.begin(),
+                               [](const wchar_t character)
+                               {
+                                   return static_cast<wchar_t>(std::towlower(character));
+                               });
+                if (extension != L".json")
+                    continue;
+                const auto modified = entry.last_write_time();
+                if (!found || modified > newestTime)
+                {
+                    newest = entry.path();
+                    newestTime = modified;
+                    found = true;
+                }
+            }
+        }
+        if (found)
+        {
+            const std::string name = WideToUtf8(newest.stem().wstring());
+            if (!name.empty())
+                return name;
+        }
+    }
+    catch (...)
+    {
+    }
+    return "default";
+}
+
 void EnsureRegistered()
 {
     (void)features::Esp::Instance();
     (void)features::Movement::Instance();
     (void)features::Pickup::Instance();
+    (void)features::SessionLimit::Instance();
     (void)features::Visuals::Instance();
     (void)features::VehicleFlight::Instance();
     (void)features::ArrayListHud::Instance();
     (void)features::Notifications::Instance();
     (void)features::ExitActivator::Instance();
+    (void)features::Spectator::Instance();
+    (void)features::Spawner::Instance();
     (void)g_MenuSettings;
 }
 
@@ -152,10 +288,10 @@ void Validate()
     auto& pickup = features::Pickup::Instance().Settings();
     Clamp(pickup.autoPickupIntervalSeconds, 0.25f, 5.0f);
     Clamp(pickup.scanActorsPerTick, 50, 2000);
-    Clamp(pickup.radiusMeters, 1.0f, 100.0f);
+    Clamp(pickup.radiusMeters, 1.0f, 800.0f);
     Clamp(pickup.maxItemsPerActivation, 1, 32);
     Clamp(pickup.hotkey, 0, 255);
-    Clamp(pickup.hostMaximumRadiusMeters, 1.0f, 250.0f);
+    Clamp(pickup.hostMaximumRadiusMeters, 1.0f, 800.0f);
 
     auto& visuals = features::Visuals::Instance().Settings();
     Clamp(visuals.nightVisionStrength, 1.0f, 20.0f);
@@ -177,6 +313,16 @@ void Validate()
     Clamp(vehicle.networkRateHz, 5.0f, 60.0f);
     Clamp(vehicle.toggleKey, 0, 255);
     Clamp(vehicle.noClipToggleKey, 0, 255);
+
+    auto& spectator = features::Spectator::Instance().Settings();
+    Clamp(spectator.spectateToggleKey, 0, 255);
+    Clamp(spectator.spectateNextKey, 0, 255);
+    Clamp(spectator.spectatePrevKey, 0, 255);
+    Clamp(spectator.freeCamToggleKey, 0, 255);
+    Clamp(spectator.freeCamSpeed, 100.0f, 10000.0f);
+
+    auto& session = features::SessionLimit::Instance().Settings();
+    Clamp(session.maximumPlayers, 1, 64);
 
     auto& arrayList = features::ArrayListHud::Instance().Settings();
     ClampEnum(arrayList.mode, 0, 3);
@@ -208,6 +354,12 @@ void Validate()
     Clamp(exits.memberSprintSpeed, 50.0f, 8000.0f);
     Clamp(exits.memberCrouchSpeed, 25.0f, 5000.0f);
     Clamp(exits.memberMaxStamina, 1.0f, 10000.0f);
+
+    auto& menu = g_MenuSettings;
+    Clamp(menu.windowX, -1.0f, 100000.0f);
+    Clamp(menu.windowY, -1.0f, 100000.0f);
+    Clamp(menu.windowWidth, 200.0f, 8192.0f);
+    Clamp(menu.windowHeight, 120.0f, 8192.0f);
 }
 }
 
@@ -254,38 +406,17 @@ bool Save(const std::string_view name, std::string& message)
     {
         EnsureRegistered();
         Json json;
-        json["version"] = 2;
+        json["version"] = kConfigVersion;
         for (IConfigItem* item : Items())
         {
             if (item != nullptr)
                 item->Save(json);
         }
 
-        const std::filesystem::path path = ConfigPath(name);
-        std::filesystem::create_directories(path.parent_path());
-        const std::filesystem::path temporary = path.wstring() + L".tmp";
-        std::ofstream output(temporary, std::ios::binary | std::ios::trunc);
-        if (!output)
-        {
-            message = "Cannot open configuration file for writing";
+        if (!WriteJsonAtomically(ConfigPath(name), json, message))
             return false;
-        }
-        output << json.dump(4);
-        output.flush();
-        if (!output)
-        {
-            message = "Failed while writing configuration file";
-            return false;
-        }
-        output.close();
 
-        if (!MoveFileExW(temporary.c_str(), path.c_str(),
-                         MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH))
-        {
-            message = "Cannot replace configuration file: " + std::to_string(GetLastError());
-            return false;
-        }
-
+        RememberConfigName(name);
         message = "Configuration saved";
         return true;
     }
@@ -309,7 +440,13 @@ bool Load(const std::string_view name, std::string& message)
         }
 
         const Json json = Json::parse(input, nullptr, true, true);
+        const int version = json.value("version", 1);
         std::size_t invalid = 0;
+        for (IConfigItem* item : Items())
+        {
+            if (item != nullptr)
+                item->ResetDefault();
+        }
         for (IConfigItem* item : Items())
         {
             if (item == nullptr)
@@ -323,7 +460,14 @@ bool Load(const std::string_view name, std::string& message)
                 ++invalid;
             }
         }
+        if (version < 3)
+        {
+            auto& spectator = features::Spectator::Instance().Settings();
+            if (spectator.spectateToggleKey == 'F')
+                spectator.spectateToggleKey = VK_F2;
+        }
         Validate();
+        RememberConfigName(name);
         message = invalid == 0 ? "Configuration loaded" :
             "Configuration loaded with " + std::to_string(invalid) + " invalid values ignored";
         return true;
@@ -333,6 +477,20 @@ bool Load(const std::string_view name, std::string& message)
         message = exception.what();
         return false;
     }
+}
+
+bool LoadStartupOnce(std::string& loadedName, std::string& message)
+{
+    std::lock_guard lock(g_startupMutex);
+    if (!g_startupAttempted)
+    {
+        g_startupAttempted = true;
+        g_startupName = ResolveStartupName();
+        g_startupLoaded = Load(g_startupName, g_startupMessage);
+    }
+    loadedName = g_startupName;
+    message = g_startupMessage;
+    return g_startupLoaded;
 }
 
 bool OpenDirectory(std::string& message)

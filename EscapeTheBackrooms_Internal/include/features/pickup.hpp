@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "core/config.hpp"
 
@@ -30,8 +30,9 @@ struct PickupSettings
     CFG_VAR("pickup_enabled", bool, enabled, true, false, "Range Pickup", "", "Pickup");
     CFG_VAR("pickup_auto", bool, autoPickup, false, true, "Range Pickup", "Automatic", "Pickup");
     CFG_VAR("pickup_auto_interval", float, autoPickupIntervalSeconds, 1.0f, true, "Range Pickup", "Interval", "Pickup");
-    CFG_VAR("pickup_scan_budget", int, scanActorsPerTick, 400, true, "Range Pickup", "Scan Budget", "Pickup");
+    CFG_VAR("pickup_scan_budget", int, scanActorsPerTick, 100, true, "Range Pickup", "Scan Budget", "Pickup");
     CFG_VAR("pickup_radius", float, radiusMeters, 15.0f, true, "Range Pickup", "Radius", "Pickup");
+    CFG_VAR("pickup_teleport_items", bool, teleportItemsBeforePickup, true, true, "Range Pickup", "Teleport Items", "Pickup");
     CFG_VAR("pickup_maximum", int, maxItemsPerActivation, 3, true, "Range Pickup", "Maximum", "Pickup");
     CFG_VAR("pickup_hotkey", int, hotkey, VK_XBUTTON2, true, "Range Pickup", "Hotkey", "Pickup");
     CFG_VAR("pickup_exclude_flashlights", bool, excludeFlashlights, true, true, "Range Pickup", "Exclude Flashlights", "Pickup");
@@ -120,10 +121,13 @@ private:
     // 0ignored 1ADroppedItem 2generic
     std::unordered_map<SDK::UClass*, std::uint8_t> scanClassCache_{};
     std::vector<std::string> completedBatchNames_{};
+    std::string lastBatchMessage_{};
+    std::chrono::steady_clock::time_point lastBatchTime_{};
     std::vector<std::string> notificationQueue_{};
     std::mutex notificationMutex_{};
     std::size_t nextQueueIndex_ = 0;
     std::chrono::steady_clock::time_point nextDispatch_{};
     std::chrono::steady_clock::time_point nextAutoRequest_{};
+    std::chrono::steady_clock::time_point nextScanBatch_{};
 };
 }

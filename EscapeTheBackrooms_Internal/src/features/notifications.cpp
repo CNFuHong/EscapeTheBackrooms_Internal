@@ -1,4 +1,4 @@
-﻿#include "features/notifications.hpp"
+#include "features/notifications.hpp"
 
 #include "features/esp.hpp"
 #include "features/exit_activator.hpp"
@@ -335,6 +335,15 @@ void Notifications::Push(std::string message, const NotificationType type,
 
 void Notifications::ObserveModuleToggles()
 {
+    // This walks every module and formats its mode text, and the HUD does the same walk
+    // for its own layout. Toggle notifications do not need every-frame resolution, so
+    // throttle the whole capture to 10 Hz to cut that computation.
+    static std::chrono::steady_clock::time_point nextCapture{};
+    const auto now = std::chrono::steady_clock::now();
+    if (now < nextCapture)
+        return;
+    nextCapture = now + std::chrono::milliseconds(100);
+
     std::array<HudModuleState, ArrayListHud::ModuleCount> states{};
     ArrayListHud::Instance().CaptureModuleStates(states);
 
@@ -667,6 +676,25 @@ void Notifications::RenderSolaris(const float deltaSeconds)
         if (!notification.timeUp)
             ++visibleCount;
     }
+}
+
+bool Notifications::HasVisible() const noexcept
+{
+    return !notifications_.empty();
+}
+
+bool Notifications::WantsFrame() const noexcept
+{
+    if (!settings_.enabled)
+        return !notifications_.empty();
+    if (!notifications_.empty())
+        return true;
+    // Any of these can still produce a notification this frame.
+    if (settings_.sceneSummary || settings_.sanityWarnings || settings_.discoveryAlerts ||
+        settings_.controlModeAlerts)
+        return true;
+    // Toggle notifications only make sense while the HUD that lists modules is drawn.
+    return settings_.showOnToggle && ArrayListHud::Instance().Settings().enabled;
 }
 
 void Notifications::Reset()

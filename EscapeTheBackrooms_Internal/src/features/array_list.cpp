@@ -1,10 +1,11 @@
-﻿#include "features/array_list.hpp"
+#include "features/array_list.hpp"
 
 #include "features/esp.hpp"
 #include "features/exit_activator.hpp"
 #include "features/movement.hpp"
 #include "features/notifications.hpp"
 #include "features/pickup.hpp"
+#include "features/spectator.hpp"
 #include "features/visuals.hpp"
 #include "features/vehicle_flight.hpp"
 
@@ -17,6 +18,8 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <string>
+#include <vector>
 
 namespace etb::features
 {
@@ -49,10 +52,23 @@ struct ModuleSnapshot
 
 using QueryModuleFn = ModuleSnapshot(*)();
 
+constexpr std::size_t NoGate = static_cast<std::size_t>(-1);
+
 struct ModuleDescriptor
 {
-    const char* text = "";
+    std::string text;
     QueryModuleFn query = nullptr;
+
+    // Auto (config-driven) rows: state comes from the config registry instead of a
+    // hand-written query function. `gate` is the index of the feature row that must be
+    // enabled for a parameter row to show (NoGate = the row's own toggle governs it).
+    ::etb::core::config::IConfigItem* config = nullptr;
+    bool* toggle = nullptr;
+    int keybind = 0;
+    int category = CategoryVisual;
+    std::size_t gate = NoGate;
+    std::string valueText; // pre-computed right-hand text for auto feature rows
+    ArrayListHud::ModuleModeTextFn modeText = nullptr;
 };
 
 struct RowLayout
@@ -97,6 +113,13 @@ ModuleSnapshot BoxesModule()
     auto& settings = Esp::Instance().Settings();
     return WithMode(ModuleSnapshot{settings.enabled && settings.boxes, &settings.boxes,
                                    0, CategoryEsp}, "S%.2fx", settings.cardScale);
+}
+
+ModuleSnapshot ThreeDBoxesModule()
+{
+    auto& settings = Esp::Instance().Settings();
+    return WithMode(ModuleSnapshot{settings.enabled && settings.threeDBoxes,
+                                   &settings.threeDBoxes, 0, CategoryEsp}, "3D");
 }
 
 ModuleSnapshot FilledBoxesModule()
@@ -175,6 +198,14 @@ ModuleSnapshot ExitsModule()
                     settings.maxDistanceMeters, Esp::Instance().Stats().exits);
 }
 
+ModuleSnapshot PathToExitModule()
+{
+    auto& settings = Esp::Instance().Settings();
+    return WithMode(ModuleSnapshot{settings.enabled && settings.pathToExit,
+                                   &settings.pathToExit, 0, CategoryEsp}, "N%zu",
+                    Esp::Instance().Stats().exits);
+}
+
 ModuleSnapshot ClassNameModule()
 {
     auto& settings = Esp::Instance().Settings();
@@ -240,6 +271,20 @@ ModuleSnapshot InfiniteStaminaModule()
                                    0, CategoryMovement}, "Max");
 }
 
+ModuleSnapshot AutoSprintModule()
+{
+    auto& settings = Movement::Instance().Settings();
+    return WithMode(ModuleSnapshot{settings.autoSprint, &settings.autoSprint,
+                                   0, CategoryMovement}, "W");
+}
+
+ModuleSnapshot BunnyHopModule()
+{
+    auto& settings = Movement::Instance().Settings();
+    return WithMode(ModuleSnapshot{settings.bunnyHop, &settings.bunnyHop,
+                                   VK_SPACE, CategoryMovement}, "Hold Space");
+}
+
 ModuleSnapshot CrouchModule()
 {
     auto& settings = Movement::Instance().Settings();
@@ -281,6 +326,15 @@ ModuleSnapshot NoClipModule()
                                    settings.noClipToggleKey, CategoryMovement}, "Collision:Off");
 }
 
+ModuleSnapshot AirTurnModule()
+{
+    auto& settings = Movement::Instance().Settings();
+    ModuleSnapshot result{settings.airTurnEnabled, &settings.airTurnEnabled, 0, CategoryMovement};
+    std::snprintf(result.modeText.data(), result.modeText.size(), "C%.1f A%.0f",
+                  settings.airTurnControl, settings.airTurnAcceleration);
+    return result;
+}
+
 ModuleSnapshot VehicleFlightModule()
 {
     auto& settings = VehicleFlight::Instance().Settings();
@@ -296,6 +350,28 @@ ModuleSnapshot VehicleNoClipModule()
     auto& settings = VehicleFlight::Instance().Settings();
     return WithMode(ModuleSnapshot{settings.noClip, &settings.noClip,
                                    settings.noClipToggleKey, CategoryMovement}, "Collision:Off");
+}
+
+ModuleSnapshot SpectateTeammatesModule()
+{
+    auto& feature = Spectator::Instance();
+    auto& settings = feature.Settings();
+    const SpectatorStatus status = feature.Status();
+    ModuleSnapshot result{settings.spectateEnabled, &settings.spectateEnabled,
+                          settings.spectateToggleKey, CategoryMovement};
+    std::snprintf(result.modeText.data(), result.modeText.size(), "Watch %zu",
+                  status.playerCount);
+    return result;
+}
+
+ModuleSnapshot FreeCameraModule()
+{
+    auto& settings = Spectator::Instance().Settings();
+    ModuleSnapshot result{settings.freeCamEnabled, &settings.freeCamEnabled,
+                          settings.freeCamToggleKey, CategoryMovement};
+    std::snprintf(result.modeText.data(), result.modeText.size(), "V%.0f %s",
+                  settings.freeCamSpeed, settings.freeCamNoClip ? "NoClip" : "Collision");
+    return result;
 }
 
 ModuleSnapshot NightVisionModule()
@@ -411,6 +487,17 @@ ModuleSnapshot ForceExitsModule()
     return result;
 }
 
+ModuleSnapshot MemberAttributesModule()
+{
+    auto& settings = ExitActivator::Instance().Settings();
+    ModuleSnapshot result{settings.maintainMemberAttributes,
+                          &settings.maintainMemberAttributes, 0, CategoryHost};
+    std::snprintf(result.modeText.data(), result.modeText.size(), "W%.0f S%.0f C%.0f St:%s",
+                  settings.memberWalkSpeed, settings.memberSprintSpeed, settings.memberCrouchSpeed,
+                  settings.memberInfiniteStamina ? "Inf" : "Game");
+    return result;
+}
+
 ModuleSnapshot HostPickupModule()
 {
     auto& settings = Pickup::Instance().Settings();
@@ -421,9 +508,10 @@ ModuleSnapshot HostPickupModule()
     return result;
 }
 
-constexpr std::array<ModuleDescriptor, ArrayListHud::ModuleCount> Descriptors{{
+const std::array<ModuleDescriptor, 42> kCuratedModules{{
     {"ESP", EspModule},
     {"ESP Boxes", BoxesModule},
+    {"ESP 3D Boxes", ThreeDBoxesModule},
     {"ESP Filled Boxes", FilledBoxesModule},
     {"ESP Labels", LabelsModule},
     {"ESP Distance", DistanceModule},
@@ -433,20 +521,26 @@ constexpr std::array<ModuleDescriptor, ArrayListHud::ModuleCount> Descriptors{{
     {"Entity Speed ESP", EntitySpeedModule},
     {"Item ESP", ItemsModule},
     {"Exit ESP", ExitsModule},
+    {"Path to Exit", PathToExitModule},
     {"Class Name ESP", ClassNameModule},
     {"Lever ESP", LeverModule},
     {"Valve ESP", ValveModule},
     {"Dynamic Markers", DynamicModule},
     {"New Spawn ESP", SpawnMarkerModule},
     {"Infinite Stamina", InfiniteStaminaModule},
+    {"Auto Sprint", AutoSprintModule},
+    {"BHop", BunnyHopModule},
     {"Speed", SpeedModule},
     {"Crouch Speed", CrouchModule},
     {"High Jump", JumpModule},
     {"Gravity", GravityModule},
     {"Fly", FlyModule},
     {"NoClip", NoClipModule},
+    {"Air Turn", AirTurnModule},
     {"Vehicle Fly", VehicleFlightModule},
     {"Vehicle NoClip", VehicleNoClipModule},
+    {"Spectate Teammates", SpectateTeammatesModule},
+    {"Free Camera", FreeCameraModule},
     {"Environment Brightness", NightVisionModule},
     {"Third Person", ThirdPersonModule},
     {"Derp", DerpModule},
@@ -454,9 +548,230 @@ constexpr std::array<ModuleDescriptor, ArrayListHud::ModuleCount> Descriptors{{
     {"Notifications", NotificationsModule},
     {"Range Pickup", PickupModule},
     {"Force Exits", ForceExitsModule},
+    {"Member Attributes", MemberAttributesModule},
     {"Host Movement", HostMovementModule},
     {"Host Pickup", HostPickupModule},
 }};
+
+int MapConfigCategory(const std::string& category)
+{
+    if (category == "ESP" || category == "Classes")
+        return CategoryEsp;
+    if (category == "Movement" || category == "Pickup" || category == "Spectator")
+        return CategoryMovement;
+    if (category == "Status" || category == "Host")
+        return CategoryHost;
+    return CategoryVisual;
+}
+
+// Config feature names that already have a curated row under a different label.
+const char* CuratedAlias(const std::string& feature)
+{
+    if (feature == "Jump") return "High Jump";
+    if (feature == "Flight") return "Fly";
+    if (feature == "Classes") return "Class Name ESP";
+    if (feature == "No Clip") return "NoClip";
+    if (feature == "Member Attributes") return "Member Attributes";
+    if (feature == "Vehicle Flight") return "Vehicle Fly";
+    if (feature == "Vehicle No Clip") return "Vehicle NoClip";
+    if (feature == "Movement") return "Host Movement";
+    return nullptr;
+}
+
+bool FindCuratedIndex(const std::string& name, std::size_t& index)
+{
+    for (std::size_t i = 0; i < kCuratedModules.size(); ++i)
+    {
+        if (kCuratedModules[i].query != nullptr && kCuratedModules[i].text == name)
+        {
+            index = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+// Auto-syncs every CFG_VAR into the list: one row per feature that has a master toggle,
+// plus one row per parameter (shown while its feature is enabled). New features therefore
+// appear without touching this file.
+void BuildConfigModules(std::vector<ModuleDescriptor>& modules)
+{
+    struct Group
+    {
+        std::string feature;
+        bool* toggle = nullptr;
+        int keybind = 0;
+        int category = CategoryVisual;
+        std::vector<::etb::core::config::IConfigItem*> params;
+    };
+
+    std::vector<Group> groups;
+    for (::etb::core::config::IConfigItem* item : ::etb::core::config::Items())
+    {
+        if (item == nullptr || item->feature_name.empty() || item->IsColor())
+            continue;
+
+        Group* group = nullptr;
+        for (Group& candidate : groups)
+        {
+            if (candidate.feature == item->feature_name)
+            {
+                group = &candidate;
+                break;
+            }
+        }
+        if (group == nullptr)
+        {
+            groups.emplace_back();
+            group = &groups.back();
+            group->feature = item->feature_name;
+            group->category = MapConfigCategory(item->category);
+        }
+
+        if (!item->is_param)
+        {
+            if (item->IsBool() && group->toggle == nullptr)
+            {
+                group->toggle = static_cast<bool*>(item->RawPtr());
+                group->keybind = item->hotkey;
+            }
+        }
+        else
+        {
+            group->params.push_back(item);
+        }
+    }
+
+    for (Group& group : groups)
+    {
+        if (group.toggle == nullptr)
+            continue; // no master switch -> nothing to toggle, nothing to show
+
+        // Curated rows already represent this feature; don't add a second row for it.
+        // Compare toggle pointers as well as names, because a curated row may use a
+        // different label (Vehicle Flight vs Vehicle Fly). Duplicate rows also produced
+        // duplicate toggle notifications when the key was pressed.
+        bool alreadyCovered = false;
+        for (const ModuleDescriptor& existing : modules)
+        {
+            if (existing.query == nullptr)
+                continue;
+            const ModuleSnapshot snapshot = existing.query();
+            if (snapshot.toggle != nullptr && snapshot.toggle == group.toggle)
+            {
+                alreadyCovered = true;
+                break;
+            }
+        }
+        if (alreadyCovered)
+            continue;
+
+        const char* alias = CuratedAlias(group.feature);
+        std::size_t gate = NoGate;
+        if (FindCuratedIndex(alias != nullptr ? alias : group.feature, gate))
+            continue;
+
+        if (modules.size() >= ArrayListHud::ModuleCount)
+            break;
+
+        // Only switchable features get a row. Parameters (and enabled sub-features) are
+        // folded into this row's right-hand text instead of being listed separately.
+        std::string summary;
+        for (::etb::core::config::IConfigItem* param : group.params)
+        {
+            std::string part;
+            if (param->IsBool())
+            {
+                if (!param->IsBoolAndTrue())
+                    continue; // only show sub-features that are currently on
+                part = param->param_name;
+            }
+            else
+            {
+                const std::string value = param->GetStringValue();
+                if (value.empty())
+                    continue;
+                part = param->param_name.empty() ? value : (param->param_name + " " + value);
+            }
+            if (part.empty())
+                continue;
+            if (!summary.empty())
+                summary += " ";
+            summary += part;
+            if (summary.size() > 44)
+                break;
+        }
+
+        ModuleDescriptor descriptor;
+        descriptor.text = group.feature;
+        descriptor.toggle = group.toggle;
+        descriptor.keybind = group.keybind;
+        descriptor.category = group.category;
+        descriptor.valueText = std::move(summary);
+        modules.push_back(std::move(descriptor));
+    }
+}
+
+std::vector<ModuleDescriptor>& Modules()
+{
+    static std::vector<ModuleDescriptor> modules;
+    static bool built = false;
+    if (!built)
+    {
+        built = true;
+        modules.reserve(ArrayListHud::ModuleCount);
+        for (const ModuleDescriptor& curated : kCuratedModules)
+            modules.push_back(curated);
+        BuildConfigModules(modules);
+    }
+    return modules;
+}
+
+ModuleSnapshot SnapshotFor(const ModuleDescriptor& descriptor,
+                           const std::vector<ModuleDescriptor>& modules)
+{
+    if (descriptor.query != nullptr)
+        return descriptor.query();
+
+    ModuleSnapshot snapshot;
+    snapshot.toggle = descriptor.toggle;
+    snapshot.keybind = descriptor.keybind;
+    snapshot.category = descriptor.category;
+
+    if (descriptor.gate != NoGate && descriptor.gate < modules.size())
+    {
+        const ModuleDescriptor& gate = modules[descriptor.gate];
+        snapshot.enabled = gate.toggle != nullptr ? *gate.toggle : true;
+    }
+    else
+    {
+        snapshot.enabled = descriptor.toggle != nullptr ? *descriptor.toggle : true;
+    }
+
+    if (descriptor.modeText != nullptr)
+    {
+        descriptor.modeText(snapshot.modeText.data(), snapshot.modeText.size());
+    }
+    else if (!descriptor.valueText.empty())
+    {
+        std::snprintf(snapshot.modeText.data(), snapshot.modeText.size(), "%s",
+                      descriptor.valueText.c_str());
+    }
+    else if (descriptor.config != nullptr)
+    {
+        if (descriptor.config->IsBool())
+            std::snprintf(snapshot.modeText.data(), snapshot.modeText.size(), "%s",
+                          descriptor.config->IsBoolAndTrue() ? "On" : "Off");
+        else
+        {
+            const std::string value = descriptor.config->GetStringValue();
+            if (!value.empty())
+                std::snprintf(snapshot.modeText.data(), snapshot.modeText.size(), "%s",
+                              value.c_str());
+        }
+    }
+    return snapshot;
+}
 
 void GetKeybindName(const int key, char* destination, const std::size_t capacity)
 {
@@ -826,9 +1141,10 @@ void ArrayListHud::Draw(const bool menuVisible)
             gravityTransition_ = false;
     }
 
-    for (std::size_t id = 0; id < Descriptors.size(); ++id)
+    const std::vector<ModuleDescriptor>& modules = Modules();
+    for (std::size_t id = 0; id < modules.size() && id < items_.size(); ++id)
     {
-        const ModuleSnapshot snapshot = Descriptors[id].query();
+        const ModuleSnapshot snapshot = SnapshotFor(modules[id], modules);
         ItemRuntime& runtime = items_[id];
         if (snapshot.enabled)
         {
@@ -893,7 +1209,8 @@ void ArrayListHud::Draw(const bool menuVisible)
 
         RowLayout& row = rows[rowCount++];
         row.id = id;
-        std::snprintf(row.mainText.data(), row.mainText.size(), "%s", Descriptors[id].text);
+        std::snprintf(row.mainText.data(), row.mainText.size(), "%s",
+                      id < modules.size() ? modules[id].text.c_str() : "");
         if (settings_.showKeybinds && runtime.keybind != 0)
         {
             std::array<char, 32> keyName{};
@@ -1223,13 +1540,35 @@ void ArrayListHud::Reset()
     gravityFromVertical_ = settings_.verticalGravity;
 }
 
+bool ArrayListHud::RegisterModule(const ModuleSpec& spec)
+{
+    std::vector<ModuleDescriptor>& modules = Modules();
+    if (modules.size() >= ModuleCount)
+        return false;
+
+    ModuleDescriptor descriptor;
+    descriptor.text = spec.name != nullptr ? spec.name : "";
+    descriptor.toggle = spec.toggle;
+    descriptor.keybind = spec.keybind;
+    descriptor.category = static_cast<int>(spec.category);
+    descriptor.modeText = spec.modeText;
+    modules.push_back(std::move(descriptor));
+    return true;
+}
+
+std::size_t ArrayListHud::ModuleTotal() const noexcept
+{
+    return Modules().size();
+}
+
 void ArrayListHud::CaptureModuleStates(std::array<HudModuleState, ModuleCount>& states) const
 {
-    for (std::size_t id = 0; id < Descriptors.size(); ++id)
+    const std::vector<ModuleDescriptor>& modules = Modules();
+    for (std::size_t id = 0; id < modules.size() && id < states.size(); ++id)
     {
-        const ModuleSnapshot snapshot = Descriptors[id].query();
+        const ModuleSnapshot snapshot = SnapshotFor(modules[id], modules);
         states[id] = HudModuleState{
-            Descriptors[id].text,
+            modules[id].text.c_str(),
             snapshot.toggle != nullptr ? *snapshot.toggle : snapshot.enabled
         };
     }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -55,6 +55,9 @@
       <Filter>Header Files\Features</Filter>
     </ClInclude>
     <ClInclude Include="include\features\session_limit.hpp">
+      <Filter>Header Files\Features</Filter>
+    </ClInclude>
+    <ClInclude Include="include\features\spectator.hpp">
       <Filter>Header Files\Features</Filter>
     </ClInclude>
     <ClInclude Include="include\features\visuals.hpp">
@@ -129,6 +132,7 @@
     <ClInclude Include="lib\imgui\backends\imgui_impl_vulkan.h" />
     <ClInclude Include="lib\imgui\backends\imgui_impl_wgpu.h" />
     <ClInclude Include="lib\imgui\backends\imgui_impl_win32.h" />
+    <ClInclude Include="include\features\spawner.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -162,6 +166,9 @@
       <Filter>Source Files\Features</Filter>
     </ClCompile>
     <ClCompile Include="src\features\session_limit.cpp">
+      <Filter>Source Files\Features</Filter>
+    </ClCompile>
+    <ClCompile Include="src\features\spectator.cpp">
       <Filter>Source Files\Features</Filter>
     </ClCompile>
     <ClCompile Include="src\features\visuals.cpp">
@@ -200,27 +207,11 @@
     <ClCompile Include="lib\imgui\imgui_tables.cpp" />
     <ClCompile Include="lib\imgui\imgui_widgets.cpp" />
     <ClCompile Include="lib\imgui\misc\cpp\imgui_stdlib.cpp" />
-    <ClCompile Include="lib\imgui\misc\fonts\binary_to_compressed_c.cpp" />
-    <ClCompile Include="lib\imgui\misc\freetype\imgui_freetype.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_allegro5.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_android.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_dx9.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_dx10.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_dx12.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_glut.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_null.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_opengl2.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_sdl2.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_sdl3.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_sdlgpu3.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_sdlrenderer2.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_sdlrenderer3.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_vulkan.cpp" />
-    <ClCompile Include="lib\imgui\backends\imgui_impl_wgpu.cpp" />
     <ClCompile Include="lib\imgui\backends\imgui_impl_win32.cpp" />
+    <ClCompile Include="src\features\spawner.cpp" />
+    <ClCompile Include="src\features\model_browser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\minhook\dll_resources\MinHook.def" />

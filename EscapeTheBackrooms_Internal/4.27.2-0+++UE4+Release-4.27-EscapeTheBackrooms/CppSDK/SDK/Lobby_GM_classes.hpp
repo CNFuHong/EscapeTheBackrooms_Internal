@@ -10,8 +10,8 @@
 
 #include "Basic.hpp"
 
-#include "Base_GM_classes.hpp"
 #include "Engine_structs.hpp"
+#include "Base_GM_classes.hpp"
 #include "AdvancedSessions_structs.hpp"
 
 

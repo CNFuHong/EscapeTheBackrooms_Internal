@@ -10,10 +10,10 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
-#include "S_ConnectedPlayer_structs.hpp"
 #include "Engine_structs.hpp"
+#include "S_ConnectedPlayer_structs.hpp"
 #include "BP_BasePlayerController_classes.hpp"
+#include "UMG_structs.hpp"
 
 
 namespace SDK

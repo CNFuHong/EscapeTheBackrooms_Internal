@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "core/config.hpp"
 
@@ -81,5 +81,6 @@ private:
     std::atomic_bool derpRestorePending_{false};
     std::atomic_bool nightVisionConfigured_{false};
     std::atomic_bool nightVisionRestorePending_{false};
+    std::atomic_bool nightVisionActive_{false};
 };
 }

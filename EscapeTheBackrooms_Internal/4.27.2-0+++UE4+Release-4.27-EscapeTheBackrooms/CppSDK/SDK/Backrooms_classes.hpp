@@ -2285,7 +2285,7 @@ DUMPER7_ASSERTS_UFancyUserFlowSubsystem;
 
 // Class Backrooms.FancyVideoPlayer
 // 0x00A0 (0x02C0 - 0x0220)
-class alignas(0x10) AFancyVideoPlayer : public AActor
+class alignas(0x10) AFancyVideoPlayer final : public AActor
 {
 public:
 	class USceneComponent*                        SceneComponent;                                    // 0x0220(0x0008)(Edit, BlueprintVisible, ExportObject, ZeroConstructor, EditConst, InstancedReference, IsPlainOldData, NoDestructor, HasGetValueTypeHash, NativeAccessSpecifierPublic)

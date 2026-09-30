@@ -6,6 +6,7 @@
 #include <SDK/BPCharacter_Demo_classes.hpp>
 #include <SDK/BPCharacter_Demo_parameters.hpp>
 #include <SDK/BP_DroppedItem_classes.hpp>
+#include <SDK/Backrooms_classes.hpp>
 #include <SDK/Backrooms_parameters.hpp>
 #include <SDK/Engine_parameters.hpp>
 
@@ -179,6 +180,7 @@ bool RequestPickupThroughGame(SDK::ABPCharacter_Demo_C* character, SDK::ADropped
         function = FindFunction(character, "TryPickup");
     }
 
+    bool dispatched = false;
     if (game::CanProcessEvent(character, function))
     {
         SDK::ADroppedItem* previous = character->CurrentFocusedItem;
@@ -187,31 +189,45 @@ bool RequestPickupThroughGame(SDK::ABPCharacter_Demo_C* character, SDK::ADropped
 
         if (IsLiveUObject(character) && character->CurrentFocusedItem == item)
             character->CurrentFocusedItem = previous;
-        if (called)
-            return true;
+        dispatched = called;
     }
 
-    return RequestServerPickup(character, item);
+    dispatched = RequestServerPickup(character, item) || dispatched;
+    return dispatched;
 }
 
 bool RequestInteractThroughGame(SDK::ABPCharacter_Demo_C* character, SDK::AActor* actor)
 {
     static SDK::UClass* cachedClass = nullptr;
-    static SDK::UFunction* function = nullptr;
+    static SDK::UFunction* functions[2] = {nullptr, nullptr};
     if (!IsLiveUObject(character) || !IsLiveUObject(actor))
         return false;
 
-    if (character->Class != cachedClass || !IsLiveUObject(function))
+    if (character->Class != cachedClass)
     {
         cachedClass = character->Class;
-        function = FindFunction(character, "Interact");
+        functions[0] = FindFunction(character, "Interact");
+        functions[1] = FindFunction(character, "InteractCallBackVR");
     }
-    if (!game::CanProcessEvent(character, function))
-        return false;
 
-    SDK::Params::FancyCharacter_Interact parameters{};
-    parameters.Actor = actor;
-    return game::ProcessEventSafe(character, function, &parameters);
+    SDK::AActor* previous = character->CurrentInteractableActor;
+    character->CurrentInteractableActor = actor;
+
+    bool dispatched = false;
+    for (SDK::UFunction* function : functions)
+    {
+        if (dispatched)
+            break;
+        if (!game::CanProcessEvent(character, function))
+            continue;
+        SDK::Params::FancyCharacter_Interact parameters{};
+        parameters.Actor = actor;
+        dispatched = game::ProcessEventSafe(character, function, &parameters);
+    }
+
+    if (IsLiveUObject(character) && character->CurrentInteractableActor == actor)
+        character->CurrentInteractableActor = previous;
+    return dispatched;
 }
 
 bool SetActorLocation(SDK::AActor* actor, const SDK::FVector& location)
@@ -284,6 +300,17 @@ std::string ActorDisplayName(SDK::AActor* actor)
     return name.empty() ? "item" : name;
 }
 
+bool NameContainsAny(const std::string& lower, const std::initializer_list<const char*> words)
+{
+    for (const char* word : words)
+    {
+        if (word != nullptr && lower.find(word) != std::string::npos)
+            return true;
+    }
+    return false;
+}
+
+// 0 = not a pickup, 1 = ADroppedItem (TryPickup/PickUp_SERVER), 2 = interactable actor.
 std::uint8_t ClassifyPickupActor(SDK::AActor* actor)
 {
     if (IsClassDerivedFrom(actor, "DroppedItem"))
@@ -296,11 +323,30 @@ std::uint8_t ClassifyPickupActor(SDK::AActor* actor)
     std::transform(className.begin(), className.end(), className.begin(),
         [](const unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
 
-    if ((className == "tape_bp_c" || className == "bp_tape_c" ||
-         className.find("tape_bp") != std::string::npos) &&
-        className.find("box") == std::string::npos &&
-        className.find("test") == std::string::npos)
+    if (NameContainsAny(className, {"box", "test", "exitsign", "exit_sign", "staticmesh"}))
+        return 0;
+
+    if (NameContainsAny(className, {"note", "document", "radio", "paper", "clipboard"}))
+        return 0;
+
+    if (NameContainsAny(className, { "bp_keytu", "bp_keymanager"  }))
+        return 0;
+
+    if (NameContainsAny(className, {
+            "tape_bp", "bp_tape", "tape", "cassette",
+            "almondwater", "almond_water",
+            "battery", "flashlight",
+            "pushable",
+            "keyitem", "bp_key",
+            //"key_", "_key",
+            //"key",
+            "energybar", "energy_bar",
+            "collectible",
+            "inventoryitem",
+            "bp_dropped", "droppeditem"
+        }))
         return 2;
+
     return 0;
 }
 
@@ -414,6 +460,10 @@ void Pickup::OnGameThreadTick(const SDK::UObject* tickObject)
             return;
         }
 
+        if (std::chrono::steady_clock::now() < nextScanBatch_)
+            return;
+        nextScanBatch_ = std::chrono::steady_clock::now() + std::chrono::milliseconds(60);
+
         const auto levels = world->Levels;
         if (!levels.IsValid() || levels.Num() <= 0 || levels.Num() > 512 ||
             !IsReadable(levels.GetDataPtr(), sizeof(SDK::ULevel*) * levels.Num()))
@@ -465,7 +515,7 @@ void Pickup::OnGameThreadTick(const SDK::UObject* tickObject)
                     continue;
 
                 SDK::FVector itemLocation{};
-                if (!ReadActorLocation(item, itemLocation))
+                if (!ReadActorLocation(actor, itemLocation))
                     continue;
 
                 const float distanceSquared = DistanceSquared(playerLocation, itemLocation);
@@ -523,6 +573,16 @@ void Pickup::OnGameThreadTick(const SDK::UObject* tickObject)
     bool dispatched = false;
     if (IsLiveUObject(queued.actor) && queued.actor->Index == queued.objectIndex)
     {
+        if (settings_.teleportItemsBeforePickup)
+        {
+            SDK::FVector playerLocation{};
+            if (ReadActorLocation(character, playerLocation))
+            {
+                playerLocation.Z += 25.0f;
+                SetActorLocation(queued.actor, playerLocation);
+            }
+        }
+
         if (queued.kind == PickupKind::DroppedItem)
         {
             auto* item = reinterpret_cast<SDK::ADroppedItem*>(queued.actor);
@@ -577,6 +637,16 @@ void Pickup::PublishCompletedBatch()
             break;
         }
     }
+
+    const auto publishedAt = std::chrono::steady_clock::now();
+    if (message == lastBatchMessage_ &&
+        publishedAt - lastBatchTime_ < std::chrono::seconds(4))
+    {
+        completedBatchNames_.clear();
+        return;
+    }
+    lastBatchMessage_ = message;
+    lastBatchTime_ = publishedAt;
 
     {
         std::lock_guard lock(notificationMutex_);

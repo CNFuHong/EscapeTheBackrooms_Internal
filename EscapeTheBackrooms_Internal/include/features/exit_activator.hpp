@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "core/config.hpp"
 
@@ -22,6 +22,7 @@ struct ExitActivatorSettings
     CFG_VAR("exit_activator_enabled", bool, enabled, false, false, "Exit Control", "", "Classes");
     CFG_VAR("exit_trigger_collision", bool, forceTriggerCollision, true, true, "Exit Control", "Trigger Collision", "Classes");
     CFG_VAR("exit_scan_budget", int, scanActorsPerTick, 300, true, "Exit Control", "Scan Budget", "Classes");
+    CFG_VAR("host_exit_teleport_min_distance", float, exitTeleportMinDistance, 0.0f, true, "Exit Teleport", "Minimum Distance", "Status");
     CFG_VAR("host_member_attributes", bool, maintainMemberAttributes, false, false, "Member Attributes", "", "Status");
     CFG_VAR("host_member_walk_speed", float, memberWalkSpeed, 300.0f, true, "Member Attributes", "Walk", "Status");
     CFG_VAR("host_member_sprint_speed", float, memberSprintSpeed, 600.0f, true, "Member Attributes", "Sprint", "Status");
@@ -65,6 +66,7 @@ public:
     void DrainNotifications(std::vector<std::string>& destination);
     void SnapshotMarkers(std::vector<ActivatedExitMarker>& destination);
     void RequestTeleportAllPlayers() noexcept;
+    void RequestTeleportToExit() noexcept;
     void RequestApplyMemberAttributes() noexcept;
     void RequestStartClownChallenge() noexcept;
     void RequestCompleteClownChallenge() noexcept;
@@ -92,6 +94,8 @@ private:
     std::atomic_size_t lastTeleportedPlayers_{0};
     std::atomic_size_t lastModifiedMembers_{0};
     std::atomic_bool teleportAllRequested_{false};
+    std::atomic_bool teleportToExitRequested_{false};
+    std::atomic<float> exitTeleportMinDistance_{0.0f};
     std::atomic_bool applyMemberAttributesRequested_{false};
     std::atomic_bool maintainMemberAttributes_{false};
     std::atomic<float> memberWalkSpeed_{300.0f};

@@ -11,10 +11,10 @@
 #include "Basic.hpp"
 
 #include "Engine_structs.hpp"
-#include "InstanceData_structs.hpp"
-#include "CoreUObject_structs.hpp"
-#include "Foliage_classes.hpp"
 #include "InstanceStatus_structs.hpp"
+#include "CoreUObject_structs.hpp"
+#include "InstanceData_structs.hpp"
+#include "Foliage_classes.hpp"
 
 
 namespace SDK

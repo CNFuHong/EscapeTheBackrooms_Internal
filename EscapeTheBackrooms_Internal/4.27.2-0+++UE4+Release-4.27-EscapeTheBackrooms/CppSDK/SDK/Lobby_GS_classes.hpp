@@ -10,11 +10,11 @@
 
 #include "Basic.hpp"
 
-#include "UMG_structs.hpp"
-#include "S_ConnectedPlayer_structs.hpp"
 #include "ST_UI_Mission_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
+#include "S_ConnectedPlayer_structs.hpp"
+#include "UMG_structs.hpp"
 #include "AdvancedSessions_structs.hpp"
 
 

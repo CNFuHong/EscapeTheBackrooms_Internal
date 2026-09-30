@@ -1,4 +1,4 @@
-﻿#include "features/visuals.hpp"
+#include "features/visuals.hpp"
 
 #include "core/logger.hpp"
 #include "game/unreal_safety.hpp"
@@ -122,6 +122,7 @@ SDK::UFunction* FindFunction(SDK::UObject* object, const char* functionName)
     }
     return nullptr;
 }
+
 
 bool SetOwnerNoSee(SDK::UPrimitiveComponent* component, bool ownerNoSee)
 {
@@ -595,6 +596,10 @@ constexpr float NetworkDerpMagicX = 712345.25f;
 constexpr float NetworkDerpMagicY = -83456.75f;
 constexpr float NetworkDerpMagicZ = 1942.5f;
 
+// 全关卡光源扫描每次 tick 处理的 actor 上限。
+// 分帧执行以避免一次性遍历全部关卡造成的游戏卡顿；数值越小越稳，扫描周期越长。
+constexpr int WorldLightScanActorsPerCall = 256;
+
 bool IsNetworkDerpPacket(const SDK::Params::BPCharacter_Demo_C_StartPushingActor_SERVER& packet)
 {
     return packet.PushableActor == nullptr && packet.B.X == NetworkDerpMagicX &&
@@ -819,7 +824,6 @@ public:
         status.boostedDirectionalLights =
             boostedDirectionalLightCount_.load(std::memory_order_acquire);
 
-        ApplyNightVision(settings, status.cameraReady);
         ApplyThirdPerson(settings, status.cameraReady &&
                          (status.usingVehicle || status.springArmReady));
 
@@ -852,14 +856,47 @@ public:
     }
 
     bool GameThreadTick(const VisualSettings& settings, const SDK::UObject* tickObject,
-                        const float deltaSeconds, const bool updateNightVision)
+                        const float deltaSeconds, const bool updateNightVision,
+                        const bool nightVisionActive)
     {
         ApplyRemoteDerp(tickObject);
+        // Re-assert the exposure boost but throttle it: run every frame on the pawn
+        // tick (one call per frame) plus a ~40ms fallback on other ticks (e.g. while
+        // interacting, when the pawn is paused). Avoids hitting the game thread with
+        // a call for every ticking actor every frame.
+        if (nightVisionActive || updateNightVision)
+        {
+            const bool isPawnTick = (tickObject == pawn_);
+            const ULONGLONG now = GetTickCount64();
+            if (isPawnTick || updateNightVision || now >= nextNightVisionApplyMs_)
+            {
+                if (!isPawnTick && !updateNightVision)
+                    nextNightVisionApplyMs_ = now + 40;
+                const bool cameraReady =
+                    IsReadable(camera_, sizeof(SDK::UCameraComponent)) && IsLiveUObject(camera_);
+                ApplyNightVision(settings, cameraReady);
+            }
+        }
         if (tickObject != pawn_ || !IsLiveUObject(pawn_))
             return false;
 
+        // Environment brightness stays on for long stretches, so the world must be
+        // re-checked periodically: fogs/lights spawned after the initial map load
+        // are not covered by the one-shot config change, which is what used to force
+        // a manual refresh. The cheap re-assert path inside ApplyNightVisionFog only
+        // writes values that actually changed, and the expensive full world scan is
+        // still gated by nextWorldLightScanMs_, so this stays cheap per frame.
         if (updateNightVision)
-            ApplyNightVisionFog(settings);
+            nextNightVisionFogMs_ = 0;
+        if (settings.nightVisionEnabled || updateNightVision)
+        {
+            const ULONGLONG now = GetTickCount64();
+            if (updateNightVision || now >= nextNightVisionFogMs_)
+            {
+                nextNightVisionFogMs_ = now + 250;
+                ApplyNightVisionFog(settings);
+            }
+        }
         if (character_ == nullptr || !IsLiveUObject(character_))
             return true;
         const bool modelReady = IsReadable(mesh_, sizeof(SDK::USkeletalMeshComponent)) &&
@@ -961,14 +998,29 @@ private:
 
     void ApplyNightVision(const VisualSettings& settings, const bool cameraReady)
     {
-        if (!settings.nightVisionEnabled || !settings.nightVisionExposureBoost ||
-            !cameraReady || !IsReadable(camera_, sizeof(SDK::UCameraComponent)))
+        if (!settings.nightVisionEnabled || !settings.nightVisionExposureBoost)
         {
             RestoreNightVision();
             return;
         }
+        if (!IsLiveUObject(camera_))
+        {
+            RestoreNightVision();
+            return;
+        }
+        // Transient view/target change (interacting, switching items, spectating):
+        // keep the effect applied instead of toggling it off, then re-apply the
+        // moment the camera is ready again.
+        if (!cameraReady)
+            return;
 
         auto& pp = camera_->PostProcessSettings;
+        if (camera_->Index != appliedCameraIndex_)
+        {
+            nightVisionApplied_ = false;
+            nightVisionOriginal_ = {};
+            appliedCameraIndex_ = camera_->Index;
+        }
         if (!nightVisionApplied_)
         {
             nightVisionOriginal_.blendWeight = camera_->PostProcessBlendWeight;
@@ -1088,7 +1140,7 @@ private:
         }
 
         const ULONGLONG now = GetTickCount64();
-        if (now < nextWorldLightScanMs_)
+        if (!worldScanInProgress_ && now < nextWorldLightScanMs_)
         {
             suppressedFogCount_.store(liveFogCount, std::memory_order_release);
             boostedSkyLightCount_.store(liveSkyCount, std::memory_order_release);
@@ -1096,15 +1148,41 @@ private:
                                                 std::memory_order_release);
             return;
         }
-        nextWorldLightScanMs_ = now + 5000;
 
         SDK::UWorld* world = ResolveWorld();
         if (world == nullptr)
+        {
+            worldScanInProgress_ = false;
+            worldScanLevelIndex_ = 0;
+            worldScanActorIndex_ = 0;
+            nextWorldLightScanMs_ = now + 5000;
+            suppressedFogCount_.store(liveFogCount, std::memory_order_release);
+            boostedSkyLightCount_.store(liveSkyCount, std::memory_order_release);
+            boostedDirectionalLightCount_.store(liveDirectionalCount,
+                                                std::memory_order_release);
             return;
+        }
         const auto levels = world->Levels;
         if (!levels.IsValid() || levels.Num() <= 0 || levels.Num() > 4096 ||
             !IsReadable(levels.GetDataPtr(), sizeof(SDK::ULevel*) * levels.Num()))
+        {
+            worldScanInProgress_ = false;
+            worldScanLevelIndex_ = 0;
+            worldScanActorIndex_ = 0;
+            nextWorldLightScanMs_ = now + 5000;
+            suppressedFogCount_.store(liveFogCount, std::memory_order_release);
+            boostedSkyLightCount_.store(liveSkyCount, std::memory_order_release);
+            boostedDirectionalLightCount_.store(liveDirectionalCount,
+                                                std::memory_order_release);
             return;
+        }
+
+        if (!worldScanInProgress_)
+        {
+            worldScanInProgress_ = true;
+            worldScanLevelIndex_ = 0;
+            worldScanActorIndex_ = 0;
+        }
 
         const auto captureSkyLight = [&](SDK::USkyLightComponent* component)
         {
@@ -1167,19 +1245,36 @@ private:
             return true;
         };
 
-        for (int levelIndex = 0; levelIndex < levels.Num(); ++levelIndex)
+        // 分帧增量扫描：每次 tick 只处理有限个 actor，未完成则保存游标、下次继续，
+        // 避免一次性遍历全部关卡造成的卡顿。
+        const int levelCount = levels.Num();
+        int scannedActors = 0;
+        while (worldScanLevelIndex_ < levelCount &&
+               scannedActors < WorldLightScanActorsPerCall)
         {
-            SDK::ULevel* level = levels.GetDataPtr()[levelIndex];
+            SDK::ULevel* level = levels.GetDataPtr()[worldScanLevelIndex_];
             if (!IsLiveUObject(level) || !IsReadable(level, sizeof(SDK::ULevel)))
+            {
+                ++worldScanLevelIndex_;
+                worldScanActorIndex_ = 0;
                 continue;
+            }
             const auto actors = level->Actors;
             if (!actors.IsValid() || actors.Num() <= 0 || actors.Num() > 1000000 ||
                 !IsReadable(actors.GetDataPtr(), sizeof(SDK::AActor*) * actors.Num()))
-                continue;
-
-            for (int actorIndex = 0; actorIndex < actors.Num(); ++actorIndex)
             {
-                SDK::AActor* actor = actors.GetDataPtr()[actorIndex];
+                ++worldScanLevelIndex_;
+                worldScanActorIndex_ = 0;
+                continue;
+            }
+
+            const int actorCount = actors.Num();
+            while (worldScanActorIndex_ < actorCount &&
+                   scannedActors < WorldLightScanActorsPerCall)
+            {
+                SDK::AActor* actor = actors.GetDataPtr()[worldScanActorIndex_];
+                ++worldScanActorIndex_;
+                ++scannedActors;
                 if (!IsLiveUObject(actor))
                     continue;
 
@@ -1225,7 +1320,6 @@ private:
                         freeSlot->volumetric = component->bEnableVolumetricFog;
                         SetFogDensity(component, 0.0f);
                         SetVolumetricFog(component, false);
-                        ++liveFogCount;
                     }
                     continue;
                 }
@@ -1238,8 +1332,7 @@ private:
                         !IsReadable(component, sizeof(SDK::USkyLightComponent)))
                         continue;
 
-                    if (captureSkyLight(component))
-                        ++liveSkyCount;
+                    captureSkyLight(component);
                     continue;
                 }
 
@@ -1251,11 +1344,54 @@ private:
                         !IsReadable(component, sizeof(SDK::ULightComponent)))
                         continue;
 
-                    if (captureWorldLight(component))
-                        ++liveDirectionalCount;
+                    captureWorldLight(component);
                 }
 
             }
+
+            if (worldScanActorIndex_ >= actorCount)
+            {
+                ++worldScanLevelIndex_;
+                worldScanActorIndex_ = 0;
+            }
+        }
+
+        if (worldScanLevelIndex_ < levelCount)
+        {
+            // 扫描未完成：保存进度，本次 tick 到此为止（不阻塞游戏线程）
+            suppressedFogCount_.store(liveFogCount, std::memory_order_release);
+            boostedSkyLightCount_.store(liveSkyCount, std::memory_order_release);
+            boostedDirectionalLightCount_.store(liveDirectionalCount,
+                                                std::memory_order_release);
+            return;
+        }
+
+        // 扫描完成：复位游标并重新统计（本轮新捕获的组件未计入上方快速重施加的计数）
+        worldScanInProgress_ = false;
+        worldScanLevelIndex_ = 0;
+        worldScanActorIndex_ = 0;
+        nextWorldLightScanMs_ = now + 5000;
+
+        liveFogCount = 0;
+        for (const auto& original : fogOriginals_)
+        {
+            if (IsLiveUObject(original.component) &&
+                original.component->Index == original.componentIndex)
+                ++liveFogCount;
+        }
+        liveSkyCount = 0;
+        for (const auto& original : skyLightOriginals_)
+        {
+            if (IsLiveUObject(original.component) &&
+                original.component->Index == original.componentIndex)
+                ++liveSkyCount;
+        }
+        liveDirectionalCount = 0;
+        for (const auto& original : directionalLightOriginals_)
+        {
+            if (IsLiveUObject(original.component) &&
+                original.component->Index == original.componentIndex)
+                ++liveDirectionalCount;
         }
 
         bool flashlightFallbackReady = IsLiveUObject(persistentLight_) &&
@@ -1296,6 +1432,9 @@ private:
             original = {};
         }
         nextWorldLightScanMs_ = 0;
+        worldScanInProgress_ = false;
+        worldScanLevelIndex_ = 0;
+        worldScanActorIndex_ = 0;
         suppressedFogCount_.store(0, std::memory_order_release);
     }
 
@@ -1500,6 +1639,9 @@ private:
             original = {};
         }
         nextWorldLightScanMs_ = 0;
+        worldScanInProgress_ = false;
+        worldScanLevelIndex_ = 0;
+        worldScanActorIndex_ = 0;
         boostedSkyLightCount_.store(0, std::memory_order_release);
         boostedDirectionalLightCount_.store(0, std::memory_order_release);
     }
@@ -1754,6 +1896,9 @@ private:
             persistentLightOwnerIndex_ = -1;
             worldActorClassCache_.clear();
             nextWorldLightScanMs_ = 0;
+            worldScanInProgress_ = false;
+            worldScanLevelIndex_ = 0;
+            worldScanActorIndex_ = 0;
             suppressedFogCount_.store(0, std::memory_order_release);
             boostedSkyLightCount_.store(0, std::memory_order_release);
             boostedDirectionalLightCount_.store(0, std::memory_order_release);
@@ -1788,6 +1933,8 @@ private:
     ThirdPersonOriginal thirdPersonOriginal_{};
     DerpOriginal derpOriginal_{};
     bool nightVisionApplied_ = false;
+    std::int32_t appliedCameraIndex_ = -1;
+    ULONGLONG nextNightVisionApplyMs_ = 0;
     bool thirdPersonApplied_ = false;
     bool derpApplied_ = false;
     std::array<RemoteDerpState, 16> remoteDerp_{};
@@ -1807,6 +1954,10 @@ private:
     bool observedFlashlightOn_ = false;
     std::unordered_map<SDK::UClass*, std::uint8_t> worldActorClassCache_{};
     ULONGLONG nextWorldLightScanMs_ = 0;
+    bool worldScanInProgress_ = false;
+    int worldScanLevelIndex_ = 0;
+    int worldScanActorIndex_ = 0;
+    ULONGLONG nextNightVisionFogMs_ = 0;
     std::atomic_uint suppressedFogCount_{0};
     std::atomic_uint boostedSkyLightCount_{0};
     std::atomic_uint boostedDirectionalLightCount_{0};
@@ -1833,6 +1984,7 @@ void Visuals::Update(const bool inputBlocked)
         derpRestorePending_.store(true, std::memory_order_release);
     derpConfiguredLastFrame_ = settings_.derpEnabled;
     derpConfigured_.store(settings_.derpEnabled, std::memory_order_release);
+    nightVisionActive_.store(settings_.nightVisionEnabled, std::memory_order_release);
 
     const bool nightVisionChanged =
         nightVisionConfiguredLastFrame_ != settings_.nightVisionEnabled ||
@@ -1866,7 +2018,8 @@ void Visuals::OnGameThreadTick(const SDK::UObject* tickObject, const float delta
     const bool updateNightVision =
         nightVisionConfigured_.load(std::memory_order_acquire) ||
         nightVisionRestorePending_.load(std::memory_order_acquire);
-    if (g_runtime.GameThreadTick(settings_, tickObject, deltaSeconds, updateNightVision))
+    if (g_runtime.GameThreadTick(settings_, tickObject, deltaSeconds, updateNightVision,
+                                 nightVisionActive_.load(std::memory_order_acquire)))
     {
         if (!settings_.derpEnabled)
             derpRestorePending_.store(false, std::memory_order_release);
@@ -1887,7 +2040,8 @@ bool Visuals::NeedsGameThreadTick() const noexcept
     return derpConfigured_.load(std::memory_order_acquire) ||
            derpRestorePending_.load(std::memory_order_acquire) ||
            nightVisionConfigured_.load(std::memory_order_acquire) ||
-           nightVisionRestorePending_.load(std::memory_order_acquire);
+           nightVisionRestorePending_.load(std::memory_order_acquire) ||
+           nightVisionActive_.load(std::memory_order_acquire);
 }
 
 void Visuals::Reset()
@@ -1907,5 +2061,6 @@ void Visuals::Reset()
     nightVisionLightIntensityLastFrame_ = 1.0f;
     nightVisionConfigured_.store(false, std::memory_order_release);
     nightVisionRestorePending_.store(false, std::memory_order_release);
+    nightVisionActive_.store(false, std::memory_order_release);
 }
 }

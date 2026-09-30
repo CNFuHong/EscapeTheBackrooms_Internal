@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "features/array_list.hpp"
 #include "core/config.hpp"
@@ -52,6 +52,9 @@ public:
     void Reset();
     void Push(std::string message, NotificationType type = NotificationType::Info,
               float durationSeconds = 0.0f);
+
+    bool HasVisible() const noexcept;
+    bool WantsFrame() const noexcept;
 
     NotificationSettings& Settings() noexcept { return settings_; }
     const NotificationSettings& Settings() const noexcept { return settings_; }

@@ -68,6 +68,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)lib;$(ProjectDir)lib\imgui;$(ProjectDir)lib\minhook\include;$(ProjectDir)lib\minhook\src;$(ProjectDir)lib\minhook\src\hde;$(ProjectDir)4.27.2-0+++UE4+Release-4.27-EscapeTheBackrooms\CppSDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,9 +86,12 @@
     <ClInclude Include="include\features\esp.hpp" />
     <ClInclude Include="include\features\exit_activator.hpp" />
     <ClInclude Include="include\features\movement.hpp" />
+    <ClInclude Include="include\features\model_browser.hpp" />
     <ClInclude Include="include\features\notifications.hpp" />
     <ClInclude Include="include\features\pickup.hpp" />
     <ClInclude Include="include\features\session_limit.hpp" />
+    <ClInclude Include="include\features\spectator.hpp" />
+    <ClInclude Include="include\features\spawner.hpp" />
     <ClInclude Include="include\features\visuals.hpp" />
     <ClInclude Include="include\features\vehicle_flight.hpp" />
     <ClInclude Include="include\fonts\MiSans_Heavy.h" />
@@ -163,6 +167,9 @@
     <ClCompile Include="src\features\exit_activator.cpp">
       <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
+    <ClCompile Include="src\features\model_browser.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
     <ClCompile Include="src\features\movement.cpp">
       <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
@@ -171,6 +178,12 @@
       <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ClCompile Include="src\features\session_limit.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\spectator.cpp">
+      <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ClCompile Include="src\features\spawner.cpp">
       <DisableSpecificWarnings>4005;4309;4369;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ClCompile Include="src\features\visuals.cpp">

@@ -10,16 +10,16 @@
 
 #include "Basic.hpp"
 
-#include "HorrorEngineSettings_structs.hpp"
+#include "AIModule_structs.hpp"
+#include "E_CameraSetting_structs.hpp"
 #include "Engine_structs.hpp"
 #include "PhysicsCore_structs.hpp"
-#include "E_CameraSetting_structs.hpp"
 #include "CoreUObject_structs.hpp"
 #include "E_GlowstickColor_structs.hpp"
 #include "Backrooms_structs.hpp"
 #include "Backrooms_classes.hpp"
+#include "HorrorEngineSettings_structs.hpp"
 #include "FootstepActionsEnum_structs.hpp"
-#include "AIModule_structs.hpp"
 
 
 namespace SDK

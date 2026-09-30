@@ -1,6 +1,7 @@
-﻿#include "features/exit_activator.hpp"
+#include "features/exit_activator.hpp"
 
 #include "core/logger.hpp"
+#include "features/movement.hpp"
 #include "game/unreal_safety.hpp"
 
 #include <Windows.h>
@@ -9,6 +10,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <cstdint>
 #include <string>
 #include <unordered_map>
@@ -582,6 +584,94 @@ std::size_t TeleportPlayersToHost(SDK::UWorld* world, SDK::ABPCharacter_Demo_C* 
     return teleported;
 }
 
+// Nearest exit in the loaded levels, using the same candidate test as Exit Control.
+// Exits closer than `minDistanceMeters` are ignored (skips nearby decoys).
+bool FindNearestExit(SDK::UWorld* world, const SDK::FVector& origin, const float minDistanceMeters,
+                     SDK::FVector& outLocation, std::string& outName)
+{
+    if (!IsLiveUObject(world))
+        return false;
+    const auto levels = world->Levels;
+    if (!levels.IsValid() || levels.Num() <= 0 || levels.Num() > 512 ||
+        !IsReadable(levels.GetDataPtr(), sizeof(SDK::ULevel*) * levels.Num()))
+        return false;
+
+    const float minDistanceSquared =
+        minDistanceMeters > 0.0f ? minDistanceMeters * 100.0f * minDistanceMeters * 100.0f : 0.0f;
+
+    bool found = false;
+    float bestDistanceSquared = 1.0e30f;
+    for (int levelIndex = 0; levelIndex < levels.Num(); ++levelIndex)
+    {
+        SDK::ULevel* level = levels.GetDataPtr()[levelIndex];
+        if (!IsReadable(level, 0xA8) || !IsLiveUObject(level))
+            continue;
+        const auto actors = level->Actors;
+        if (!actors.IsValid() || actors.Num() < 0 || actors.Num() > 100000 ||
+            (actors.Num() > 0 &&
+             !IsReadable(actors.GetDataPtr(), sizeof(SDK::AActor*) * actors.Num())))
+            continue;
+        for (int actorIndex = 0; actorIndex < actors.Num(); ++actorIndex)
+        {
+            SDK::AActor* actor = actors.GetDataPtr()[actorIndex];
+            std::string displayName;
+            if (!IsExitCandidate(actor, displayName))
+                continue;
+            SDK::USceneComponent* root = actor->RootComponent;
+            if (!IsReadable(root, sizeof(SDK::USceneComponent)) || !IsLiveUObject(root))
+                continue;
+            const SDK::FVector location = root->RelativeLocation;
+            if (!std::isfinite(location.X) || !std::isfinite(location.Y) ||
+                !std::isfinite(location.Z))
+                continue;
+            const float dx = location.X - origin.X;
+            const float dy = location.Y - origin.Y;
+            const float dz = location.Z - origin.Z;
+            const float distanceSquared = dx * dx + dy * dy + dz * dz;
+            if (distanceSquared < minDistanceSquared)
+                continue; // too close -> likely a decoy right next to us
+            if (distanceSquared < bestDistanceSquared)
+            {
+                bestDistanceSquared = distanceSquared;
+                outLocation = location;
+                outName = displayName;
+                found = true;
+            }
+        }
+    }
+    return found;
+}
+
+bool TeleportCharacterToNearestExit(SDK::UWorld* world, SDK::ABPCharacter_Demo_C* character,
+                                    const float minDistanceMeters, std::string& exitName)
+{
+    if (!IsLiveUObject(world) || !IsLiveUObject(character))
+        return false;
+    SDK::USceneComponent* root = character->RootComponent;
+    if (!IsReadable(root, sizeof(SDK::USceneComponent)) || !IsLiveUObject(root))
+        return false;
+
+    SDK::FVector destination{};
+    std::string name;
+    if (!FindNearestExit(world, root->RelativeLocation, minDistanceMeters, destination, name))
+        return false;
+
+    destination.Z += 60.0f; // land slightly above the exit so we don't clip into it
+    SDK::Params::Actor_K2_SetActorLocation move{};
+    move.NewLocation = destination;
+    move.bSweep = false;
+    move.bTeleport = true;
+    if (!Invoke(character, "K2_SetActorLocation", &move))
+        return false;
+
+    // A client-owned pawn is corrected by the engine, so don't let the host's
+    // "accept client movement" override snap us back afterwards.
+    Movement::Instance().SuspendHostAuthorization(1200);
+    InvokeNoParameters(character, "ForceNetUpdate");
+    exitName = name;
+    return true;
+}
+
 std::size_t ApplyAttributesToMembers(SDK::UWorld* world, SDK::ABPCharacter_Demo_C* host,
                                      const float walkSpeed, const float sprintSpeed,
                                      const float crouchSpeed, const float maximumStamina,
@@ -683,6 +773,7 @@ bool ExitActivator::NeedsGameThreadTick() const noexcept
 {
     return runActive_.load(std::memory_order_acquire) ||
         teleportAllRequested_.load(std::memory_order_acquire) ||
+        teleportToExitRequested_.load(std::memory_order_acquire) ||
         applyMemberAttributesRequested_.load(std::memory_order_acquire) ||
         maintainMemberAttributes_.load(std::memory_order_acquire) ||
         startClownRequested_.load(std::memory_order_acquire) ||
@@ -703,10 +794,30 @@ void ExitActivator::OnGameThreadTick(const SDK::UObject* tickObject)
     hostAuthority_.store(authority, std::memory_order_relaxed);
 
     const bool teleportRequested = teleportAllRequested_.exchange(false, std::memory_order_acq_rel);
+    const bool teleportToExit = teleportToExitRequested_.exchange(false, std::memory_order_acq_rel);
     const bool applyMemberAttributes = applyMemberAttributesRequested_.exchange(false, std::memory_order_acq_rel);
     const bool startClown = startClownRequested_.exchange(false, std::memory_order_acq_rel);
     const bool completeClown = completeClownRequested_.exchange(false, std::memory_order_acq_rel);
     const bool startCoaster = startRollercoasterRequested_.exchange(false, std::memory_order_acq_rel);
+
+    // Teleporting our own character works for host and client alike, so it is handled
+    // before the host-authority gate.
+    if (teleportToExit)
+    {
+        std::string exitName;
+        const float minDistance =
+            exitTeleportMinDistance_.load(std::memory_order_relaxed);
+        const bool moved = TeleportCharacterToNearestExit(world, character, minDistance, exitName);
+        std::lock_guard lock(notificationMutex_);
+        if (moved)
+            notificationQueue_.push_back("[Teleport] Moved to exit: " + exitName);
+        else if (minDistance > 0.0f)
+            notificationQueue_.push_back("[Teleport] No exit found beyond " +
+                                         std::to_string(static_cast<int>(minDistance)) + " m");
+        else
+            notificationQueue_.push_back("[Teleport] No exit found in the loaded levels");
+    }
+
     if (teleportRequested || applyMemberAttributes || startClown || completeClown || startCoaster)
     {
         if (!authority)
@@ -718,6 +829,9 @@ void ExitActivator::OnGameThreadTick(const SDK::UObject* tickObject)
         {
             if (teleportRequested)
             {
+                // Drop the accept-client override first, otherwise the server follows the
+                // members' own positions and the teleport only flickers.
+                Movement::Instance().SuspendHostAuthorization(1500);
                 const std::size_t count = TeleportPlayersToHost(world, character);
                 lastTeleportedPlayers_.store(count, std::memory_order_relaxed);
                 std::lock_guard lock(notificationMutex_);
@@ -973,6 +1087,13 @@ void ExitActivator::RequestTeleportAllPlayers() noexcept
     teleportAllRequested_.store(true, std::memory_order_release);
 }
 
+void ExitActivator::RequestTeleportToExit() noexcept
+{
+    exitTeleportMinDistance_.store(std::clamp(settings_.exitTeleportMinDistance, 0.0f, 5000.0f),
+                                   std::memory_order_relaxed);
+    teleportToExitRequested_.store(true, std::memory_order_release);
+}
+
 void ExitActivator::RequestApplyMemberAttributes() noexcept
 {
     memberWalkSpeed_.store(std::clamp(settings_.memberWalkSpeed, 50.0f, 5000.0f), std::memory_order_relaxed);
@@ -1024,6 +1145,7 @@ void ExitActivator::Reset()
     lastTeleportedPlayers_.store(0, std::memory_order_relaxed);
     lastModifiedMembers_.store(0, std::memory_order_relaxed);
     teleportAllRequested_.store(false, std::memory_order_release);
+    teleportToExitRequested_.store(false, std::memory_order_release);
     applyMemberAttributesRequested_.store(false, std::memory_order_release);
     maintainMemberAttributes_.store(false, std::memory_order_release);
     nextMemberAttributesApplyTick_.store(0, std::memory_order_relaxed);

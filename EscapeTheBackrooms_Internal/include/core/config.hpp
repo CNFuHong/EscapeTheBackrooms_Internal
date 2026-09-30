@@ -33,6 +33,7 @@ class IConfigItem
 {
 public:
     virtual ~IConfigItem() = default;
+    virtual void ResetDefault() = 0;
     virtual void Save(Json& json) = 0;
     virtual void Load(const Json& json) = 0;
     virtual std::string GetStringValue() = 0;
@@ -59,6 +60,7 @@ class ConfigItem final : public IConfigItem
 {
 public:
     T* ptr = nullptr;
+    T defaultValue{};
 
     ConfigItem(std::string id, T& variable, const bool isParameter = false,
                std::string featureName = {}, std::string parameterName = {},
@@ -66,11 +68,19 @@ public:
     {
         name = std::move(id);
         ptr = &variable;
+        defaultValue = variable;
         is_param = isParameter;
         feature_name = std::move(featureName);
         param_name = std::move(parameterName);
         category = std::move(categoryName);
         RegisterItem(this);
+    }
+
+    void ResetDefault() override
+    {
+        *ptr = defaultValue;
+        hotkey = 0;
+        hotkey_mode = 1;
     }
 
     void Save(Json& json) override
@@ -175,6 +185,7 @@ public:
 
 bool Save(std::string_view name, std::string& message);
 bool Load(std::string_view name, std::string& message);
+bool LoadStartupOnce(std::string& loadedName, std::string& message);
 bool OpenDirectory(std::string& message);
 std::string PathUtf8(std::string_view name);
 }
@@ -193,6 +204,25 @@ struct MenuSettings
 {
     CFG_VAR("menu_chinese", bool, chineseMode, true, true, "Menu", "Chinese", "Menu");
     CFG_VAR("menu_disable_end_unload", bool, disableEndUnload, false, true, "Menu", "Disable End Unload", "Menu");
+    CFG_VAR("menu_imgui_cursor", bool, mouseCircle, true, true, "Menu", "Mouse Circle", "Menu");
+    CFG_VAR("menu_mouse_style", int, mouseStyle, 0, true, "Menu", "Cursor Style", "Menu");
+    CFG_VAR("menu_mouse_radius", float, mouseRadius, 7.5f, true, "Menu", "Cursor Radius", "Menu");
+    CFG_VAR("menu_mouse_thickness", float, mouseThickness, 1.5f, true, "Menu", "Cursor Thickness", "Menu");
+    CFG_VAR("menu_mouse_color_r", int, mouseColorR, 255, true, "Menu", "Cursor R", "Menu");
+    CFG_VAR("menu_mouse_color_g", int, mouseColorG, 255, true, "Menu", "Cursor G", "Menu");
+    CFG_VAR("menu_mouse_color_b", int, mouseColorB, 255, true, "Menu", "Cursor B", "Menu");
+    CFG_VAR("menu_mouse_color_a", int, mouseColorA, 255, true, "Menu", "Cursor A", "Menu");
+    CFG_VAR("menu_mouse_accent_r", int, mouseAccentR, 0, true, "Menu", "Accent R", "Menu");
+    CFG_VAR("menu_mouse_accent_g", int, mouseAccentG, 0, true, "Menu", "Accent G", "Menu");
+    CFG_VAR("menu_mouse_accent_b", int, mouseAccentB, 0, true, "Menu", "Accent B", "Menu");
+    CFG_VAR("menu_mouse_glow", bool, mouseGlowEnabled, true, true, "Menu", "Cursor Glow", "Menu");
+    CFG_VAR("menu_mouse_glow_radius", float, mouseGlowRadius, 2.5f, true, "Menu", "Glow Radius", "Menu");
+    CFG_VAR("menu_mouse_follow", bool, mouseFollowEnabled, true, true, "Menu", "Linear Follow", "Menu");
+    CFG_VAR("menu_mouse_follow_speed", float, mouseFollowSpeed, 14.0f, true, "Menu", "Follow Speed", "Menu");
+    CFG_VAR("menu_window_x", float, windowX, -1.0f, false, "Menu", "Window X", "Menu");
+    CFG_VAR("menu_window_y", float, windowY, -1.0f, false, "Menu", "Window Y", "Menu");
+    CFG_VAR("menu_window_width", float, windowWidth, 460.0f, false, "Menu", "Window Width", "Menu");
+    CFG_VAR("menu_window_height", float, windowHeight, 420.0f, false, "Menu", "Window Height", "Menu");
 };
 
 inline MenuSettings g_MenuSettings;

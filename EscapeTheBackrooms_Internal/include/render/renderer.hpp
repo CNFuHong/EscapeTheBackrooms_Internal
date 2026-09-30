@@ -13,6 +13,7 @@
 namespace etb::render
 {
 bool IsMenuInputActive() noexcept;
+bool IsMouseCircleActive() noexcept;
 
 class Renderer
 {

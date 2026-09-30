@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "core/config.hpp"
 
@@ -84,12 +84,34 @@ struct HudModuleState
     bool enabled = false;
 };
 
+enum class ModuleCategory : int
+{
+    Esp = 0,
+    Movement = 1,
+    Visual = 2,
+    Host = 3
+};
+
 class ArrayListHud final
 {
 public:
-    static constexpr std::size_t ModuleCount = 34;
+    static constexpr std::size_t ModuleCount = 320;
+
+    using ModuleModeTextFn = const char* (*)(char* buffer, std::size_t capacity);
+
+    struct ModuleSpec
+    {
+        const char* name = "";
+        ModuleCategory category = ModuleCategory::Visual;
+        bool* toggle = nullptr;
+        int keybind = 0;
+        ModuleModeTextFn modeText = nullptr;
+    };
 
     static ArrayListHud& Instance();
+
+    bool RegisterModule(const ModuleSpec& spec);
+    std::size_t ModuleTotal() const noexcept;
 
     void Draw(bool menuVisible);
     void Reset();

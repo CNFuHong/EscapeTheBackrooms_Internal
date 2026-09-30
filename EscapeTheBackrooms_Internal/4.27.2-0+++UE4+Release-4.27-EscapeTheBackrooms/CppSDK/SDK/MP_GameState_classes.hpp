@@ -10,12 +10,12 @@
 
 #include "Basic.hpp"
 
-#include "AdvancedSessions_structs.hpp"
-#include "E_Difficulty_structs.hpp"
 #include "Engine_structs.hpp"
 #include "Engine_classes.hpp"
-#include "S_HubLevels_structs.hpp"
 #include "E_GameMode_structs.hpp"
+#include "AdvancedSessions_structs.hpp"
+#include "E_Difficulty_structs.hpp"
+#include "S_HubLevels_structs.hpp"
 
 
 namespace SDK

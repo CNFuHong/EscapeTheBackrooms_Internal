@@ -9,21 +9,127 @@
 // FORWARD DECLARATIONS
 
 
-namespace ClimbLadderSequence { class USequenceDirector_C; }
+namespace PlayerEQSQuery { class UPlayerEQSQuery_C; }
+
+namespace BP_LM_Portal_windowtriple_0 { class ABP_LM_Portal_windowtriple_C; }
+
+namespace BP_Floor { class ABP_Floor_C; }
+
+namespace BP_LM_Portal_doorframewindows { class ABP_LM_Portal_doorframewindows_C; }
+
+namespace BP_Window_single_vinyl_0 { class ABP_Window_single_vinyl_C; }
+
+namespace BP_LM_Portal_windowsmall { class ABP_LM_Portal_windowsmall_C; }
+
+namespace BP_WallOut_0 { class ABP_WallOut_C; }
+
+namespace BP_LM_Portal_windowtriple { class ABP_LM_Portal_windowtriple_C; }
+
+namespace BP_Doorframe_in_single { class ABP_Doorframe_in_single_C; }
+
+namespace BP_LM_Portal_doorframewindows_0 { class ABP_LM_Portal_doorframewindows_C; }
+
+namespace BP_LM_Portal_windowsingle_0 { class ABP_LM_Portal_windowsingle_C; }
+
+namespace E_Ceiling_3x3_broken_0 { enum class E_Ceiling_3x3_broken : uint8; }
+
+namespace BP_Window_singlesmall_vinyl { class ABP_Window_singlesmall_vinyl_C; }
+
+namespace BP_Window_openable_singlesmall_0 { class ABP_Window_openable_singlesmall_C; }
+
+namespace BP_Doorframe_out_single_windows { class ABP_Doorframe_out_single_windows_C; }
+
+namespace E_WallOut { enum class E_WallOut : uint8; }
+
+namespace BP_Doorframe_in_double_0 { class ABP_Doorframe_in_double_C; }
+
+namespace BP_Window_single_vinyl { class ABP_Window_single_vinyl_C; }
+
+namespace BP_Window_openable_0 { class ABP_Window_openable_C; }
+
+namespace BP_Window_double_static_0 { class ABP_Window_double_static_C; }
+
+namespace BP_Window_openable_singlesmall { class ABP_Window_openable_singlesmall_C; }
+
+namespace BP_Doorframe_in_double { class ABP_Doorframe_in_double_C; }
+
+namespace GrabKeySequence_TPP { class USequenceDirector_C; }
+
+namespace BP_Floor_0 { class ABP_Floor_C; }
 
 namespace PlayerEQSQuery_0 { class UPlayerEQSQuery_C; }
+
+namespace BP_Window_double_vinyl_0 { class ABP_Window_double_vinyl_C; }
+
+namespace BP_Window_single_static { class ABP_Window_single_static_C; }
+
+namespace BP_WallIn_0 { class ABP_WallIn_C; }
+
+namespace BP_Doorframe_in_single_0 { class ABP_Doorframe_in_single_C; }
+
+namespace BP_Doorframe_out_double { class ABP_Doorframe_out_double_C; }
+
+namespace E_WallIn_0 { enum class E_WallIn : uint8; }
+
+namespace BP_Window_openable { class ABP_Window_openable_C; }
+
+namespace BP_Doorframe_out_single_windows_0 { class ABP_Doorframe_out_single_windows_C; }
+
+namespace BP_Lamp_ceiling_round_0 { class ABP_Lamp_ceiling_round_C; }
+
+namespace BP_Window_double_vinyl { class ABP_Window_double_vinyl_C; }
+
+namespace BP_Doorframe_out_single { class ABP_Doorframe_out_single_C; }
+
+namespace BP_LM_Portal_windowsingle { class ABP_LM_Portal_windowsingle_C; }
+
+namespace BP_LM_Portal_windowdouble { class ABP_LM_Portal_windowdouble_C; }
+
+namespace BP_Window_singlesmall_vinyl_0 { class ABP_Window_singlesmall_vinyl_C; }
+
+namespace NoClip { class USequenceDirector_C; }
+
+namespace BTDecorator_ShouldMove_0 { class UBTDecorator_ShouldMove_C; }
+
+namespace BP_WallOut { class ABP_WallOut_C; }
+
+namespace BP_Window_single_static_0 { class ABP_Window_single_static_C; }
+
+namespace CageScare { class USequenceDirector_C; }
+
+namespace BP_Lamp_ceiling_round { class ABP_Lamp_ceiling_round_C; }
 
 namespace BTDecorator_ShouldMove { class UBTDecorator_ShouldMove_C; }
 
 namespace WaterExit { class USequenceDirector_C; }
 
-namespace PlayerEQSQuery { class UPlayerEQSQuery_C; }
-
-namespace GrabKeySequence_TPP { class USequenceDirector_C; }
-
 namespace ClimbSequence { class USequenceDirector_C; }
 
-namespace NoClip { class USequenceDirector_C; }
+namespace ClimbLadderSequence { class USequenceDirector_C; }
 
-namespace BTDecorator_ShouldMove_0 { class UBTDecorator_ShouldMove_C; }
+namespace BP_LM_Portal_windowdouble_0 { class ABP_LM_Portal_windowdouble_C; }
+
+namespace BP_LM_Portal_windowsmall_0 { class ABP_LM_Portal_windowsmall_C; }
+
+namespace BP_Doorframe_out_single_0 { class ABP_Doorframe_out_single_C; }
+
+namespace E_Floors_0 { enum class E_Floors : uint8; }
+
+namespace BP_Doorframe_out_double_0 { class ABP_Doorframe_out_double_C; }
+
+namespace BP_Window_double_static { class ABP_Window_double_static_C; }
+
+namespace BP_WallIn { class ABP_WallIn_C; }
+
+namespace E_Ceiling_3x3_broken { enum class E_Ceiling_3x3_broken : uint8; }
+
+namespace E_Ceiling_6x6_broken_0 { enum class E_Ceiling_6x6_broken : uint8; }
+
+namespace E_WallOut_0 { enum class E_WallOut : uint8; }
+
+namespace E_WallIn { enum class E_WallIn : uint8; }
+
+namespace E_Ceiling_6x6_broken { enum class E_Ceiling_6x6_broken : uint8; }
+
+namespace E_Floors { enum class E_Floors : uint8; }
 

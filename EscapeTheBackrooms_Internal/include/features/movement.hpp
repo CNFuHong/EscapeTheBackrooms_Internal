@@ -1,10 +1,18 @@
-#pragma once
+﻿#pragma once
 
 #include "core/config.hpp"
 
 #include <Windows.h>
 
+#include <atomic>
 #include <cstddef>
+#include <cstdint>
+
+namespace SDK
+{
+class UObject;
+class UFunction;
+}
 
 namespace etb::features
 {
@@ -14,6 +22,11 @@ struct MovementSettings
     CFG_VAR("movement_speed_enabled", bool, speedEnabled, false, false, "Speed", "", "Movement");
     CFG_VAR("movement_walk_speed", float, walkSpeed, 300.0f, true, "Speed", "Walk Speed", "Movement");
     CFG_VAR("movement_sprint_speed", float, sprintSpeed, 600.0f, true, "Speed", "Sprint Speed", "Movement");
+    CFG_VAR("movement_auto_sprint", bool, autoSprint, false, false, "Auto Sprint", "", "Movement");
+    CFG_VAR("movement_quick_stop", bool, quickStop, false, false, "Quick Stop", "", "Movement");
+    CFG_VAR("movement_bhop", bool, bunnyHop, false, false, "BHop", "", "Movement");
+    CFG_VAR("movement_bhop_auto_jump", bool, bhopAutoJump, false, false, "BHop", "Auto Jump", "Movement");
+    CFG_VAR("movement_bhop_auto_jump_speed", float, bhopAutoJumpSpeed, 0.5f, true, "BHop", "Auto Jump Speed", "Movement");
     CFG_VAR("movement_crouch_enabled", bool, crouchSpeedEnabled, false, false, "Crouch Speed", "", "Movement");
     CFG_VAR("movement_crouch_speed", float, crouchSpeed, 150.0f, true, "Crouch Speed", "Speed", "Movement");
     CFG_VAR("movement_jump_enabled", bool, jumpEnabled, false, false, "Jump", "", "Movement");
@@ -25,7 +38,11 @@ struct MovementSettings
     CFG_VAR("movement_noclip_enabled", bool, noClipEnabled, false, false, "No Clip", "", "Movement");
     CFG_VAR("movement_flight_key", int, flightToggleKey, 'C', true, "Flight", "Key", "Movement");
     CFG_VAR("movement_noclip_key", int, noClipToggleKey, 'C', true, "No Clip", "Key", "Movement");
+    CFG_VAR("movement_air_turn_enabled", bool, airTurnEnabled, false, false, "Air Turn", "", "Movement");
+    CFG_VAR("movement_air_turn_control", float, airTurnControl, 1.0f, true, "Air Turn", "Air Control", "Movement");
+    CFG_VAR("movement_air_turn_accel", float, airTurnAcceleration, 6000.0f, true, "Air Turn", "Acceleration", "Movement");
     CFG_VAR("movement_host_accept_client", bool, hostAcceptClientMovement, false, true, "Movement", "Host Accept Client", "Movement");
+    CFG_VAR("movement_server_move_bypass", bool, serverMoveBypass, false, true, "Movement", "Server Move Bypass", "Movement");
 };
 
 struct MovementStatus
@@ -53,6 +70,16 @@ public:
     static Movement& Instance();
 
     void Update(bool inputBlocked = false);
+    void OnGameThreadTick(const SDK::UObject* tickObject);
+    void SetGameThreadHookReady(bool ready) noexcept;
+    bool NeedsGameThreadTick() const noexcept;
+
+    void SuspendHostAuthorization(std::uint64_t milliseconds) noexcept;
+
+    bool ServerMoveBypassEnabled() const noexcept;
+    bool IsLocalMovementObject(const SDK::UObject* object) const noexcept;
+    static bool IsMovementCorrectionRpc(SDK::UFunction* function);
+
     void Reset();
 
     MovementSettings& Settings() noexcept { return settings_; }
@@ -64,5 +91,13 @@ private:
 
     MovementSettings settings_{};
     MovementStatus status_{};
+    std::atomic_bool bunnyHopRequested_{false};
+    std::atomic_bool autoJumpRequested_{false};
+    std::atomic_bool bunnyHopMovementBlocked_{false};
+    std::atomic_bool gameplayInputBlocked_{true};
+    std::atomic_bool gameThreadHookReady_{false};
+    std::atomic<const SDK::UObject*> gameThreadTickObject_{nullptr};
+    std::atomic_bool serverMoveBypass_{false};
+    std::atomic<const SDK::UObject*> localMovementObject_{nullptr};
 };
 }

@@ -6,6 +6,8 @@
 #include "features/movement.hpp"
 #include "features/pickup.hpp"
 #include "features/session_limit.hpp"
+#include "features/spectator.hpp"
+#include "features/spawner.hpp"
 #include "features/vehicle_flight.hpp"
 #include "features/visuals.hpp"
 #include "game/unreal_safety.hpp"
@@ -74,15 +76,18 @@ LRESULT CALLBACK DummyWindowProc(HWND window, UINT message, WPARAM wparam, LPARA
 
 HCURSOR WINAPI HookSetCursor(HCURSOR cursor)
 {
-    if (etb::render::IsMenuInputActive() && cursor == nullptr)
-        cursor = LoadCursorW(nullptr, IDC_ARROW);
+    if (etb::render::IsMenuInputActive())
+    {
+        if (etb::render::IsMouseCircleActive())
+            cursor = nullptr;
+        else if (cursor == nullptr)
+            cursor = LoadCursorW(nullptr, IDC_ARROW);
+    }
     return g_originalSetCursor(cursor);
 }
 
 int WINAPI HookShowCursor(BOOL show)
 {
-    if (etb::render::IsMenuInputActive() && show == FALSE)
-        return 0;
     return g_originalShowCursor(show);
 }
 
@@ -136,20 +141,28 @@ __declspec(noinline) bool ReadFunctionMetadata(
 void HookProcessEvent(const SDK::UObject* object, SDK::UFunction* function, void* parameters)
 {
     auto& pickup = etb::features::Pickup::Instance();
+    auto& movement = etb::features::Movement::Instance();
     auto& vehicleFlight = etb::features::VehicleFlight::Instance();
     auto& exitActivator = etb::features::ExitActivator::Instance();
     auto& visuals = etb::features::Visuals::Instance();
     auto& sessionLimit = etb::features::SessionLimit::Instance();
+    auto& spectator = etb::features::Spectator::Instance();
+    auto& spawner = etb::features::Spawner::Instance();
     const bool inspectPickup = pickup.HasPendingRequest() || pickup.HostAuthorizationEnabled();
+    const bool inspectMovement = movement.NeedsGameThreadTick();
     const bool inspectVehicle = vehicleFlight.NeedsGameThreadTick();
     const bool inspectExits = exitActivator.NeedsGameThreadTick();
     const bool inspectVisualTick = visuals.NeedsGameThreadTick();
     const bool inspectSession = sessionLimit.NeedsInspection();
-    const bool acceptRemoteDerp =
-        etb::features::Movement::Instance().Settings().hostAcceptClientMovement;
+    const bool inspectSpectator = spectator.NeedsGameThreadTick();
+    const bool inspectSpawner = spawner.NeedsGameThreadTick();
+    const bool acceptRemoteDerp = movement.Settings().hostAcceptClientMovement;
     const bool inspectDerpNetwork = inspectVisualTick || acceptRemoteDerp;
-    if (!inspectPickup && !inspectVehicle && !inspectExits && !inspectVisualTick &&
-        !inspectDerpNetwork && !inspectSession)
+    // The movement bypass must keep this hook awake even when no other feature is on.
+    const bool bypassServerMove = movement.ServerMoveBypassEnabled();
+    if (!inspectPickup && !inspectMovement && !inspectVehicle && !inspectExits && !inspectVisualTick &&
+        !inspectDerpNetwork && !inspectSession && !inspectSpectator && !inspectSpawner &&
+        !bypassServerMove)
     {
         g_originalProcessEvent(object, function, parameters);
         return;
@@ -171,7 +184,8 @@ void HookProcessEvent(const SDK::UObject* object, SDK::UFunction* function, void
     bool isDerpServer = derpServerIndex >= 0 && functionNameIndex == derpServerIndex;
 
     const bool resolveReceiveTick = receiveTickIndex < 0 &&
-                                    (inspectVehicle || inspectExits || inspectVisualTick || inspectSession ||
+                                    (inspectMovement || inspectVehicle || inspectExits || inspectVisualTick || inspectSession ||
+                                     inspectSpectator || inspectSpawner ||
                                      acceptRemoteDerp || pickup.HasPendingRequest());
     const bool resolvePickupServer = pickupServerIndex < 0 && inspectPickup &&
         (functionFlags & static_cast<std::uint32_t>(SDK::EFunctionFlags::NetServer)) != 0;
@@ -229,6 +243,15 @@ void HookProcessEvent(const SDK::UObject* object, SDK::UFunction* function, void
         }
     }
 
+    // Multiplayer movement bypass: swallow the server's position correction RPCs so our
+    // own (client-authoritative) position is never snapped back. The pointer compare keeps
+    // this cheap — the name check only runs for our own movement component.
+    if (bypassServerMove && movement.IsLocalMovementObject(object) &&
+        etb::features::Movement::IsMovementCorrectionRpc(function))
+    {
+        return; // correction dropped before it can reach the movement component
+    }
+
     g_originalProcessEvent(object, function, parameters);
 
     if (inspectSession)
@@ -247,6 +270,16 @@ void HookProcessEvent(const SDK::UObject* object, SDK::UFunction* function, void
         try
         {
             pickup.OnGameThreadTick(object);
+        }
+        catch (...)
+        {
+        }
+    }
+    if (isReceiveTick && inspectMovement)
+    {
+        try
+        {
+            movement.OnGameThreadTick(object);
         }
         catch (...)
         {
@@ -287,6 +320,26 @@ void HookProcessEvent(const SDK::UObject* object, SDK::UFunction* function, void
         try
         {
             sessionLimit.OnGameThreadTick();
+        }
+        catch (...)
+        {
+        }
+    }
+    if (isReceiveTick && inspectSpectator)
+    {
+        try
+        {
+            spectator.OnGameThreadTick(object, ReadTickDeltaSeconds(parameters));
+        }
+        catch (...)
+        {
+        }
+    }
+    if (isReceiveTick && inspectSpawner)
+    {
+        try
+        {
+            spawner.OnGameThreadTick();
         }
         catch (...)
         {
@@ -631,8 +684,10 @@ bool Install()
         g_processEventTarget = nullptr;
     }
     features::Pickup::Instance().SetGameThreadHookReady(g_processEventTarget != nullptr);
+    features::Movement::Instance().SetGameThreadHookReady(g_processEventTarget != nullptr);
     features::VehicleFlight::Instance().SetGameThreadHookReady(g_processEventTarget != nullptr);
     features::ExitActivator::Instance().SetGameThreadHookReady(g_processEventTarget != nullptr);
+    features::Spectator::Instance().SetGameThreadHookReady(g_processEventTarget != nullptr);
 
     if (!InstallCursorHooks())
     {
@@ -758,8 +813,10 @@ void Shutdown()
     g_receiveTickNameIndex.store(-1, std::memory_order_relaxed);
     g_pickupServerNameIndex.store(-1, std::memory_order_relaxed);
     features::Pickup::Instance().SetGameThreadHookReady(false);
+    features::Movement::Instance().SetGameThreadHookReady(false);
     features::VehicleFlight::Instance().SetGameThreadHookReady(false);
     features::ExitActivator::Instance().SetGameThreadHookReady(false);
+    features::Spectator::Instance().SetGameThreadHookReady(false);
 
     std::lock_guard lock(g_queueMutex);
     g_directQueue.Reset();

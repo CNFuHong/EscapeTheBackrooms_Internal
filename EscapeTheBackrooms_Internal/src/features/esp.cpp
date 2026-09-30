@@ -1,14 +1,19 @@
-﻿#include "features/esp.hpp"
+#include "features/esp.hpp"
 
 #include "core/logger.hpp"
 #include "features/exit_activator.hpp"
 #include "features/notifications.hpp"
+#include "features/spawner.hpp"
 #include "game/unreal_safety.hpp"
 #include "render/esp_draw.hpp"
 
 #include <Windows.h>
 #include <SDK/Backrooms_classes.hpp>
 #include <SDK/Engine_classes.hpp>
+#include <SDK/AIModule_classes.hpp>
+#include <SDK/AIModule_parameters.hpp>
+#include <SDK/NavigationSystem_classes.hpp>
+#include <SDK/NavigationSystem_parameters.hpp>
 #include <imgui.h>
 
 #include <algorithm>
@@ -22,6 +27,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace etb::features
@@ -360,8 +366,14 @@ float DistanceMeters(const SDK::FVector& first, const SDK::FVector& second)
     return std::sqrt(x * x + y * y + z * z) * 0.01f;
 }
 
-bool WorldToScreen(const SDK::FVector& world, const CameraState& camera, const ImVec2& display,
-                   ImVec2& screen)
+struct CameraBasis
+{
+    SDK::FVector forward{};
+    SDK::FVector right{};
+    SDK::FVector up{};
+};
+
+CameraBasis MakeCameraBasis(const CameraState& camera)
 {
     constexpr float degreesToRadians = 3.14159265358979323846f / 180.0f;
     const float pitch = camera.rotation.Pitch * degreesToRadians;
@@ -372,15 +384,28 @@ bool WorldToScreen(const SDK::FVector& world, const CameraState& camera, const I
     const float sy = std::sin(yaw), cy = std::cos(yaw);
     const float sr = std::sin(roll), cr = std::cos(roll);
 
-    const SDK::FVector forward(cp * cy, cp * sy, sp);
-    const SDK::FVector right(sr * sp * cy - cr * sy, sr * sp * sy + cr * cy, -sr * cp);
-    const SDK::FVector up(-(cr * sp * cy + sr * sy), cy * sr - cr * sp * sy, cr * cp);
+    CameraBasis basis;
+    basis.forward = SDK::FVector(cp * cy, cp * sy, sp);
+    basis.right = SDK::FVector(sr * sp * cy - cr * sy, sr * sp * sy + cr * cy, -sr * cp);
+    basis.up = SDK::FVector(-(cr * sp * cy + sr * sy), cy * sr - cr * sp * sy, cr * cp);
+    return basis;
+}
+
+// Perspective projection without the on-screen bounds test, so meshes that cross the
+// screen edge (e.g. the china hat rim) still project correctly.
+bool ProjectWorld(const SDK::FVector& world, const CameraState& camera, const CameraBasis& basis,
+                  const ImVec2& display, ImVec2& screen)
+{
+    constexpr float degreesToRadians = 3.14159265358979323846f / 180.0f;
     const SDK::FVector delta(world.X - camera.location.X, world.Y - camera.location.Y,
                              world.Z - camera.location.Z);
 
-    const float transformedX = delta.X * right.X + delta.Y * right.Y + delta.Z * right.Z;
-    const float transformedY = delta.X * up.X + delta.Y * up.Y + delta.Z * up.Z;
-    const float transformedZ = delta.X * forward.X + delta.Y * forward.Y + delta.Z * forward.Z;
+    const float transformedX =
+        delta.X * basis.right.X + delta.Y * basis.right.Y + delta.Z * basis.right.Z;
+    const float transformedY =
+        delta.X * basis.up.X + delta.Y * basis.up.Y + delta.Z * basis.up.Z;
+    const float transformedZ =
+        delta.X * basis.forward.X + delta.Y * basis.forward.Y + delta.Z * basis.forward.Z;
     if (transformedZ <= 1.0f)
         return false;
 
@@ -388,9 +413,276 @@ bool WorldToScreen(const SDK::FVector& world, const CameraState& camera, const I
                         std::tan(std::clamp(camera.fov, 20.0f, 179.0f) * degreesToRadians * 0.5f);
     screen.x = display.x * 0.5f + transformedX * focal / transformedZ;
     screen.y = display.y * 0.5f - transformedY * focal / transformedZ;
-    return std::isfinite(screen.x) && std::isfinite(screen.y) &&
-           screen.x > -display.x * 0.35f && screen.x < display.x * 1.35f &&
+    return std::isfinite(screen.x) && std::isfinite(screen.y);
+}
+
+bool WorldToScreen(const SDK::FVector& world, const CameraState& camera, const ImVec2& display,
+                   ImVec2& screen)
+{
+    const CameraBasis basis = MakeCameraBasis(camera);
+    if (!ProjectWorld(world, camera, basis, display, screen))
+        return false;
+    return screen.x > -display.x * 0.35f && screen.x < display.x * 1.35f &&
            screen.y > -display.y * 0.35f && screen.y < display.y * 1.35f;
+}
+
+// Projects an axis-aligned world box (8 corners) around `location` to screen and
+// stores them in the visual for the optional 3D wireframe box.
+void Fill3DCorners(render::EspVisual& visual, const SDK::FVector& location, float halfHeight,
+                   const CameraState& camera, const ImVec2& display)
+{
+    const float halfWidth = halfHeight * 0.60f;
+    const float halfDepth = halfHeight * 0.60f;
+    for (int xi = 0; xi < 2; ++xi)
+        for (int yi = 0; yi < 2; ++yi)
+            for (int zi = 0; zi < 2; ++zi)
+            {
+                const int idx = xi * 4 + yi * 2 + zi;
+                const SDK::FVector corner{
+                    location.X + (xi == 0 ? -halfWidth : halfWidth),
+                    location.Y + (yi == 0 ? -halfDepth : halfDepth),
+                    location.Z + (zi == 0 ? -halfHeight : halfHeight)};
+                ImVec2 sc{};
+                if (WorldToScreen(corner, camera, display, sc))
+                    visual.corners[idx] = sc;
+                else
+                    visual.corners[idx] = ImVec2(-100000.0f, -100000.0f);  // off-screen sentinel
+            }
+    visual.hasCorners = true;
+}
+
+// Stores the entity's world anchor so the china hat can be rebuilt as a true 3D mesh.
+void SetVisualWorldAnchor(render::EspVisual& visual, const SDK::FVector& location, float halfHeight)
+{
+    visual.worldX = location.X;
+    visual.worldY = location.Y;
+    visual.worldZ = location.Z;
+    visual.worldHalfHeight = halfHeight;
+    visual.hasWorld = true;
+}
+
+constexpr float kPi = 3.14159265358979323846f;
+
+// Builds a projected 3D conical hat (斗笠) mesh in screen space from the entity's world
+// position and the camera. The brim ring is generated starting at the camera-facing axis
+// so indices [0, segmentCount/2] are the near half and the rest the far half, which lets
+// the renderer shade the hat for a genuine 3D look.
+bool BuildChinaHatMesh(render::ChinaHatMesh& mesh, const SDK::FVector& rootLocation, float halfHeight,
+                       const CameraState& camera, const CameraBasis& basis, const ImVec2& display,
+                       const EspSettings& settings)
+{
+    const int segments =
+        std::clamp(settings.chinaHatSegments, 3, render::ChinaHatMesh::kMaxSegments);
+    const float entityHeight = std::max(1.0f, halfHeight * 2.0f);
+    const float radius =
+        std::max(1.0f, entityHeight * std::clamp(settings.chinaHatWidth, 0.02f, 3.0f) * 0.5f);
+    const float coneHeight =
+        std::max(1.0f, entityHeight * std::clamp(settings.chinaHatHeight, 0.01f, 3.0f));
+    const float droop = radius * std::clamp(settings.chinaHatDroop, -1.0f, 2.0f);
+
+    SDK::FVector center = rootLocation;
+    center.Z += halfHeight + entityHeight * std::clamp(settings.chinaHatOffset, -2.0f, 2.0f);
+
+    // Horizontal camera axes (world space) orient the ring and the tip lean.
+    float forwardX = basis.forward.X;
+    float forwardY = basis.forward.Y;
+    const float forwardLength = std::sqrt(forwardX * forwardX + forwardY * forwardY);
+    if (forwardLength < 1e-4f)
+    {
+        forwardX = 1.0f;
+        forwardY = 0.0f;
+    }
+    else
+    {
+        forwardX /= forwardLength;
+        forwardY /= forwardLength;
+    }
+
+    float rightX = basis.right.X;
+    float rightY = basis.right.Y;
+    const float rightLength = std::sqrt(rightX * rightX + rightY * rightY);
+    if (rightLength < 1e-4f)
+    {
+        rightX = 0.0f;
+        rightY = 1.0f;
+    }
+    else
+    {
+        rightX /= rightLength;
+        rightY /= rightLength;
+    }
+
+    const float baseAngle = std::atan2(forwardY, forwardX);
+    const float tiltSide = radius * std::clamp(settings.chinaHatTilt, -2.0f, 2.0f);
+    const float tiltForward = radius * std::clamp(settings.chinaHatTiltForward, -2.0f, 2.0f);
+
+    const SDK::FVector apexWorld{
+        center.X + rightX * tiltSide + forwardX * tiltForward,
+        center.Y + rightY * tiltSide + forwardY * tiltForward,
+        center.Z + coneHeight};
+    ImVec2 apexScreen{};
+    if (!ProjectWorld(apexWorld, camera, basis, display, apexScreen))
+        return false;
+    mesh.apex = apexScreen;
+
+    for (int i = 0; i < segments; ++i)
+    {
+        const float angle = baseAngle - kPi * 0.5f +
+                            (kPi * 2.0f) * static_cast<float>(i) / static_cast<float>(segments);
+        const SDK::FVector ring{
+            center.X + std::cos(angle) * radius,
+            center.Y + std::sin(angle) * radius,
+            center.Z - droop};
+        ImVec2 point{};
+        if (!ProjectWorld(ring, camera, basis, display, point))
+            return false;
+        mesh.brim[i] = point;
+    }
+
+    mesh.segmentCount = segments;
+    mesh.valid = true;
+    return true;
+}
+
+struct ExitPathState
+{
+    ULONGLONG nextCompute = 0;
+    std::int32_t worldIndex = -1;
+    SDK::FVector lastComputeLocation{};
+    bool hasComputeLocation = false;
+    bool forceRequest = false;
+};
+
+ExitPathState g_exitPath;
+
+// Per-monster recent positions for the aggro tracking route (keyed by actor).
+struct TrackingTrail
+{
+    std::vector<SDK::FVector> points;
+    Clock::time_point lastSample{};
+    // The nav path the AI controller is currently following (the route it picked).
+    std::vector<SDK::FVector> path;
+    Clock::time_point lastPathFetch{};
+};
+
+std::unordered_map<SDK::AActor*, TrackingTrail> g_entityTrails;
+
+SDK::UObject* FindNamedObject(const char* wantedName)
+{
+    if (wantedName == nullptr)
+        return nullptr;
+    auto* objects = SDK::UObject::GObjects.GetTypedPtr();
+    if (!IsReadable(objects, sizeof(*objects)))
+        return nullptr;
+    const int count = objects->Num();
+    if (count <= 0 || count > 4000000)
+        return nullptr;
+    for (int index = 0; index < count; ++index)
+    {
+        SDK::UObject* object = objects->GetByIndex(index);
+        if (object == nullptr)
+            continue;
+        std::string name;
+        if (game::TryFNameToString(object->Name, name) && name == wantedName &&
+            game::IsLiveUObject(object))
+            return object;
+    }
+    return nullptr;
+}
+
+bool InvokePathFunction(SDK::UObject* object, const char* functionName, void* parameters)
+{
+    SDK::UFunction* function = nullptr;
+    try
+    {
+        for (SDK::UStruct* type = object->Class; type != nullptr; type = type->SuperStruct)
+        {
+            if (!IsReadable(type, sizeof(SDK::UStruct)))
+                break;
+            for (SDK::UField* field = type->Children; field != nullptr; field = field->Next)
+            {
+                if (!IsReadable(field, sizeof(SDK::UField)))
+                    break;
+                std::string name;
+                if (game::TryFNameToString(field->Name, name) && name == functionName)
+                {
+                    function = reinterpret_cast<SDK::UFunction*>(field);
+                    break;
+                }
+            }
+            if (function != nullptr)
+                break;
+        }
+    }
+    catch (...)
+    {
+        return false;
+    }
+    if (!game::CanProcessEvent(object, function))
+        return false;
+    const auto flags = function->FunctionFlags;
+    function->FunctionFlags |= 0x400;
+    const bool invoked = game::ProcessEventSafe(object, function, parameters);
+    if (game::IsLiveUObject(function))
+        function->FunctionFlags = flags;
+    return invoked;
+}
+
+// Reads the nav path the AI controller is currently following. This is the route the game
+// auto-selects while the entity chases a player — exactly what we want to draw.
+bool FetchControllerPath(SDK::AController* controller, std::vector<SDK::FVector>& outPoints)
+{
+    outPoints.clear();
+    if (!game::IsLiveUObject(controller))
+        return false;
+
+    static SDK::UObject* helperCdo = nullptr;
+    if (!game::IsLiveUObject(helperCdo))
+        helperCdo = FindNamedObject("Default__AIBlueprintHelperLibrary");
+    if (!game::IsLiveUObject(helperCdo))
+        return false;
+
+    SDK::Params::AIBlueprintHelperLibrary_GetCurrentPathPoints params{};
+    params.Controller = controller;
+    if (!InvokePathFunction(helperCdo, "GetCurrentPathPoints", &params))
+        return false;
+
+    const auto& points = params.ReturnValue;
+    if (!points.IsValid() || points.Num() <= 0 || points.Num() > 1024)
+        return false;
+    outPoints.reserve(static_cast<std::size_t>(points.Num()));
+    for (int index = 0; index < points.Num(); ++index)
+        outPoints.push_back(points[index]);
+    return !outPoints.empty();
+}
+
+// Computes a navigation path (via the game's navmesh) from `start` to `end`.
+bool ComputeNavPath(SDK::UWorld* world, const SDK::FVector& start, const SDK::FVector& end,
+                    std::vector<SDK::FVector>& outPoints)
+{
+    static SDK::UObject* navCdo = nullptr;
+    if (!game::IsLiveUObject(navCdo))
+        navCdo = FindNamedObject("Default__NavigationSystemV1");
+    if (!game::IsLiveUObject(navCdo) || !game::IsLiveUObject(world))
+        return false;
+
+    SDK::Params::NavigationSystemV1_FindPathToLocationSynchronously params{};
+    params.WorldContextObject = world;
+    params.PathStart = start;
+    params.PathEnd = end;
+    params.PathfindingContext = nullptr;
+    params.FilterClass = nullptr;
+    if (!InvokePathFunction(navCdo, "FindPathToLocationSynchronously", &params) ||
+        !game::IsLiveUObject(params.ReturnValue))
+        return false;
+    auto* path = static_cast<SDK::UNavigationPath*>(params.ReturnValue);
+    const auto& points = path->PathPoints;
+    if (!points.IsValid() || points.Num() <= 0 || points.Num() > 512)
+        return false;
+    outPoints.clear();
+    for (int index = 0; index < points.Num(); ++index)
+        outPoints.push_back(points[index]);
+    return !outPoints.empty();
 }
 
 bool IsOwnedByLocalActor(SDK::AActor* actor, const FrameContext& context)
@@ -907,9 +1199,21 @@ Esp& Esp::Instance()
     return instance;
 }
 
-void Esp::UpdateAndDraw()
+bool Esp::WantsFrame() const noexcept
 {
-    stats_.drawnEntities = 0;
+    if (settings_.enabled || settings_.classNamesEnabled || settings_.leverHighlight ||
+        settings_.valveHighlight || settings_.pathToExit || settings_.entityTracking ||
+        settings_.dynamicMarkersEnabled)
+        return true;
+    // The background notification monitor also drives the ESP pipeline.
+    const NotificationSettings& notifications = Notifications::Instance().Settings();
+    return notifications.enabled &&
+        (notifications.sceneSummary || notifications.sanityWarnings ||
+         notifications.discoveryAlerts);
+}
+
+void Esp::UpdateAndDraw()
+{    stats_.drawnEntities = 0;
     stats_.worldReady = false;
 
     const NotificationSettings& notificationSettings = Notifications::Instance().Settings();
@@ -917,7 +1221,7 @@ void Esp::UpdateAndDraw()
         (notificationSettings.sceneSummary || notificationSettings.sanityWarnings ||
          notificationSettings.discoveryAlerts);
     if ((!settings_.enabled && !settings_.classNamesEnabled && !settings_.leverHighlight &&
-         !settings_.valveHighlight &&
+         !settings_.valveHighlight && !settings_.pathToExit && !settings_.entityTracking &&
          !settings_.dynamicMarkersEnabled && !backgroundMonitoring) ||
         ImGui::GetCurrentContext() == nullptr)
         return;
@@ -931,8 +1235,29 @@ void Esp::UpdateAndDraw()
     }
 
     stats_.worldReady = true;
-    const bool cacheRefreshed = g_cache.RefreshIfNeeded(context, settings_.refreshIntervalMs);
-    g_cache.UpdateMotion(settings_);
+    // When no ESP visual is being drawn, the only reason we still run is the background
+    // notification monitor. In that case refresh the cache far less often and skip the
+    // per-frame motion sampling, so "everything off" stays genuinely cheap.
+    const bool drawingEnabled = settings_.enabled || settings_.classNamesEnabled ||
+                                settings_.leverHighlight || settings_.valveHighlight ||
+                                settings_.dynamicMarkersEnabled || settings_.pathToExit ||
+                                settings_.entityTracking;
+    const bool needsMotion = drawingEnabled || settings_.entitySpeed ||
+                             (backgroundMonitoring && notificationSettings.discoveryAlerts);
+    const int refreshMs = drawingEnabled
+        ? settings_.refreshIntervalMs
+        : std::max(settings_.refreshIntervalMs, 2000);
+
+    const bool cacheRefreshed = g_cache.RefreshIfNeeded(context, refreshMs);
+    // UpdateMotion walks every cached entity. Motion features work on 100ms windows, so
+    // sampling at 10 Hz is plenty and stops this from being a per-frame O(entities) sweep.
+    static Clock::time_point nextMotionUpdate{};
+    const Clock::time_point motionNow = Clock::now();
+    if (needsMotion && motionNow >= nextMotionUpdate)
+    {
+        nextMotionUpdate = motionNow + std::chrono::milliseconds(100);
+        g_cache.UpdateMotion(settings_);
+    }
     stats_.scannedActors = g_cache.ScannedActors();
     stats_.cachedEntities = g_cache.Entities().size();
     ResolveLocalSanity(context, stats_.localSanity, stats_.localMaxSanity);
@@ -1049,6 +1374,9 @@ void Esp::UpdateAndDraw()
                 render::EspVisual visual{headScreen, footScreen, entity.className,
                                          distance, spawnVisualCategory, compactSpawn};
                 visual.newlySpawned = true;
+                SetVisualWorldAnchor(visual, location, halfHeight);
+                if (settings_.threeDBoxes)
+                    Fill3DCorners(visual, location, halfHeight, camera, display);
                 visuals.push_back(std::move(visual));
                 if (settings_.entitySpeed && entity.categorized &&
                     (entity.category == Category::Monster || entity.category == Category::Player) &&
@@ -1074,6 +1402,7 @@ void Esp::UpdateAndDraw()
             {
                 render::EspVisual visual{headScreen, footScreen, entity.name, distance,
                                          entity.category, compact};
+                SetVisualWorldAnchor(visual, location, halfHeight);
                 if (entity.category == Category::Player)
                 {
                     visual.sanity = entity.sanity;
@@ -1083,6 +1412,8 @@ void Esp::UpdateAndDraw()
                     (entity.category == Category::Monster || entity.category == Category::Player) &&
                     entity.speedMetersPerSecond >= 1.0f)
                     visual.speedMetersPerSecond = entity.speedMetersPerSecond;
+                if (settings_.threeDBoxes)
+                    Fill3DCorners(visual, location, halfHeight, camera, display);
                 if (entity.category != Category::Item ||
                     !MergeNearbyItemVisual(visuals, render::EspVisual(visual),
                                            settings_.itemMergeScreenDistancePixels,
@@ -1104,6 +1435,9 @@ void Esp::UpdateAndDraw()
             {
                 visuals.push_back(render::EspVisual{headScreen, footScreen, entity.className, distance,
                                                     render::EspCategory::Lever, true});
+                SetVisualWorldAnchor(visuals.back(), location, 36.0f);
+                if (settings_.threeDBoxes)
+                    Fill3DCorners(visuals.back(), location, 36.0f, camera, display);
             }
         }
 
@@ -1120,6 +1454,9 @@ void Esp::UpdateAndDraw()
             {
                 visuals.push_back(render::EspVisual{headScreen, footScreen, entity.className, distance,
                                                     render::EspCategory::Valve, true});
+                SetVisualWorldAnchor(visuals.back(), location, 32.0f);
+                if (settings_.threeDBoxes)
+                    Fill3DCorners(visuals.back(), location, 32.0f, camera, display);
             }
         }
 
@@ -1143,6 +1480,9 @@ void Esp::UpdateAndDraw()
                 }
                 visuals.push_back(render::EspVisual{headScreen, footScreen, std::move(markerName), distance,
                                                     render::EspCategory::Dynamic, true});
+                SetVisualWorldAnchor(visuals.back(), location, 40.0f);
+                if (settings_.threeDBoxes)
+                    Fill3DCorners(visuals.back(), location, 40.0f, camera, display);
             }
         }
     }
@@ -1177,6 +1517,9 @@ void Esp::UpdateAndDraw()
         });
         visuals.push_back(render::EspVisual{headScreen, footScreen, marker.name, distance,
                                             render::EspCategory::ForcedExit, false});
+        SetVisualWorldAnchor(visuals.back(), location, 40.0f);
+        if (settings_.threeDBoxes)
+            Fill3DCorners(visuals.back(), location, 40.0f, camera, display);
     }
 
     std::sort(visuals.begin(), visuals.end(), [](const render::EspVisual& left, const render::EspVisual& right)
@@ -1186,6 +1529,7 @@ void Esp::UpdateAndDraw()
 
     render::EspDrawStyle drawStyle{};
     drawStyle.boxes = settings_.boxes;
+    drawStyle.threeD = settings_.threeDBoxes;
     drawStyle.filledBoxes = settings_.filledBoxes;
     drawStyle.labels = settings_.labels;
     drawStyle.distance = settings_.distance;
@@ -1194,9 +1538,364 @@ void Esp::UpdateAndDraw()
     drawStyle.fillOpacity = settings_.fillOpacity;
     drawStyle.cardScale = settings_.cardScale;
 
+    render::ChinaHatStyle chinaHatStyle{};
+    chinaHatStyle.enabled = settings_.chinaHat;
+    chinaHatStyle.monsters = settings_.chinaHatMonsters;
+    chinaHatStyle.players = settings_.chinaHatPlayers;
+    chinaHatStyle.self = settings_.chinaHatSelf;
+    chinaHatStyle.color = ImGui::ColorConvertFloat4ToU32(
+        ImVec4(settings_.chinaHatColor[0], settings_.chinaHatColor[1],
+               settings_.chinaHatColor[2], settings_.chinaHatColor[3]));
+    chinaHatStyle.widthScale = settings_.chinaHatWidth;
+    chinaHatStyle.heightScale = settings_.chinaHatHeight;
+    chinaHatStyle.brimDroop = settings_.chinaHatDroop;
+    chinaHatStyle.segments = settings_.chinaHatSegments;
+    chinaHatStyle.filled = settings_.chinaHatFilled;
+    chinaHatStyle.fillOpacity = settings_.chinaHatFillOpacity;
+    chinaHatStyle.outline = settings_.chinaHatOutline;
+    chinaHatStyle.outlineThickness = settings_.chinaHatThickness;
+    chinaHatStyle.verticalOffset = settings_.chinaHatOffset;
+    chinaHatStyle.tilt = settings_.chinaHatTilt;
+    chinaHatStyle.tiltForward = settings_.chinaHatTiltForward;
+    chinaHatStyle.farRim = settings_.chinaHatFarRim;
+    chinaHatStyle.ribs = settings_.chinaHatRibs;
+    chinaHatStyle.ribCount = settings_.chinaHatRibCount;
+    const CameraBasis chinaHatBasis = MakeCameraBasis(camera);
+
     std::unordered_map<uint64_t, int> labelStacks;
     labelStacks.reserve(visuals.size());
     ImDrawList* drawList = ImGui::GetBackgroundDrawList();
+
+    // Optional nav path to the exits (drawn as coloured polylines).
+    // The nav queries run on the game thread (Spawner::OnGameThreadTick); this render
+    // thread only requests a recompute and snapshots the results to draw. Do NOT call
+    // the nav function here — it would deadlock against the game thread during Present.
+    if (settings_.pathToExit)
+    {
+        Spawner::Instance().SetExitPathEnabled(true);
+
+        const ULONGLONG now = GetTickCount64();
+        const std::int32_t worldIndex =
+            game::IsLiveUObject(context.world) ? context.world->Index : -1;
+        if (g_exitPath.worldIndex != worldIndex)
+        {
+            // Respawn / travel: re-warm up before querying again.
+            g_exitPath.worldIndex = worldIndex;
+            g_exitPath.hasComputeLocation = false;
+            g_exitPath.forceRequest = true;
+            g_exitPath.nextCompute = now + 600;
+        }
+
+        const bool hasPawn = context.localPawn != nullptr;
+        if (hasPawn)
+        {
+            const float movedDist = g_exitPath.hasComputeLocation
+                ? DistanceMeters(g_exitPath.lastComputeLocation, camera.location) : 0.0f;
+            const bool due = g_exitPath.forceRequest || now >= g_exitPath.nextCompute;
+            const bool movedAway = g_exitPath.hasComputeLocation && movedDist > 4.0f;
+            if (due || movedAway)
+            {
+                g_exitPath.forceRequest = false;
+                g_exitPath.nextCompute = now + 900;
+
+                // Route to several exits at once, not just the closest one.
+                constexpr std::size_t kMaxExitPaths = 4;
+                std::vector<std::pair<float, SDK::FVector>> found;
+                for (const auto& [actor, entity] : g_cache.Entities())
+                {
+                    (void)actor;
+                    if (!entity.categorized || entity.category != Category::Exit)
+                        continue;
+                    if (!game::IsLiveUObject(entity.root) || !IsReadable(entity.root, 0x128))
+                        continue;
+                    const SDK::FVector loc = entity.root->RelativeLocation;
+                    if (!std::isfinite(loc.X) || !std::isfinite(loc.Y) || !std::isfinite(loc.Z))
+                        continue;
+                    found.emplace_back(DistanceMeters(loc, camera.location), loc);
+                }
+                std::sort(found.begin(), found.end(),
+                          [](const auto& left, const auto& right)
+                          { return left.first < right.first; });
+
+                std::vector<SDK::FVector> targets;
+                for (const auto& [distance, location] : found)
+                {
+                    if (targets.size() >= kMaxExitPaths)
+                        break;
+                    bool duplicate = false;
+                    for (const SDK::FVector& existing : targets)
+                    {
+                        if (DistanceMeters(existing, location) < 2.0f)
+                        {
+                            duplicate = true;
+                            break;
+                        }
+                    }
+                    if (!duplicate)
+                        targets.push_back(location);
+                }
+
+                if (!targets.empty() && game::IsLiveUObject(context.world))
+                {
+                    Spawner::Instance().RequestExitPaths(context.world, camera.location, targets);
+                    g_exitPath.lastComputeLocation = camera.location;
+                    g_exitPath.hasComputeLocation = true;
+                }
+            }
+        }
+        else
+        {
+            g_exitPath.hasComputeLocation = false;
+            g_exitPath.forceRequest = true;
+        }
+
+        std::vector<std::vector<SDK::FVector>> exitPaths;
+        if (Spawner::Instance().SnapshotExitPaths(exitPaths))
+        {
+            // Nearest exit green, the rest distinct so the routes are tellable apart.
+            static const ImU32 pathColors[] = {
+                IM_COL32(80, 255, 120, 235),  // green
+                IM_COL32(90, 200, 255, 225),  // cyan
+                IM_COL32(255, 210, 90, 225),  // amber
+                IM_COL32(255, 120, 220, 225), // pink
+            };
+            constexpr std::size_t colorCount = sizeof(pathColors) / sizeof(pathColors[0]);
+
+            for (std::size_t pathIndex = 0; pathIndex < exitPaths.size(); ++pathIndex)
+            {
+                const std::vector<SDK::FVector>& path = exitPaths[pathIndex];
+                if (path.empty())
+                    continue;
+                const ImU32 pathColor = pathColors[pathIndex % colorCount];
+                const ImU32 pathGlow = (pathColor & 0x00FFFFFFu) | (60u << 24);
+
+                ImVec2 prev{};
+                bool hasPrev = false;
+                for (const SDK::FVector& point : path)
+                {
+                    ImVec2 screen{};
+                    if (WorldToScreen(point, camera, display, screen))
+                    {
+                        if (hasPrev)
+                        {
+                            drawList->AddLine(prev, screen, IM_COL32(0, 0, 0, 90), 5.5f);
+                            drawList->AddLine(prev, screen, pathGlow, 5.0f);
+                            drawList->AddLine(prev, screen,
+                                              (pathColor & 0x00FFFFFFu) | (110u << 24), 2.6f);
+                            drawList->AddLine(prev, screen, pathColor, 1.7f);
+                            const ImVec2 delta(screen.x - prev.x, screen.y - prev.y);
+                            const float len = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+                            if (len > 24.0f)
+                            {
+                                const ImVec2 u(prev.x + delta.x * 0.72f,
+                                               prev.y + delta.y * 0.72f);
+                                const float bx = delta.x / len, by = delta.y / len;
+                                const float px = -by, py = bx;
+                                const float aw = 7.0f;
+                                drawList->AddLine(u, ImVec2(u.x - bx * aw + px * aw * 0.6f,
+                                                            u.y - by * aw + py * aw * 0.6f),
+                                                  pathColor, 1.6f);
+                                drawList->AddLine(u, ImVec2(u.x - bx * aw - px * aw * 0.6f,
+                                                            u.y - by * aw - py * aw * 0.6f),
+                                                  pathColor, 1.6f);
+                            }
+                        }
+                        prev = screen;
+                        hasPrev = true;
+                    }
+                    else
+                    {
+                        hasPrev = false;
+                    }
+                }
+                if (hasPrev)
+                {
+                    drawList->AddCircleFilled(prev, 4.5f, IM_COL32(0, 0, 0, 150), 24);
+                    drawList->AddCircleFilled(prev, 3.0f, pathColor, 24);
+                    drawList->AddCircle(prev, 7.0f, pathGlow, 24, 1.4f);
+                }
+            }
+        }
+    }
+    else
+    {
+        Spawner::Instance().SetExitPathEnabled(false);
+    }
+
+    // Entity aggro tracking route: the nav path the entity's AI is currently following
+    // (bright amber, with arrowheads), its recent movement trail (dim), and a bright link
+    // while it is heading straight at us.
+    if (settings_.entityTracking)
+    {
+        // Only the nearest few entities are tracked: fetching an entity's AI path is a
+        // ProcessEvent per monster, so tracking every monster tanked the frame rate.
+        struct TrackedCandidate
+        {
+            SDK::AActor* actor = nullptr;
+            const CachedEntity* entity = nullptr;
+            float distanceSquared = 0.0f;
+        };
+
+        std::vector<TrackedCandidate> candidates;
+        for (const auto& [actor, entity] : g_cache.Entities())
+        {
+            if (!entity.categorized || entity.category != Category::Monster)
+                continue;
+            if (!game::IsLiveUObject(entity.root) || !IsReadable(entity.root, 0x128))
+                continue;
+            const SDK::FVector location = entity.root->RelativeLocation;
+            if (!std::isfinite(location.X) || !std::isfinite(location.Y) ||
+                !std::isfinite(location.Z))
+                continue;
+            const float dx = location.X - camera.location.X;
+            const float dy = location.Y - camera.location.Y;
+            const float dz = location.Z - camera.location.Z;
+            candidates.push_back({actor, &entity, dx * dx + dy * dy + dz * dz});
+        }
+        std::sort(candidates.begin(), candidates.end(),
+                  [](const TrackedCandidate& left, const TrackedCandidate& right)
+                  { return left.distanceSquared < right.distanceSquared; });
+
+        const std::size_t trackCount = std::min(
+            candidates.size(),
+            static_cast<std::size_t>(std::clamp(settings_.entityTrackingCount, 1, 16)));
+
+        // Drop trails for entities we are no longer tracking, so the map stays bounded.
+        for (auto iterator = g_entityTrails.begin(); iterator != g_entityTrails.end();)
+        {
+            bool keep = false;
+            for (std::size_t index = 0; index < trackCount; ++index)
+            {
+                if (candidates[index].actor == iterator->first)
+                {
+                    keep = true;
+                    break;
+                }
+            }
+            if (keep)
+                ++iterator;
+            else
+                iterator = g_entityTrails.erase(iterator);
+        }
+
+        const Clock::time_point sampleTime = Clock::now();
+        for (std::size_t tracked = 0; tracked < trackCount; ++tracked)
+        {
+            const CachedEntity& entity = *candidates[tracked].entity;
+            SDK::AActor* actor = candidates[tracked].actor;
+            const SDK::FVector location = entity.root->RelativeLocation;
+
+            TrackingTrail& trail = g_entityTrails[actor];
+            if (trail.lastSample.time_since_epoch().count() == 0 ||
+                sampleTime - trail.lastSample >= std::chrono::milliseconds(80))
+            {
+                trail.lastSample = sampleTime;
+                if (trail.points.empty() || DistanceMeters(trail.points.back(), location) > 0.30f)
+                {
+                    trail.points.push_back(location);
+                    if (trail.points.size() > 48)
+                        trail.points.erase(trail.points.begin());
+                }
+            }
+
+            // The route the game's AI actually picked for this entity (throttled fetch).
+            if (trail.lastPathFetch.time_since_epoch().count() == 0 ||
+                sampleTime - trail.lastPathFetch >= std::chrono::milliseconds(150))
+            {
+                trail.lastPathFetch = sampleTime;
+                SDK::AController* controller = nullptr;
+                auto* pawn = static_cast<SDK::APawn*>(entity.actor);
+                if (IsReadable(pawn, 0x260) && game::IsLiveUObject(pawn))
+                    controller = pawn->Controller;
+
+                std::vector<SDK::FVector> path;
+                if (FetchControllerPath(controller, path))
+                    trail.path = std::move(path);
+                else
+                    trail.path.clear();
+            }
+
+            // Movement trail first (dim), then the AI route on top (bright amber).
+            const std::size_t count = trail.points.size();
+            for (std::size_t index = 1; index < count; ++index)
+            {
+                ImVec2 from{};
+                ImVec2 to{};
+                if (!WorldToScreen(trail.points[index - 1], camera, display, from) ||
+                    !WorldToScreen(trail.points[index], camera, display, to))
+                    continue;
+                const float t = static_cast<float>(index) / static_cast<float>(count);
+                const int alpha = static_cast<int>(20.0f + 110.0f * t);
+                drawList->AddLine(from, to, IM_COL32(255, 90, 60, alpha), 0.8f + 1.0f * t);
+            }
+
+            const std::size_t pathCount = trail.path.size();
+            for (std::size_t index = 1; index < pathCount; ++index)
+            {
+                ImVec2 from{};
+                ImVec2 to{};
+                if (!WorldToScreen(trail.path[index - 1], camera, display, from) ||
+                    !WorldToScreen(trail.path[index], camera, display, to))
+                    continue;
+                drawList->AddLine(from, to, IM_COL32(0, 0, 0, 120), 4.6f);
+                drawList->AddLine(from, to, IM_COL32(255, 190, 40, 235), 2.4f);
+
+                const ImVec2 delta(to.x - from.x, to.y - from.y);
+                const float len = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+                if (len > 26.0f)
+                {
+                    const ImVec2 mid(from.x + delta.x * 0.6f, from.y + delta.y * 0.6f);
+                    const float bx = delta.x / len;
+                    const float by = delta.y / len;
+                    const float px = -by;
+                    const float py = bx;
+                    const float arrow = 8.0f;
+                    drawList->AddLine(mid, ImVec2(mid.x - bx * arrow + px * arrow * 0.6f,
+                                                 mid.y - by * arrow + py * arrow * 0.6f),
+                                      IM_COL32(255, 190, 40, 235), 2.0f);
+                    drawList->AddLine(mid, ImVec2(mid.x - bx * arrow - px * arrow * 0.6f,
+                                                 mid.y - by * arrow - py * arrow * 0.6f),
+                                      IM_COL32(255, 190, 40, 235), 2.0f);
+                }
+            }
+            if (pathCount > 0)
+            {
+                ImVec2 end{};
+                if (WorldToScreen(trail.path.back(), camera, display, end))
+                {
+                    drawList->AddCircleFilled(end, 4.4f, IM_COL32(0, 0, 0, 150), 20);
+                    drawList->AddCircleFilled(end, 2.8f, IM_COL32(255, 190, 40, 240), 20);
+                }
+            }
+
+            if (count >= 2 && entity.speedMetersPerSecond > 1.0f)
+            {
+                const SDK::FVector& back = trail.points[count - 1];
+                const SDK::FVector& previous = trail.points[count - 2];
+                const float hx = back.X - previous.X;
+                const float hy = back.Y - previous.Y;
+                const float hz = back.Z - previous.Z;
+                const float headingLength = std::sqrt(hx * hx + hy * hy + hz * hz);
+                const float px = camera.location.X - back.X;
+                const float py = camera.location.Y - back.Y;
+                const float pz = camera.location.Z - back.Z;
+                const float playerLength = std::sqrt(px * px + py * py + pz * pz);
+                if (headingLength > 1.0f && playerLength > 1.0f &&
+                    (hx * px + hy * py + hz * pz) / (headingLength * playerLength) > 0.7f)
+                {
+                    ImVec2 from{};
+                    ImVec2 to{};
+                    if (WorldToScreen(back, camera, display, from) &&
+                        WorldToScreen(camera.location, camera, display, to))
+                    {
+                        drawList->AddLine(from, to, IM_COL32(255, 0, 0, 70), 4.0f);
+                        drawList->AddLine(from, to, IM_COL32(255, 40, 40, 220), 1.6f);
+                    }
+                }
+            }
+        }
+    }
+
     for (const render::EspVisual& visual : visuals)
     {
         int stackIndex = 0;
@@ -1214,6 +1913,7 @@ void Esp::UpdateAndDraw()
         {
             render::EspDrawStyle highlightStyle{};
             highlightStyle.boxes = true;
+            highlightStyle.threeD = settings_.threeDBoxes;
             highlightStyle.filledBoxes = true;
             highlightStyle.labels = true;
             highlightStyle.distance = true;
@@ -1221,19 +1921,11 @@ void Esp::UpdateAndDraw()
             highlightStyle.monsterTracersOnly = false;
             highlightStyle.fillOpacity = (visual.category == render::EspCategory::Lever ||
                                           visual.category == render::EspCategory::Valve) ? 0.28f : 0.22f;
-            highlightStyle.cardScale = std::max(settings_.cardScale,
-                                                (visual.category == render::EspCategory::Lever ||
-                                                 visual.category == render::EspCategory::Valve) ? 1.15f :
-                                                ((visual.newlySpawned ||
-                                                  visual.category == render::EspCategory::Spawn)
-                                                     ? 1.25f : 1.0f));
+            highlightStyle.cardScale = settings_.cardScale;
             if (visual.newlySpawned || visual.category == render::EspCategory::Spawn)
                 highlightStyle.fillOpacity = 0.36f;
             if (visual.category == render::EspCategory::ForcedExit)
-            {
                 highlightStyle.fillOpacity = 0.42f;
-                highlightStyle.cardScale = std::max(highlightStyle.cardScale, 1.30f);
-            }
             render::DrawEspVisual(drawList, visual, highlightStyle, stackIndex, display);
         }
         else
@@ -1247,6 +1939,39 @@ void Esp::UpdateAndDraw()
                 render::DrawPlayerNameTag(drawList, visual, settings_.distance,
                                           settings_.playerSanity, settings_.cardScale,
                                           stackIndex, display);
+            }
+        }
+
+        if (chinaHatStyle.enabled && visual.hasWorld)
+        {
+            const bool hatEligible =
+                (visual.category == render::EspCategory::Monster && chinaHatStyle.monsters) ||
+                (visual.category == render::EspCategory::Player && chinaHatStyle.players);
+            if (hatEligible)
+            {
+                render::ChinaHatMesh mesh{};
+                if (BuildChinaHatMesh(mesh, SDK::FVector(visual.worldX, visual.worldY, visual.worldZ),
+                                      visual.worldHalfHeight, camera, chinaHatBasis, display, settings_))
+                    render::DrawChinaHat(drawList, mesh, chinaHatStyle);
+            }
+        }
+    }
+
+    // The local pawn is filtered out of the ESP entity cache, so its hat is built straight
+    // from the pawn's root component when "Self" is enabled.
+    if (chinaHatStyle.enabled && chinaHatStyle.self && context.localPawn != nullptr &&
+        game::IsLiveUObject(context.localPawn))
+    {
+        SDK::USceneComponent* localRoot = context.localPawn->RootComponent;
+        if (IsReadable(localRoot, 0x128))
+        {
+            const SDK::FVector localLocation = localRoot->RelativeLocation;
+            if (std::isfinite(localLocation.X) && std::isfinite(localLocation.Y) &&
+                std::isfinite(localLocation.Z))
+            {
+                render::ChinaHatMesh mesh{};
+                if (BuildChinaHatMesh(mesh, localLocation, 88.0f, camera, chinaHatBasis, display, settings_))
+                    render::DrawChinaHat(drawList, mesh, chinaHatStyle);
             }
         }
     }

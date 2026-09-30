@@ -3,6 +3,7 @@
 #include "core/config.hpp"
 #include "core/logger.hpp"
 #include "hooks/dxgi_hooks.hpp"
+#include "features/spectator.hpp"
 #include "features/vehicle_flight.hpp"
 #include "render/renderer.hpp"
 
@@ -30,6 +31,13 @@ DWORD WINAPI RuntimeThread(void* module)
     const auto self = static_cast<HMODULE>(module);
     Log("runtime thread started");
 
+    std::string startupName;
+    std::string startupMessage;
+    if (config::LoadStartupOnce(startupName, startupMessage))
+        Logf("startup configuration loaded: %s", startupName.c_str());
+    else if (startupMessage != "Configuration file does not exist")
+        Logf("startup configuration load failed: %s", startupMessage.c_str());
+
     if (!hooks::Install())
     {
         Log("hook installation failed; unloading");
@@ -51,9 +59,13 @@ DWORD WINAPI RuntimeThread(void* module)
     }
 
     Log("shutdown requested");
+    features::Spectator::Instance().ExitSpectator();
     features::VehicleFlight::Instance().RequestRestore();
     for (int attempt = 0;
          attempt < 20 && features::VehicleFlight::Instance().HasActiveVehicle(); ++attempt)
+        Sleep(10);
+    for (int attempt = 0;
+         attempt < 50 && features::Spectator::Instance().Status().isSpectating; ++attempt)
         Sleep(10);
     hooks::Shutdown();
     render::Renderer::Instance().Shutdown();

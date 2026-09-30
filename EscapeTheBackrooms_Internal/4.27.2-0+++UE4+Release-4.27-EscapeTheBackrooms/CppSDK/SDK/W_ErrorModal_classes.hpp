@@ -12,9 +12,9 @@
 
 #include "SlateCore_structs.hpp"
 #include "Backrooms_structs.hpp"
-#include "S_UI_AudioSettings_structs.hpp"
 #include "Engine_structs.hpp"
 #include "E_Comfirmation_structs.hpp"
+#include "S_UI_AudioSettings_structs.hpp"
 #include "UMG_classes.hpp"
 
 

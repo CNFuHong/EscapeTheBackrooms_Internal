@@ -1,4 +1,4 @@
-﻿#include "features/vehicle_flight.hpp"
+#include "features/vehicle_flight.hpp"
 
 #include "core/logger.hpp"
 #include "game/unreal_safety.hpp"
